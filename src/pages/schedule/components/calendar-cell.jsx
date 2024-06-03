@@ -12,8 +12,10 @@ import styled from "styled-components";
 
 import { useScheduleContext } from "../context-provider";
 import CalendarEventCell from "./calendar-event-cell";
+import { useDroppable } from "@dnd-kit/core";
 
 // Create styled components
+//FIXME: container fixed at 188px and doesnt resize
 const CalendarEventContainer = styled.div`
   flex: 1;
   display: flex;
@@ -22,11 +24,10 @@ const CalendarEventContainer = styled.div`
   align-items: center;
   font-family: Arial, sans-serif;
   font-size: 14px;
-  height: 100%;
   padding: 4px 0px;
   overflow: hidden;
-  max-height: 100%;
   box-sizing: border-box;
+  width: 100%;
 `;
 
 function CalendarCell({ events, date, visibleDates }) {
@@ -51,6 +52,10 @@ function CalendarCell({ events, date, visibleDates }) {
       });
     }
   };
+
+  const { setNodeRef, isOver } = useDroppable({
+    id: "drop-" + format(date, "PPPP"),
+  });
 
   return (
     <div
@@ -108,7 +113,7 @@ function CalendarCell({ events, date, visibleDates }) {
       >
         {format(date, "d")}
       </div>
-      <CalendarEventContainer className="event-container" style={{ flex: "1" }}>
+      <CalendarEventContainer className="event-container" ref={setNodeRef}>
         {events.map((event) => (
           <CalendarEventCell key={event.id} event={event} />
         ))}

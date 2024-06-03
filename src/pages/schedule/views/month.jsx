@@ -1,6 +1,7 @@
-import React, { useContext, useMemo, useState } from "react";
-import { startOfMonth, getUnixTime, format, addDays } from "date-fns";
+import React, { useCallback, useMemo, useState } from "react";
+import { getUnixTime, format, addDays } from "date-fns";
 import styled from "styled-components";
+import { DndContext, DragOverlay } from "@dnd-kit/core";
 
 import { useCalendarSettings } from "../hooks/useCalendarSettings";
 import {
@@ -10,6 +11,7 @@ import {
 import CalenderHeader from "../components/calendar-header";
 import CalendarCell from "../components/calendar-cell";
 import { useScheduleContext } from "../context-provider";
+import CalendarEventCell from "../components/calendar-event-cell";
 
 //Styled components
 
@@ -157,6 +159,20 @@ function MonthCalender() {
       createdAt: getUnixTime(new Date()),
     },
   ];
+
+  //dnd related states and handlers
+  const [overlayEvent, setOverlayEvent] = useState(null);
+  const handleDragStart = useCallback(
+    ({ active }) => {
+      // console.log(active);
+      setOverlayEvent(active.data.current.eventDragged);
+    },
+    [events]
+  );
+  const handleDragCancel = useCallback(() => {
+    setOverlayEvent(null);
+  }, []);
+
   // useEffect(() => {
   //   //DEV: Emulate data fetching from server
   //   setTimeout(() => {
@@ -171,22 +187,27 @@ function MonthCalender() {
           <CalenderHeader key={day} day={day} />
         ))}
       </CalendarHeaders>
-      <CalendarContent className="calendar-content">
-        {weeks.map((day) => (
-          <WeekRow key={day[startsAt].getTime()}>
-            {Object.entries(day).map(([key, date]) => (
-              <CalendarCell
-                key={date}
-                date={date}
-                visibleDates={scheduleData.visibleDates}
-                events={events.filter((event) => {
-                  return event.date === format(date, "PPPP");
-                })}
-              />
-            ))}
-          </WeekRow>
-        ))}
-      </CalendarContent>
+      <DndContext on onDragStart={handleDragStart}>
+        <DragOverlay>
+          {overlayEvent ? <CalendarEventCell event={overlayEvent} /> : null}
+        </DragOverlay>
+        <CalendarContent className="calendar-content">
+          {weeks.map((day) => (
+            <WeekRow key={day[startsAt].getTime()}>
+              {Object.entries(day).map(([key, date]) => (
+                <CalendarCell
+                  key={date}
+                  date={date}
+                  visibleDates={scheduleData.visibleDates}
+                  events={events.filter((event) => {
+                    return event.date === format(date, "PPPP");
+                  })}
+                />
+              ))}
+            </WeekRow>
+          ))}
+        </CalendarContent>
+      </DndContext>
     </CalendarContainer>
   );
 }
