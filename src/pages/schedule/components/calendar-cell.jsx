@@ -11,8 +11,8 @@ import { useHover } from "@uidotdev/usehooks";
 import styled from "styled-components";
 
 import { useScheduleContext } from "../context-provider";
-import CalendarEventCell from "./calendar-event-cell";
 import { useDroppable } from "@dnd-kit/core";
+import DraggableEventCell from "./calendar-event-cell-drag";
 
 // Create styled components
 //FIXME: container fixed at 188px and doesnt resize
@@ -30,6 +30,13 @@ const CalendarEventContainer = styled.div`
   width: 100%;
 `;
 
+/**
+ *
+ * @param {Object} events -
+ * @param {string} date -
+ * @param {string} visibleDates -
+ * @returns Individual calender cell that contains the a day formatted date and a event container.
+ */
 function CalendarCell({ events, date, visibleDates }) {
   const [cellRef, hovering] = useHover();
   const isMonthOfInterest = isSameMonth(date, fromUnixTime(visibleDates));
@@ -57,9 +64,12 @@ function CalendarCell({ events, date, visibleDates }) {
     id: "drop-" + format(date, "PPPP"),
   });
 
+  const eventContainerBorderColour = () => {
+    if (hovering) return "";
+  };
   return (
     <div
-      className="cell-background"
+      className="cell-container"
       ref={cellRef}
       style={{
         position: "relative",
@@ -68,7 +78,6 @@ function CalendarCell({ events, date, visibleDates }) {
         alignItems: "center",
         justifyContent: "start",
         flex: 1,
-        textTransform: "uppercase",
         fontFamily: "Calibri, sans-serif",
         fontSize: "20px",
         backgroundColor: isMonthOfInterest ? "#cbe1f5" : "#c8d7de",
@@ -80,6 +89,7 @@ function CalendarCell({ events, date, visibleDates }) {
         // transform: hovering && isMonthOfInterest ? "scale(1.03)" : "scale(1)",
         transition: "0.3s",
         boxSizing: "border-box",
+        minWidth: 0,
       }}
       onClick={(e) => {
         e.preventDefault();
@@ -89,6 +99,7 @@ function CalendarCell({ events, date, visibleDates }) {
     >
       {(isSelectedDay || hovering) && isMonthOfInterest && (
         <div
+          className="pseudo-border"
           style={{
             content: '""',
             position: "absolute",
@@ -109,13 +120,21 @@ function CalendarCell({ events, date, visibleDates }) {
           textAlign: "center",
           backgroundColor: isToday(date) ? "#91bde3" : null,
           borderRadius: "10px",
+          textTransform: "uppercase",
         }}
       >
         {format(date, "d")}
       </div>
-      <CalendarEventContainer className="event-container" ref={setNodeRef}>
+      <CalendarEventContainer
+        className="event-container"
+        ref={setNodeRef}
+        style={{
+          border: isOver ? "2px dashed #91bde3" : `2px dashed #cbe1f5`,
+          borderRadius: "6px",
+        }}
+      >
         {events.map((event) => (
-          <CalendarEventCell key={event.id} event={event} />
+          <DraggableEventCell key={event.id} event={event} />
         ))}
       </CalendarEventContainer>
     </div>
