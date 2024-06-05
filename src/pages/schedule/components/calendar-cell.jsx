@@ -15,7 +15,6 @@ import { useDroppable } from "@dnd-kit/core";
 import DraggableEventCell from "./calendar-event-cell-drag";
 
 // Create styled components
-//FIXME: container fixed at 188px and doesnt resize
 const CalendarEventContainer = styled.div`
   flex: 1;
   display: flex;
@@ -38,6 +37,7 @@ const CalendarEventContainer = styled.div`
  * @returns Individual calender cell that contains the a day formatted date and a event container.
  */
 function CalendarCell({ events, date, visibleDates }) {
+  // console.log(date);
   const [cellRef, hovering] = useHover();
   const isMonthOfInterest = isSameMonth(date, fromUnixTime(visibleDates));
   const { scheduleData, updateScheduleData } = useScheduleContext();
@@ -45,6 +45,7 @@ function CalendarCell({ events, date, visibleDates }) {
     format(scheduleData.selectedDay, "PPPP") === format(date, "PPPP");
 
   const handleCellClick = () => {
+    console.log("selected:", scheduleData.selectedDay);
     // mutate selected day in context
     if (isMonthOfInterest) {
       //move the border to the newly selected day
@@ -62,11 +63,9 @@ function CalendarCell({ events, date, visibleDates }) {
 
   const { setNodeRef, isOver } = useDroppable({
     id: "drop-" + format(date, "PPPP"),
+    data: date,
   });
 
-  const eventContainerBorderColour = () => {
-    if (hovering) return "";
-  };
   return (
     <div
       className="cell-container"

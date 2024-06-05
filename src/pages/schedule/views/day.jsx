@@ -20,6 +20,10 @@ const DayContentContainer = styled.div`
   overflow-y: scroll;
 `;
 
+/**
+ *
+ * @returns Sidebar for the selected day view which has a header (date and timezone) and a list of hours with 15-mins blocks.
+ */
 function SelectedDaySidebar() {
   const { scheduleData } = useScheduleContext();
   //   console.log(scheduleData.selectedDay);
