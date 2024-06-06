@@ -1,7 +1,9 @@
 import React from "react";
 import { format } from "date-fns";
-import { useScheduleContext } from "../context-provider";
 import styled from "styled-components";
+import { FiMaximize } from "react-icons/fi";
+
+import { useScheduleContext } from "../context-provider";
 
 const SidebarHeaderContainer = styled.div`
   display: flex;
@@ -18,7 +20,14 @@ const TimezoneBox = styled.div`
 `;
 
 const DateContainer = styled.div`
-  flex: 10;
+  flex: 9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const ExpandButton = styled.div`
+  flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -37,6 +46,9 @@ function SidebarHeader() {
     <SidebarHeaderContainer>
       <TimezoneBox>{currentTimezone}</TimezoneBox>
       <DateContainer>{selectedDate}</DateContainer>
+      <ExpandButton>
+        <FiMaximize />
+      </ExpandButton>
     </SidebarHeaderContainer>
   );
 }

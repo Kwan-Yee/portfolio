@@ -1,63 +1,92 @@
-import { useHover } from "@uidotdev/usehooks";
 import React from "react";
+import styled from "styled-components";
+import { format } from "date-fns";
+
 import IntervalCell from "./sidebar-day-view-hour-block-cell";
+import { useScheduleContext } from "../context-provider";
+import IndividualEventContainer from "./sidebar-day-view-event-cell-contain";
+
+// Styled Components
+const DayHourBlock = styled.div`
+  min-height: 96px;
+  height: 96px;
+  display: flex;
+  flex-direction: row;
+`;
+
+const HourTime = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  flex: 3;
+`;
+
+const HoursContainer = styled.div`
+  flex: 9;
+  padding-right: 6px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+`;
+
+const HourLine = styled.hr`
+  margin: 8px 0 1px 0;
+  border: none;
+  height: 1px;
+  background-color: #2d2e33;
+  opacity: 40%;
+`;
+
+const HourBlockIntervalContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  position: relative;
+`;
 
 function HourBlock({ hour, intervals }) {
+  // console.log("intervals: ", intervals);
+
+  const { scheduleData, updateScheduleData } = useScheduleContext();
+  const events = scheduleData.events;
+
+  // console.log("events: ", events);
+  const eventsForThisTime = events.filter(
+    (event) =>
+      format(event.date, "P") === format(scheduleData.selectedDay, "P") &&
+      event.startTime.split(":")[0] === hour.split(":")[0]
+  );
+  // console.log("eventsForThisTime: ", eventsForThisTime);
 
   return (
-    <div
-      className="day-hour-block"
-      style={{
-        minHeight: "96px",
-        height: "96px",
-        display: "flex",
-        flexDirection: "row",
-      }}
-    >
-      <div
-        className="hour-time"
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "start",
-          flex: 3,
-        }}
-      >
-        {hour}
-      </div>
-      <div
-        className="hours-container"
-        style={{
-          flex: 9,
-          paddingRight: "6px",
-          display: "flex",
-          flexDirection: "column",
-          height: "100%",
-        }}
-      >
-        <hr
-          style={{
-            margin: "8px 0 1px 0",
-            border: "none",
-            height: "1px",
-            backgroundColor: "#2d2e33",
-            opacity: "40%",
-          }}
-        />
-        <div
-          className="hour-block-interval-container"
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            flex: 1,
-          }}
-        >
+    <DayHourBlock className="day-hour-block">
+      <HourTime className="hour-time">{hour}</HourTime>
+      <HoursContainer className="hours-container">
+        <HourLine className="hour-line" />
+        <HourBlockIntervalContainer className="hour-block-interval-container">
           {intervals.map((interval) => (
-            <IntervalCell key={interval} />
+            <IntervalCell key={interval} interval={interval} />
+            // {events.filter((event) => (event.startTime === interval && format(event.date, "P") === format(scheduleData.selectedDay, "P"))? event : null).map((event) => ())}
           ))}
-        </div>
-      </div>
-    </div>
+          <div
+            className="events-container"
+            style={{
+              display: "flex",
+              position: "absolute",
+              padding: "0px 6px",
+              height: "100%",
+              width: "87%",
+              pointerEvents: "none",
+            }}
+          >
+            {eventsForThisTime.length > 0 &&
+              eventsForThisTime.map((event) => (
+                <IndividualEventContainer key={event.id} event={event} />
+              ))}
+          </div>
+        </HourBlockIntervalContainer>
+      </HoursContainer>
+    </DayHourBlock>
   );
 }
 

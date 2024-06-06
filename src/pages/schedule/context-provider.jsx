@@ -1,11 +1,13 @@
 import React, { useContext, createContext, useState } from "react";
 import { getUnixTime, startOfMonth } from "date-fns";
+import { events } from "../../mock-data-provider/schedule-events";
 
 const today = new Date();
 const calendarData = {
   visibleDates: getUnixTime(startOfMonth(today)),
   selectedDay: today,
   currentDay: today,
+  events: events
 };
 const ScheduleContext = createContext(calendarData);
 

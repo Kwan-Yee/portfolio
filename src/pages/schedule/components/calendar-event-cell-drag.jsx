@@ -46,7 +46,7 @@ function DraggableEventCell({ event }) {
         zIndex: 999,
         cursor: "grab",
         height: "18px",
-        width: "76%",
+        width: "94%",
         margin: "1px 0px",
         border: isDragging ? "1px dashed #7acc90" : null,
       }}

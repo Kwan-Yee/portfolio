@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useState } from "react";
-import { getUnixTime, format, addDays } from "date-fns";
+import { format } from "date-fns";
 import styled from "styled-components";
 import { DndContext, DragOverlay } from "@dnd-kit/core";
 
@@ -64,81 +64,6 @@ const WeekRow = styled.div`
   box-sizing: border-box;
 `;
 
-export const events = [
-  {
-    title: "Meeting 1 asdfasdfasdfasdf",
-    date: format(new Date(), "PPPP"),
-    time: "10:00",
-    id: 1,
-    category: "Meeting",
-    description: "Meeting 1",
-    location: "Room 1",
-    createdBy: "Kwan Yee",
-    attendees: ["Kwan Yee"],
-    createdAt: getUnixTime(new Date()),
-  },
-  {
-    title: "Meeting 1 asdfasdfasdfasdf",
-    date: format(addDays(new Date(), 1), "PPPP"),
-    time: "10:00",
-    id: 2,
-    category: "Meeting",
-    description: "Meeting 1",
-    location: "Room 1",
-    createdBy: "Kwan Yee",
-    attendees: ["Kwan Yee"],
-    createdAt: getUnixTime(new Date()),
-  },
-  {
-    title: "Meeting 1 asdfasdfasdfasdf",
-    date: format(addDays(new Date(), 2), "PPPP"),
-    time: "10:00",
-    id: 3,
-    category: "Meeting",
-    description: "Meeting 1",
-    location: "Room 1",
-    createdBy: "Kwan Yee",
-    attendees: ["Kwan Yee"],
-    createdAt: getUnixTime(new Date()),
-  },
-  {
-    title: "Meeting 1 asdfasdfasdfasdf",
-    date: format(addDays(new Date(), 3), "PPPP"),
-    time: "10:00",
-    id: 4,
-    category: "Meeting",
-    description: "Meeting 1",
-    location: "Room 1",
-    createdBy: "Kwan Yee",
-    attendees: ["Kwan Yee"],
-    createdAt: getUnixTime(new Date()),
-  },
-  {
-    title: "Meeting 1 asdfasdfasdfasdf",
-    date: format(new Date(), "PPPP"),
-    time: "10:00",
-    id: 5,
-    category: "Meeting",
-    description: "Meeting 1",
-    location: "Room 1",
-    createdBy: "Kwan Yee",
-    attendees: ["Kwan Yee"],
-    createdAt: getUnixTime(new Date()),
-  },
-  {
-    title: "Meeting 1 asdfasdfasdfasdf",
-    date: format(new Date(), "PPPP"),
-    time: "10:00",
-    id: 6,
-    category: "Meeting",
-    description: "Meeting 1",
-    location: "Room 1",
-    createdBy: "Kwan Yee",
-    attendees: ["Kwan Yee"],
-    createdAt: getUnixTime(new Date()),
-  },
-];
-
 /**
  *
  * @returns A monthly view of the month of interest.
@@ -151,6 +76,7 @@ function MonthCalender() {
   const startsAt = moreCalendarSettings.startsAt ?? 0;
 
   const { scheduleData, updateScheduleData } = useScheduleContext();
+  const events = scheduleData.events;
 
   const weeks = useMemo(() => {
     return getDaysForMonthViews(scheduleData.visibleDates * 1000, startsAt);
@@ -192,7 +118,7 @@ function MonthCalender() {
       (event) => event.id === parseInt(active.id.split("-")[1])
     );
 
-    eventToUpdate ? (eventToUpdate.date = format(dateDropped, "PPPP")) : null;
+    eventToUpdate ? (eventToUpdate.date = dateDropped) : null;
     console.log("event to update: ", eventToUpdate);
     console.log(events);
 
@@ -238,7 +164,7 @@ function MonthCalender() {
                   date={date}
                   visibleDates={scheduleData.visibleDates}
                   events={events.filter((event) => {
-                    return event.date === format(date, "PPPP");
+                    return format(event.date, "P") === format(date, "P");
                   })}
                   style={{ flexShrink: 0 }}
                 />

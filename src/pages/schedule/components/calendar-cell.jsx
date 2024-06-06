@@ -37,7 +37,6 @@ const CalendarEventContainer = styled.div`
  * @returns Individual calender cell that contains the a day formatted date and a event container.
  */
 function CalendarCell({ events, date, visibleDates }) {
-  // console.log(date);
   const [cellRef, hovering] = useHover();
   const isMonthOfInterest = isSameMonth(date, fromUnixTime(visibleDates));
   const { scheduleData, updateScheduleData } = useScheduleContext();
@@ -140,4 +139,4 @@ function CalendarCell({ events, date, visibleDates }) {
   );
 }
 
-export default CalendarCell;
+export default React.memo(CalendarCell);

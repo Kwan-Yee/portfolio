@@ -1,20 +1,27 @@
 import React from "react";
 import { useHover } from "@uidotdev/usehooks";
 
-function IntervalCell() {
+function IntervalCell({ interval }) {
   const [intervalRef, hovering] = useHover();
+
+  // console.log("events for this tims: ", eventsForThisTime);
 
   return (
     <div
       ref={intervalRef}
       className="hour-block-interval"
       style={{
-        content: "''",
         backgroundColor: hovering ? "#c5c6c7" : "#dcddde",
         margin: "1px",
         borderRadius: "4px",
         flex: 1,
+        // opacity: "50%",
+        height: "20px",
+        display: "flex",
+        flexDirection: "row",
+        paddingRight: "22px",
       }}
+      // onClick={() => console.log("clicked " + interval)}
     ></div>
   );
 }
