@@ -56,14 +56,17 @@ function HourBlock({ hour, intervals }) {
       format(event.date, "P") === format(scheduleData.selectedDay, "P") &&
       event.startTime.split(":")[0] === hour.split(":")[0]
   );
-  // console.log("eventsForThisTime: ", eventsForThisTime);
+  console.log("eventsForThisTime: ", eventsForThisTime);
 
   return (
     <DayHourBlock className="day-hour-block">
       <HourTime className="hour-time">{hour}</HourTime>
       <HoursContainer className="hours-container">
         <HourLine className="hour-line" />
-        <HourBlockIntervalContainer className="hour-block-interval-container">
+        <HourBlockIntervalContainer
+          className="hour-block-interval-container"
+          style={{ zIndex: eventsForThisTime.length > 0 ? 99 : 10 }}
+        >
           {intervals.map((interval) => (
             <IntervalCell key={interval} interval={interval} />
             // {events.filter((event) => (event.startTime === interval && format(event.date, "P") === format(scheduleData.selectedDay, "P"))? event : null).map((event) => ())}
@@ -72,6 +75,7 @@ function HourBlock({ hour, intervals }) {
             className="events-container"
             style={{
               display: "flex",
+              flexDirection: "row",
               position: "absolute",
               padding: "0px 6px",
               height: "100%",

@@ -15,7 +15,7 @@ function IntervalCell({ interval }) {
         margin: "1px",
         borderRadius: "4px",
         flex: 1,
-        // opacity: "50%",
+        opacity: "70%",
         height: "20px",
         display: "flex",
         flexDirection: "row",

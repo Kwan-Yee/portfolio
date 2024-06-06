@@ -12,10 +12,10 @@ function IndividualEventContainer({ event }) {
     let pixelModifier = 0;
 
     if (minuteOfTheHour) {
-      console.log("minute: ", minuteOfTheHour);
+      //   console.log("minute: ", minuteOfTheHour);
       spacerHeightPercent = (minuteOfTheHour / 60) * 100;
     }
-    console.log("percent: ", spacerHeightPercent);
+    // console.log("percent: ", spacerHeightPercent);
 
     if (spacerHeightPercent < 25) {
       pixelModifier = 0;
@@ -32,7 +32,7 @@ function IndividualEventContainer({ event }) {
   };
 
   const { spacerHeightPercent, pixelModifier } = startTimeSpacer(event);
-  console.log(spacerHeightPercent, pixelModifier);
+  // console.log(spacerHeightPercent, pixelModifier);
   return (
     <div
       key={event.id}
