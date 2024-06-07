@@ -2,6 +2,7 @@ import React, { useMemo } from "react";
 import styled from "styled-components";
 
 import SidebarHeader from "../components/sidebar-day-view-header";
+import SidebarActions from "../components/sidebar-actions";
 import { useScheduleContext } from "../context-provider";
 import { generateHoursAndInterval } from "../utils/getters-day-view";
 import HourBlock from "../components/sidebar-day-view-hour-block";
@@ -11,13 +12,14 @@ const DayContainer = styled.div`
   display: flex;
   flex-direction: column;
   flex: 3;
-  padding: 21px 3px 3px 9px;
+  padding: 0px 3px 0px 9px;
   font-family: Arial, sans-serif;
 `;
 
 const DayContentContainer = styled.div`
   height: 100%;
   overflow-y: scroll;
+  flex: 10;
 `;
 
 /**
@@ -32,7 +34,8 @@ function SelectedDaySidebar() {
     []
   );
   return (
-    <DayContainer>
+    <DayContainer className="day-container">
+      <SidebarActions />
       <SidebarHeader />
       <DayContentContainer>
         {hours.map((hour) => (
