@@ -56,7 +56,7 @@ function HourBlock({ hour, intervals }) {
       format(event.date, "P") === format(scheduleData.selectedDay, "P") &&
       event.startTime.split(":")[0] === hour.split(":")[0]
   );
-  console.log("eventsForThisTime: ", eventsForThisTime);
+  // console.log("eventsForThisTime: ", eventsForThisTime);
 
   return (
     <DayHourBlock className="day-hour-block">

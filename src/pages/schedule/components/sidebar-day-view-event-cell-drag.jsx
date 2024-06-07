@@ -73,28 +73,22 @@ function DraggableDayEventCell({ event }) {
     }
   }, []);
 
-  const backgroundColor = () => {
-    // if (isDragging) return null;
-    if (isHovering) return "#7acc90";
-    return "#95dba8";
-  };
-
   return (
     <div
       ref={dayEventRef}
       {...listeners}
       {...attributes}
       style={{
-        backgroundColor: isHovering ? "#7acc90" : "#95dba8",
+        backgroundColor: isHovering ? "#7acc90" : "#b9edc7",
         minWidth: "20%",
         flex: 1,
         maxWidth: "100%",
         boxSizing: "border-box",
         margin: "0px 1px 0px 0px",
         borderRadius: "4px",
-        cursor: "grab",
         height: `calc((25% * ${heightModifier}) + (${pixelModifier} * 1px))`,
         pointerEvents: "auto",
+        border: "2px solid #7acc90",
       }}
       // onClick={() => console.log("clicked " + event.title)}
     >
