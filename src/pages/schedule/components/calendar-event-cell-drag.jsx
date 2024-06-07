@@ -20,7 +20,7 @@ function DraggableEventCell({ event }) {
   const backgroundColor = () => {
     if (isDragging) return null;
     if (hovering) return "#7acc90";
-    return "#95dba8";
+    return "#b9edc7";
   };
   // restrict the default scaling behaviour to remain teh same as original
   const customTransform = { ...transform, scaleX: 1, scaleY: 1 };

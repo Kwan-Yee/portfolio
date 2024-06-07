@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import {
   format,
   fromUnixTime,
@@ -65,6 +65,11 @@ function CalendarCell({ events, date, visibleDates }) {
     data: date,
   });
 
+  const eventContainerBorderColour = (isOver, isMonthOfInterest) => {
+    if (isOver) return "2px dashed #b6b8b6";
+    return isMonthOfInterest ? "2px dashed #e6e6e6" : "2px dashed #cacccb";
+  };
+
   return (
     <div
       className="cell-container"
@@ -78,7 +83,7 @@ function CalendarCell({ events, date, visibleDates }) {
         flex: 1,
         fontFamily: "Calibri, sans-serif",
         fontSize: "20px",
-        backgroundColor: isMonthOfInterest ? "#cbe1f5" : "#c8d7de",
+        backgroundColor: isMonthOfInterest ? "#e6e6e6" : "#cacccb",
         opacity:
           (hovering && isMonthOfInterest) || isSelectedDay ? "100%" : "65%",
         padding: "4px",
@@ -107,7 +112,7 @@ function CalendarCell({ events, date, visibleDates }) {
             bottom: "-2px", // Position the border below the div
             border: "2px solid #2d2e33",
             borderRadius: "10px",
-            opacity: hovering && !isSelectedDay ? "40%" : "80%",
+            opacity: hovering && !isSelectedDay ? "40%" : "58%",
           }}
         ></div>
       )}
@@ -116,7 +121,7 @@ function CalendarCell({ events, date, visibleDates }) {
         style={{
           width: "40px",
           textAlign: "center",
-          backgroundColor: isToday(date) ? "#91bde3" : null,
+          backgroundColor: isToday(date) ? "#b6b8b6" : null,
           borderRadius: "10px",
           textTransform: "uppercase",
         }}
@@ -127,7 +132,7 @@ function CalendarCell({ events, date, visibleDates }) {
         className="event-container"
         ref={setNodeRef}
         style={{
-          border: isOver ? "2px dashed #91bde3" : `2px dashed #cbe1f5`,
+          border: eventContainerBorderColour(isOver, isMonthOfInterest),
           borderRadius: "6px",
         }}
       >
