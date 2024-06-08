@@ -52,7 +52,7 @@ function DayEventCell({ event }) {
 
   const [hoverRef, isHovering] = useHover();
 
-  const { scheduleData, setModalOpen } = useScheduleContext();
+  const { scheduleData, setModalOpen, setSelectedEvent } = useScheduleContext();
 
   return (
     <div
@@ -70,8 +70,12 @@ function DayEventCell({ event }) {
         pointerEvents: "auto",
         border: "2px solid #7acc90",
         cursor: "pointer",
+        overflow: "hidden",
       }}
-      onClick={() => setModalOpen(true)}
+      onClick={() => {
+        setSelectedEvent(event);
+        setModalOpen(true);
+      }}
     >
       <SidebarEventCell event={event} />
     </div>

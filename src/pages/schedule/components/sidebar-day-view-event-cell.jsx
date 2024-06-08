@@ -1,7 +1,11 @@
 import React from "react";
 
-function SidebarEventCell() {
-  return <div style={{ padding: "0px 3px" }}>X</div>;
+function SidebarEventCell({ event }) {
+  return (
+    <div style={{ padding: "2px", overflow: "hidden" }}>
+      [{event.startTime} - {event.endTime}]: {event.title}
+    </div>
+  );
 }
 
 export default SidebarEventCell;

@@ -23,9 +23,8 @@ function CalendarEventCell({ event, isDragging }) {
         padding: "1px 8px",
         cursor: "grab",
       }}
-      //   onClick={() => alert(event.title)}
     >
-      {event.title}
+      [{event.startTime}]: {event.title}
     </div>
   );
 }

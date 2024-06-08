@@ -2,6 +2,7 @@ import { Form, Formik } from "formik";
 import React from "react";
 
 import InputRow from "./event-modal-display-input";
+import { Divider } from "antd";
 
 function EventModalDisplay() {
   return (
@@ -31,14 +32,25 @@ function EventModalDisplay() {
           <InputRow type="text" name="attendees" />
           <InputRow type="textarea" name="description" />
           <InputRow type="url" name="link" />
+          <div
+            className="modal-display-nonedittable"
+            style={{ flex: 1, maxHeight: "100%" }}
+          >
+            <hr
+              style={{
+                width: "97%",
+                opacity: "30%",
+                height: "1px",
+                backgroundColor: "#5b5b5b",
+                border: "none",
+              }}
+            />
+            <InputRow type="nonedittable-text" name="created-by" />
+            <InputRow type="nonedittable-text" name="created-at" />
+            <InputRow type="nonedittable-text" name="iD" />
+          </div>
         </Form>
       </Formik>
-      <div
-        className="modal-display-nonedittable"
-        style={{ flex: 1, maxHeight: "100%" }}
-      >
-        Non Edittable
-      </div>
     </div>
   );
 }

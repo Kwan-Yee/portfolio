@@ -26,7 +26,15 @@ function InputRow({ type, name }) {
       case "date":
         return <DatePicker style={{ flex: 2 }} />;
       default:
-        return <Input type={type} style={{ flex: 2 }} allowClear />;
+        return !type.includes("nonedittable") ? (
+          <Input type={type} style={{ flex: 2 }} allowClear />
+        ) : (
+          <Input
+            type={type.split("-")[1]}
+            disabled
+            style={{ flex: 2, border: "none" }}
+          />
+        );
     }
   };
   return (

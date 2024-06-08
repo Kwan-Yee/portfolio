@@ -29,21 +29,11 @@ export function ScheduleProvider({ children }) {
 
   const [modalOpen, setModalOpen] = useState(false);
 
-  const [selectedEvent, setSelectedEvent] = useState({
-    title: "Meeting 6 asdfasdfasdfasdf",
-    date: new Date(),
-    startTime: "01:00",
-    endTime: "02:15",
-    id: 6,
-    category: "Meeting",
-    description: "Meeting 1",
-    location: "Room 1",
-    createdBy: "Kwan Yee",
-    attendees: ["Kwan Yee"],
-    createdAt: getUnixTime(new Date()),
-  });
+  const [selectedEvent, setSelectedEvent] = useState();
 
   const [dayViewExpanded, setDayViewExpanded] = useState(false);
+
+  const [modalEditMode, setModalEditMode] = useState(false);
   return (
     <ScheduleContext.Provider
       value={{
@@ -55,6 +45,8 @@ export function ScheduleProvider({ children }) {
         setSelectedEvent,
         dayViewExpanded,
         setDayViewExpanded,
+        modalEditMode,
+        setModalEditMode,
       }}
     >
       {children}
