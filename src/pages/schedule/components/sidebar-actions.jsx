@@ -11,7 +11,8 @@ export const Spacer = styled.div`
 `;
 
 function SidebarActions() {
-  const { scheduleData, updateScheduleData } = useScheduleContext();
+  const { scheduleData, updateScheduleData, setModalOpen } =
+    useScheduleContext();
   const [ref, hovering] = useHover();
   const monthYear = format(scheduleData.selectedDay, "MMMM yyyy");
 
@@ -55,7 +56,9 @@ function SidebarActions() {
           height: "76%",
           justifyContent: "center",
           color: "#ffffff",
+          cursor: "pointer",
         }}
+        onClick={() => setModalOpen(true)}
       >
         <FiPlus style={{ marginRight: "6px" }} />
         Event

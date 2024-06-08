@@ -1,7 +1,15 @@
 import React, { useCallback, useMemo, useState } from "react";
 import { format } from "date-fns";
 import styled from "styled-components";
-import { DndContext, DragOverlay } from "@dnd-kit/core";
+import {
+  DndContext,
+  DragOverlay,
+  PointerSensor,
+  useSensors,
+  useSensor,
+  MouseSensor,
+  TouchSensor,
+} from "@dnd-kit/core";
 
 import { useCalendarSettings } from "../hooks/useCalendarSettings";
 import {
@@ -130,6 +138,24 @@ function MonthCalender() {
     //send server request to update the event db
   }, []);
 
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 5, // Minimum distance (in pixels) to activate the drag
+      },
+    }),
+    useSensor(MouseSensor, {
+      activationConstraint: {
+        distance: 5, // Minimum distance (in pixels) to activate the drag
+      },
+    }),
+    useSensor(TouchSensor, {
+      activationConstraint: {
+        distance: 5, // Minimum distance (in pixels) to activate the drag
+      },
+    })
+  );
+
   // useEffect(() => {
   //   //DEV: Emulate data fetching from server
   //   setTimeout(() => {
@@ -149,6 +175,7 @@ function MonthCalender() {
         onDragOver={handleDragOver}
         onDragCancel={handleDragCancel}
         onDragEnd={handleDragEnd}
+        sensors={sensors}
       >
         <DragOverlay>
           {overlayEvent ? (

@@ -3,10 +3,10 @@ import { format } from "date-fns";
 import styled from "styled-components";
 import { FiMaximize } from "react-icons/fi";
 import { useHover } from "@uidotdev/usehooks";
-import { FiChevronsDown } from "react-icons/fi";
 
 import { useScheduleContext } from "../context-provider";
-import { Spacer } from "./sidebar-actions";
+import { DatePicker } from "antd";
+import dayjs from "dayjs";
 
 const SidebarHeaderContainer = styled.div`
   display: flex;
@@ -19,19 +19,10 @@ const SidebarHeaderContainer = styled.div`
 const TimezoneBox = styled.div`
   flex: 3;
   display: flex;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
   font-size: 11px;
-`;
-
-const DateContainer = styled.div`
-  flex: 9;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 1px solid black;
-  border-radius: 12px;
-  padding: 4px 0px 4px 3px;
+  padding-left: 9px;
 `;
 
 const ExpandButton = styled.div`
@@ -51,15 +42,20 @@ function SidebarHeader() {
   const { scheduleData } = useScheduleContext();
   const [ref, hovering] = useHover();
   const currentTimezone = format(scheduleData.currentDay, "O");
-  const selectedDate = format(scheduleData.selectedDay, "PPPP");
+  // console.log(scheduleData.selectedDay);
+
   return (
     <SidebarHeaderContainer className="sidebar-header-container">
-      <TimezoneBox>{currentTimezone}</TimezoneBox>
-      <DateContainer>
-        {selectedDate}
-        <Spacer />
-        <FiChevronsDown />
-      </DateContainer>
+      <TimezoneBox className="time-zone">{currentTimezone}</TimezoneBox>
+      <DatePicker
+        defaultValue={dayjs(scheduleData.selectedDay)}
+        style={{
+          border: "1px solid #5b5b5b",
+          flex: 7,
+          borderRadius: "14px",
+          maxWidth: "30vh",
+        }}
+      />
       <ExpandButton ref={ref}>
         <FiMaximize
           style={{ transform: hovering ? "scale(1.35)" : "scale(1.2)" }}

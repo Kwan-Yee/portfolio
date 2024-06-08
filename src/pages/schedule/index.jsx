@@ -1,9 +1,9 @@
 import React, { createContext, useMemo, useState } from "react";
-import { startOfMonth, getUnixTime } from "date-fns";
 
 import MonthCalender from "./views/month";
 import SelectedDaySidebar from "./views/day";
-import { ScheduleProvider } from "./context-provider";
+import { useScheduleContext } from "./context-provider";
+import EventModal from "./components/event-modal";
 
 /**
  *
@@ -11,19 +11,24 @@ import { ScheduleProvider } from "./context-provider";
  */
 function Schedule() {
   /***
-   TODO: Dnd, hover
    ***/
 
+  const { modalOpen, setModalOpen } = useScheduleContext();
+
   return (
-    <ScheduleProvider>
-      <div
-        className="schedule"
-        style={{ display: "flex", width: "100%", height: "87vh" }}
-      >
-        <MonthCalender />
-        <SelectedDaySidebar />
-      </div>
-    </ScheduleProvider>
+    <div
+      className="schedule"
+      style={{
+        display: "flex",
+        width: "100%",
+        height: "87vh",
+        position: "relative",
+      }}
+    >
+      <MonthCalender />
+      <SelectedDaySidebar />
+      <EventModal open={modalOpen} />
+    </div>
   );
 }
 

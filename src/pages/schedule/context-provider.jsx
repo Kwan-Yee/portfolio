@@ -7,7 +7,7 @@ const calendarData = {
   visibleDates: getUnixTime(startOfMonth(today)),
   selectedDay: today,
   currentDay: today,
-  events: events
+  events: events,
 };
 const ScheduleContext = createContext(calendarData);
 
@@ -26,8 +26,33 @@ export function ScheduleProvider({ children }) {
       return newContext;
     });
   };
+
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const [selectedEvent, setSelectedEvent] = useState({
+    title: "Meeting 6 asdfasdfasdfasdf",
+    date: new Date(),
+    startTime: "01:00",
+    endTime: "02:15",
+    id: 6,
+    category: "Meeting",
+    description: "Meeting 1",
+    location: "Room 1",
+    createdBy: "Kwan Yee",
+    attendees: ["Kwan Yee"],
+    createdAt: getUnixTime(new Date()),
+  });
   return (
-    <ScheduleContext.Provider value={{ scheduleData, updateScheduleData }}>
+    <ScheduleContext.Provider
+      value={{
+        scheduleData,
+        updateScheduleData,
+        modalOpen,
+        setModalOpen,
+        selectedEvent,
+        setSelectedEvent,
+      }}
+    >
       {children}
     </ScheduleContext.Provider>
   );

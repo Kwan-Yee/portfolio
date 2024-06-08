@@ -1,5 +1,4 @@
 import React, { useRef, useEffect } from "react";
-import { useDraggable } from "@dnd-kit/core";
 import { useHover } from "@uidotdev/usehooks";
 import {
   differenceInMinutes,
@@ -7,24 +6,12 @@ import {
   addHours,
   isBefore,
   isEqual,
-  setMinutes,
 } from "date-fns";
 
 import SidebarEventCell from "./sidebar-day-view-event-cell";
+import { useScheduleContext } from "../context-provider";
 
-function DraggableDayEventCell({ event }) {
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-    isDragging,
-  } = useDraggable({
-    id: "drag-day-",
-    data: { eventDragged: event },
-  });
-
+function DayEventCell({ event }) {
   const countHourLines = (start, end) => {
     const timeFormat = "HH:mm";
     const startTime = parse(start, timeFormat, new Date());
@@ -64,20 +51,13 @@ function DraggableDayEventCell({ event }) {
   const { heightModifier, pixelModifier } = customHeight(event);
 
   const [hoverRef, isHovering] = useHover();
-  const dayEventRef = useRef(null);
 
-  useEffect(() => {
-    if (dayEventRef.current) {
-      hoverRef(dayEventRef.current);
-      setNodeRef(dayEventRef.current);
-    }
-  }, []);
+  const { scheduleData, setModalOpen } = useScheduleContext();
 
   return (
     <div
-      ref={dayEventRef}
-      {...listeners}
-      {...attributes}
+      ref={hoverRef}
+      className="day-event-container"
       style={{
         backgroundColor: isHovering ? "#7acc90" : "#b9edc7",
         minWidth: "20%",
@@ -89,12 +69,13 @@ function DraggableDayEventCell({ event }) {
         height: `calc((25% * ${heightModifier}) + (${pixelModifier} * 1px))`,
         pointerEvents: "auto",
         border: "2px solid #7acc90",
+        cursor: "pointer",
       }}
-      // onClick={() => console.log("clicked " + event.title)}
+      onClick={() => setModalOpen(true)}
     >
-      <SidebarEventCell event={event} isDragging={isDragging} />
+      <SidebarEventCell event={event} />
     </div>
   );
 }
 
-export default DraggableDayEventCell;
+export default DayEventCell;

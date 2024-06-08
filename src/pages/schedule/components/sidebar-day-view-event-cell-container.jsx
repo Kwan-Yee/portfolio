@@ -1,6 +1,6 @@
 import React from "react";
 
-import DraggableDayEventCell from "./sidebar-day-view-event-cell-drag";
+import DayEventCell from "./sidebar-day-view-event-cell-drag";
 
 function IndividualEventContainer({ event }) {
   //   console.log(event);
@@ -52,7 +52,7 @@ function IndividualEventContainer({ event }) {
           pointerEvents: "none",
         }}
       ></div>
-      <DraggableDayEventCell key={event.id} event={event} />
+      <DayEventCell key={event.id} event={event} />
     </div>
   );
 }

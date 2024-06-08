@@ -4,7 +4,7 @@ import { format } from "date-fns";
 
 import IntervalCell from "./sidebar-day-view-hour-block-cell";
 import { useScheduleContext } from "../context-provider";
-import IndividualEventContainer from "./sidebar-day-view-event-cell-contain";
+import IndividualEventContainer from "./sidebar-day-view-event-cell-container";
 
 // Styled Components
 const DayHourBlock = styled.div`
@@ -19,6 +19,7 @@ const HourTime = styled.div`
   justify-content: center;
   align-items: start;
   flex: 3;
+  max-width: 70px;
 `;
 
 const HoursContainer = styled.div`
@@ -44,6 +45,12 @@ const HourBlockIntervalContainer = styled.div`
   position: relative;
 `;
 
+/**
+ *
+ * @param hour - the hour that this block is rendering for
+ * @param intervals - the intervals (fixed at 15mins per hour) that this block is rendering for
+ * @returns A single hour block that contains 2 siblings components the display of the hour and the cells for intervals within each hour
+ */
 function HourBlock({ hour, intervals }) {
   // console.log("intervals: ", intervals);
 
