@@ -42,6 +42,8 @@ export function ScheduleProvider({ children }) {
     attendees: ["Kwan Yee"],
     createdAt: getUnixTime(new Date()),
   });
+
+  const [dayViewExpanded, setDayViewExpanded] = useState(false);
   return (
     <ScheduleContext.Provider
       value={{
@@ -51,6 +53,8 @@ export function ScheduleProvider({ children }) {
         setModalOpen,
         selectedEvent,
         setSelectedEvent,
+        dayViewExpanded,
+        setDayViewExpanded,
       }}
     >
       {children}

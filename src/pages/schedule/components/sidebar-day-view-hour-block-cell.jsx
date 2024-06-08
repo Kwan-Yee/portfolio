@@ -2,6 +2,9 @@ import React from "react";
 import { useHover } from "@uidotdev/usehooks";
 
 function IntervalCell({ interval }) {
+  /**
+   * TODO: onClick open modal for new event which means that it will be in edit mode
+   */
   const [intervalRef, hovering] = useHover();
 
   // console.log("events for this tims: ", eventsForThisTime);

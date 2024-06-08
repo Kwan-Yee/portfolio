@@ -1,7 +1,7 @@
 import React from "react";
 import { format } from "date-fns";
 import styled from "styled-components";
-import { FiMaximize } from "react-icons/fi";
+import { FiMaximize, FiMinimize } from "react-icons/fi";
 import { useHover } from "@uidotdev/usehooks";
 
 import { useScheduleContext } from "../context-provider";
@@ -22,7 +22,7 @@ const TimezoneBox = styled.div`
   justify-content: start;
   align-items: center;
   font-size: 11px;
-  padding-left: 9px;
+  padding-left: 13px;
 `;
 
 const ExpandButton = styled.div`
@@ -31,6 +31,10 @@ const ExpandButton = styled.div`
   justify-content: right;
   align-items: center;
   margin-left: 6px;
+  max-width: 28px;
+  transition: all 0.3s ease-in-out;
+  flex-basis: 28px;
+  flex-grow: 0;
 `;
 
 /**
@@ -39,27 +43,46 @@ const ExpandButton = styled.div`
  */
 
 function SidebarHeader() {
-  const { scheduleData } = useScheduleContext();
+  const { scheduleData, updateScheduleData } = useScheduleContext();
   const [ref, hovering] = useHover();
   const currentTimezone = format(scheduleData.currentDay, "O");
   // console.log(scheduleData.selectedDay);
+
+  const { dayViewExpanded, setDayViewExpanded } = useScheduleContext();
 
   return (
     <SidebarHeaderContainer className="sidebar-header-container">
       <TimezoneBox className="time-zone">{currentTimezone}</TimezoneBox>
       <DatePicker
+        allowClear={false}
         defaultValue={dayjs(scheduleData.selectedDay)}
+        onChange={(dateObj) => {
+          updateScheduleData({
+            ...scheduleData,
+            selectedDay: new Date(dateObj),
+          });
+        }}
         style={{
-          border: "1px solid #5b5b5b",
-          flex: 7,
+          border: "2px solid #5b5b5b",
           borderRadius: "14px",
-          maxWidth: "30vh",
+          flexBasis: "17vw",
+          flexGrow: 0,
+          fontFamily: "Roboto, sans-serif",
         }}
       />
-      <ExpandButton ref={ref}>
-        <FiMaximize
-          style={{ transform: hovering ? "scale(1.35)" : "scale(1.2)" }}
-        />
+      <ExpandButton
+        ref={ref}
+        onClick={() => setDayViewExpanded(!dayViewExpanded)}
+      >
+        {!dayViewExpanded ? (
+          <FiMaximize
+            style={{ transform: hovering ? "scale(1.35)" : "scale(1.2)" }}
+          />
+        ) : (
+          <FiMinimize
+            style={{ transform: hovering ? "scale(1.35)" : "scale(1.2)" }}
+          />
+        )}
       </ExpandButton>
     </SidebarHeaderContainer>
   );

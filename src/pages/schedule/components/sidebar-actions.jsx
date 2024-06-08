@@ -14,7 +14,7 @@ function SidebarActions() {
   const { scheduleData, updateScheduleData, setModalOpen } =
     useScheduleContext();
   const [ref, hovering] = useHover();
-  const monthYear = format(scheduleData.selectedDay, "MMMM yyyy");
+  const monthYear = format(scheduleData.selectedDay, "do MMMM yyyy");
 
   return (
     <div
@@ -29,7 +29,7 @@ function SidebarActions() {
       }}
     >
       <div
-        className="month-year"
+        className="day-month-year"
         style={{
           flex: 2,
           display: "flex",
@@ -57,6 +57,9 @@ function SidebarActions() {
           justifyContent: "center",
           color: "#ffffff",
           cursor: "pointer",
+          flexBasis: "130px",
+          flexGrow: 0,
+          padding: "0px 4px",
         }}
         onClick={() => setModalOpen(true)}
       >

@@ -6,6 +6,9 @@ import EventModalDisplay from "./event-modal-display";
 import { Modal } from "antd";
 
 function EventModal({ open }) {
+  /**
+   * TODO: Add viewing mode (toggle to be put in footer)
+   */
   const { setModalOpen, selectedEvent } = useScheduleContext();
   const [edit, setEdit] = useState(false);
   const [ref, hovering] = useHover();

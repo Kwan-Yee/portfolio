@@ -10,8 +10,6 @@ import EventModal from "./components/event-modal";
  * @returns A page that shows the schedule of events
  */
 function Schedule() {
-  /***
-   ***/
 
   const { modalOpen, setModalOpen } = useScheduleContext();
 
