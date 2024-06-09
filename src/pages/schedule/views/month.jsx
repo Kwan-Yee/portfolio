@@ -45,7 +45,7 @@ const CalendarHeaders = styled.div`
   width: 100%;
   height: 24px;
   margin: 3px 0px;
-  background-color: #2d2e33;
+  background-color: #5b5b5b;
   border-radius: 11px;
 `;
 

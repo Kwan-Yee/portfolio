@@ -1,6 +1,6 @@
 import { AutoComplete, DatePicker, Input, TimePicker } from "antd";
 import React from "react";
-import styled from "styled-components";
+
 import dayjs from "dayjs";
 
 import { useScheduleContext } from "../context-provider";

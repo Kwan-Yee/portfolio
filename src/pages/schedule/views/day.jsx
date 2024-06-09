@@ -11,8 +11,8 @@ import HourBlock from "../components/sidebar-day-view-hour-block";
 const DayContainer = styled.div`
   display: flex;
   flex-direction: column;
-  flex: ${props => (props.expanded ? "8" : "3")};
-  padding: 0px 3px 0px 9px;
+  flex: ${(props) => (props.expanded ? "8" : "3")};
+  padding: 0px 3px 0px 0px;
   font-family: Arial, sans-serif;
   transition: flex 0.3s ease-in-out;
 `;
@@ -37,6 +37,7 @@ function SelectedDaySidebar() {
 
   const { dayViewExpanded } = useScheduleContext();
 
+  // TODO: Add
   return (
     <DayContainer className="day-container" expanded={dayViewExpanded}>
       <SidebarActions />

@@ -10,17 +10,16 @@ import EventModal from "./components/event-modal";
  * @returns A page that shows the schedule of events
  */
 function Schedule() {
-
   const { modalOpen, setModalOpen } = useScheduleContext();
 
   return (
     <div
-      className="schedule"
+      className="schedule-page"
       style={{
         display: "flex",
-        width: "100%",
         height: "87vh",
         position: "relative",
+        margin: "10px",
       }}
     >
       <MonthCalender />
