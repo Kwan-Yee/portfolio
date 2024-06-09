@@ -46,7 +46,7 @@ function SidebarHeader() {
   const { scheduleData, updateScheduleData } = useScheduleContext();
   const [ref, hovering] = useHover();
   const currentTimezone = format(scheduleData.currentDay, "O");
-  // console.log(scheduleData.selectedDay);
+  // console.log(typeof scheduleData.selectedDay);
 
   const { dayViewExpanded, setDayViewExpanded } = useScheduleContext();
 
@@ -55,7 +55,7 @@ function SidebarHeader() {
       <TimezoneBox className="time-zone">{currentTimezone}</TimezoneBox>
       <DatePicker
         allowClear={false}
-        defaultValue={dayjs(scheduleData.selectedDay)}
+        value={dayjs(scheduleData.selectedDay)}
         onChange={(dateObj) => {
           updateScheduleData({
             ...scheduleData,

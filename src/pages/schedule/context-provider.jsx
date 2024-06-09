@@ -29,11 +29,12 @@ export function ScheduleProvider({ children }) {
 
   const [modalOpen, setModalOpen] = useState(false);
 
-  const [selectedEvent, setSelectedEvent] = useState();
+  const [selectedEvent, setSelectedEvent] = useState(null);
 
   const [dayViewExpanded, setDayViewExpanded] = useState(false);
 
   const [modalEditMode, setModalEditMode] = useState(false);
+
   return (
     <ScheduleContext.Provider
       value={{

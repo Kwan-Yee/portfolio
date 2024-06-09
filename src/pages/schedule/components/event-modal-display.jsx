@@ -2,7 +2,6 @@ import { Form, Formik } from "formik";
 import React from "react";
 
 import InputRow from "./event-modal-display-input";
-import { Divider } from "antd";
 
 function EventModalDisplay() {
   return (

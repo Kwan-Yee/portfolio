@@ -1,5 +1,6 @@
 import { getUnixTime, addDays } from "date-fns";
 
+//TODO: randomise the creation of events in the month of interest, this implies that these data needs to be generated from a funciton
 export const events = [
   {
     description: "Meeting 1 asdfasdfasdfasdf",

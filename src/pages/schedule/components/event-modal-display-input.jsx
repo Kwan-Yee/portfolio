@@ -1,16 +1,27 @@
 import { AutoComplete, DatePicker, Input, TimePicker } from "antd";
 import React from "react";
 import styled from "styled-components";
+import dayjs from "dayjs";
 
-const Spacer = styled.div`
-  flex: ${(props) => props.flex || 0.2};
-`;
+import { useScheduleContext } from "../context-provider";
 
 function InputRow({ type, name }) {
+  const { modalEditMode, selectedEvent } = useScheduleContext();
+
+  console.log(typeof selectedEvent?.date);
   const dynamicComponent = (inputType) => {
     switch (inputType) {
       case "textarea":
-        return <Input.TextArea style={{ flex: 2 }} />;
+        return (
+          <Input.TextArea
+            style={{
+              flex: 2,
+              border: !modalEditMode ? "1px solid transparent" : null,
+            }}
+            disabled={!modalEditMode}
+            value={selectedEvent?.description}
+          />
+        );
       case "select":
         return (
           <AutoComplete
@@ -18,16 +29,47 @@ function InputRow({ type, name }) {
               flex: 2,
               flexShrink: 0,
               boxSizing: "border-box",
+              border: !modalEditMode ? "1px solid transparent" : null,
             }}
+            disabled={!modalEditMode}
+            value={selectedEvent?.location}
           />
         );
+      //FIXME: start and end time needs to be conditionally different but they are both being rendered by this component
       case "time":
-        return <TimePicker style={{ flex: 2 }} />;
+        return (
+          <TimePicker
+            style={{
+              flex: 2,
+              border: !modalEditMode ? "1px solid transparent" : null,
+            }}
+            disabled={!modalEditMode}
+            // value={dayjs(selectedEvent?.startTime)} //FIXME: dayjs takes the whole date object
+          />
+        );
       case "date":
-        return <DatePicker style={{ flex: 2 }} />;
+        return (
+          <DatePicker
+            style={{
+              flex: 2,
+              border: !modalEditMode ? "1px solid transparent" : null,
+            }}
+            disabled={!modalEditMode}
+            value={dayjs(selectedEvent?.date || new Date())}
+          />
+        );
       default:
         return !type.includes("nonedittable") ? (
-          <Input type={type} style={{ flex: 2 }} allowClear />
+          // FIXME: all text fields are rendered here, their values need to be conditionally rendered
+          <Input
+            type={type}
+            style={{
+              flex: 2,
+              border: !modalEditMode ? "1px solid transparent" : null,
+            }}
+            allowClear
+            disabled={!modalEditMode}
+          />
         ) : (
           <Input
             type={type.split("-")[1]}
