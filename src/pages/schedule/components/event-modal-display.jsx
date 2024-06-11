@@ -18,8 +18,7 @@ function EventModalDisplay() {
     >
       <Formik
         initialValues={{
-          firstName: "",
-          lastName: "",
+          
         }}
         onSubmit={async (values) => {}}
       >

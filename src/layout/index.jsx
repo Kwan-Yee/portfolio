@@ -5,7 +5,7 @@ import Header from "./header";
 
 function Layout() {
   return (
-    <div className="app-layout">
+    <div className="app-layout" style={{ height: "100%" }}>
       <Header />
       <Outlet />
     </div>
