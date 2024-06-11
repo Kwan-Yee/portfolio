@@ -38,7 +38,7 @@ const HeaderProfile = styled.div`
 const routes = [
   // { name: "Landing", path: "/" },
   { name: "Document", path: "/document" },
-  { name: "Form", path: "/form" },
+  { name: "Form", path: "/form/register" },
   { name: "Schedule", path: "/schedule" },
   { name: "Communications", path: "/communications" },
 ];
@@ -49,7 +49,7 @@ function Header() {
       <HeaderLogo className="header-logo">Logo</HeaderLogo>
       <HeaderNav className="header-nav">
         {routes.map((route) => (
-          <NavItems key={route.name} name={route.name} path={route.path} />
+          <NavItems key={route.path} name={route.name} path={route.path} />
         ))}
       </HeaderNav>
       <HeaderProfile className="header-profile">Profile</HeaderProfile>

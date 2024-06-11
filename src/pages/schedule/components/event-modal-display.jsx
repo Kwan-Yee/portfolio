@@ -4,6 +4,7 @@ import React from "react";
 import InputRow from "./event-modal-display-input";
 
 function EventModalDisplay() {
+  // TODO: Implement validation for the form
   return (
     <div
       className="modal-display-container"

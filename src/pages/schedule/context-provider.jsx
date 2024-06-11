@@ -57,6 +57,6 @@ export function ScheduleProvider({ children }) {
 
 /**
  *
- * @returns A custom hook that provides access to the {context, mutator methods}
+ * @returns A custom SCHEDULE hook that provides access to the {context, mutator methods}
  */
 export const useScheduleContext = () => useContext(ScheduleContext);
