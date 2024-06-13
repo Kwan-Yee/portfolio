@@ -1,9 +1,7 @@
-import { min } from "date-fns";
-
-export const listOfComponents = [
+const listOfComponents = [
   {
     name: "dynamic-table",
-    description: "A table that can dynamically increase rows",
+    description: "A table that can dynamically increase rows when in use",
     builder: {
       fullWidth: true,
       minColumns: 2,
@@ -30,3 +28,5 @@ export const listOfComponents = [
     },
   },
 ];
+
+export default listOfComponents;

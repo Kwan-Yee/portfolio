@@ -6,7 +6,6 @@ import FormHeaderInBuilder from "./form-builder-canvas-header";
 import StickyMetadata from "./form-builder-canvas-sticky-metadata";
 import CanvasActions from "./form-builder-canvas-actions";
 
-const aspectRatioA4 = 1.414;
 
 const FormBuilderContainer = styled.div`
   display: flex;
@@ -38,12 +37,7 @@ const FormPaperA4 = styled.div`
  * @returns A canvas that contains a paper-like component providing preview of components being included for the form.
  */
 function FormBuilderCanvas() {
-  let renderedWidthOfA4Paper;
-  useEffect(() => {
-    renderedWidthOfA4Paper =
-      document.getElementById("form-paper-A4").offsetWidth;
-    // console.log( renderedWidthOfA4Paper);
-  }, []);
+  
   return (
     <FormBuilderContainer className="form-builder-canvas">
       <StickyMetadata />

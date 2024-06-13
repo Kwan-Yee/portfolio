@@ -2,7 +2,7 @@ import { ConfigProvider } from "antd";
 
 import CustomRoutes from "./CustomRoutes";
 import { ScheduleProvider } from "./pages/schedule/context-provider";
-import { FormProvider } from "./pages/form/context-provider";
+import { FormBuilderProvider } from "./pages/form/context-provider";
 
 function App() {
   return (
@@ -20,11 +20,11 @@ function App() {
         },
       }}
     >
-      <FormProvider>
+      <FormBuilderProvider>
         <ScheduleProvider>
           <CustomRoutes />
         </ScheduleProvider>
-      </FormProvider>
+      </FormBuilderProvider>
     </ConfigProvider>
   );
 }

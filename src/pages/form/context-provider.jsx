@@ -1,15 +1,21 @@
 import React, { useContext, createContext, useState } from "react";
 
-const FormContext = createContext();
+const FormBuilderContext = createContext();
 
-export function FormProvider({ children }) {
-  // const [builderTab, setBuilderTab] = useState("Builder");
+export function FormBuilderProvider({ children }) {
+  const [activeDragComponent, setActiveDragComponent] = useState(null);
 
-  return <FormContext.Provider value={{}}>{children}</FormContext.Provider>;
+  return (
+    <FormBuilderContext.Provider
+      value={{ activeDragComponent, setActiveDragComponent }}
+    >
+      {children}
+    </FormBuilderContext.Provider>
+  );
 }
 
 /**
  *
  * @returns A custom FORM hook that provides access to the {context, mutator methods}
  */
-export const useFormContext = () => useContext(FormContext);
+export const useFormBuilderContext = () => useContext(FormBuilderContext);
