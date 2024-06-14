@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 import { useHover } from "@uidotdev/usehooks";
-
 import { useNavigate, useLocation } from "react-router-dom";
 
 const NavItem = styled.div`

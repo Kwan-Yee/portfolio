@@ -12,11 +12,12 @@ function FormLanding() {
     setActiveDragComponent,
     setCommittedComponents,
     setDragOccur,
-    setOverGrid,
+    setActiveGrids,
+    setGridsOccupied,
   } = useFormBuilderContext();
 
   const handleDragStart = useCallback((event) => {
-    setActiveDragComponent(event.active.data.current.component);
+    setActiveDragComponent(event.active.data.current);
     setDragOccur(true);
   }, []);
 
@@ -31,13 +32,10 @@ function FormLanding() {
     // TODO: changes the overGrid state in context
     if (!over) return;
 
-    setOverGrid((prev) => {
-      return {
-        ...prev,
-        col: over.data.current.dropCol,
-        row: over.data.current.dropRow,
-      };
-    });
+    //calculation of whether components can be dropped
+    const colNeeded = active.data.current.gridsCol;
+    // const colRightwardAvailable = 4 - over.data.current.dropCol;
+    // const rowDownwardAvailable = 4 - over.data.current.dropRow;
   }, []);
 
   const handleDragEnd = ({ active, over }) => {
@@ -46,26 +44,37 @@ function FormLanding() {
 
     //commit to local storage and context if the draggable is over a droppable
     if (!over) return;
-    //TODO: add position to the committed components
-    // const committedItem = active.data.current.component;
+    if (!over.data.current.availability) return;
+
     const committedItem = {
-      ...active.data.current.component,
-      top: `${(over.data.current.dropRow - 1) * 8.5}%`,
-      left: `${(over.data.current.dropCol - 1) * 25}%`,
+      ...active.data.current,
+      top: `${over.data.current.dropRow * 8.5}%`,
+      left: `${over.data.current.dropCol * 25}%`,
     };
-    // committedItem.builder.left = `${(over.data.current.dropCol - 1) * 25}%`;
 
-    console.log(committedItem);
+    // console.log(committedItem);
     setCommittedComponents((prev) => {
-      console.log("prev: ", prev);
+      // console.log("prev: ", prev);
 
-      console.log("updated: ", [...prev, committedItem]);
+      // console.log("updated: ", [...prev, committedItem]);
 
       localStorage.setItem(
         "committedComponents",
         JSON.stringify([...prev, committedItem])
       );
       return [...prev, committedItem];
+    });
+
+    setGridsOccupied((prev) => {
+      const indexOfRow = over.data.current.dropRow;
+      const indexOfCol = over.data.current.dropCol;
+
+      const newGridsOccupied = [...prev];
+      newGridsOccupied[indexOfRow][indexOfCol] = 1;
+
+      localStorage.setItem("gridsOccupied", JSON.stringify(newGridsOccupied));
+
+      return newGridsOccupied;
     });
   };
 

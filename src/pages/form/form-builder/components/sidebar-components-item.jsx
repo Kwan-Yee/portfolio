@@ -19,7 +19,7 @@ function SidebarComponentItem({ component }) {
   const { attributes, listeners, setNodeRef, transform, isDragging } =
     useDraggable({
       id: `drag-components-sidebar-${component.name}`,
-      data: { component },
+      data: component,
     });
 
   // Merge hoverRef and draggableRef

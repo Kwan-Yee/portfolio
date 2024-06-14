@@ -9,8 +9,25 @@ export function FormBuilderProvider({ children }) {
       ? JSON.parse(localStorage.getItem("committedComponents"))
       : []
   );
-  const [overGrid, setOverGrid] = useState({ col: null, row: null });
-  const [activeGrid, setActiveGrid] = useState([]);
+  // const [overGrid, setOverGrid] = useState({ col: null, row: null });
+  const [activeGrids, setActiveGrids] = useState([]);
+  const [gridsOccupied, setGridsOccupied] = useState(
+    localStorage.getItem("gridsOccupied")
+      ? JSON.parse(localStorage.getItem("gridsOccupied"))
+      : [
+          [0, 0, 0, 0],
+          [0, 0, 0, 0],
+          [0, 0, 0, 0],
+          [0, 0, 0, 0],
+          [0, 0, 0, 0],
+          [0, 0, 0, 0],
+          [0, 0, 0, 0],
+          [0, 0, 0, 0],
+          [0, 0, 0, 0],
+          [0, 0, 0, 0],
+          [0, 0, 0, 0],
+        ]
+  );
   const [dragOccur, setDragOccur] = useState(false);
 
   return (
@@ -22,10 +39,10 @@ export function FormBuilderProvider({ children }) {
         setCommittedComponents,
         dragOccur,
         setDragOccur,
-        overGrid,
-        setOverGrid,
-        activeGrid,
-        setActiveGrid,
+        activeGrids,
+        setActiveGrids,
+        gridsOccupied,
+        setGridsOccupied,
       }}
     >
       {children}

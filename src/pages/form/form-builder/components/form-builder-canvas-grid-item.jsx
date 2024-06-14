@@ -3,13 +3,15 @@ import { useDroppable } from "@dnd-kit/core";
 
 import { useFormBuilderContext } from "../../context-provider";
 
-function GridItem({ col, row }) {
-  const { dragOccur, overGrid, setOverGrid } = useFormBuilderContext();
+function GridItem({ col, row, availability }) {
+  const { dragOccur, activeGrid } = useFormBuilderContext();
+
   const { setNodeRef, isOver } = useDroppable({
     id: `dropzone-grid-${col}-${row}`,
     data: {
       dropCol: col,
       dropRow: row,
+      availability: availability,
     },
   });
 

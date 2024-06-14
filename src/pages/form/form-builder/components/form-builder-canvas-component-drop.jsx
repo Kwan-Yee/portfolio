@@ -4,13 +4,15 @@ import React from "react";
 import { useFormBuilderContext } from "../../context-provider";
 import GridItem from "./form-builder-canvas-grid-item";
 
-function ComponentRenderer() {
-  const numberOfColumn = [1, 2, 3, 4];
-  const numberOfRows = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-  // console.log(numberOfColumn);
+const newRow = new Array(4).fill(0);
 
-  const { committedComponents, setCommittedComponents } =
-    useFormBuilderContext();
+function ComponentRenderer() {
+  const {
+    committedComponents,
+    setCommittedComponents,
+    gridsOccupied,
+    setGridsOccupied,
+  } = useFormBuilderContext();
 
   return (
     <div
@@ -40,13 +42,12 @@ function ComponentRenderer() {
           display: "flex",
           flexDirection: "column",
           boxSizing: "border-box",
-
           // gap: "4px",
         }}
       >
-        {numberOfRows.map((row) => (
+        {gridsOccupied.map((row, rowIndex) => (
           <div
-            key={row}
+            key={rowIndex}
             className="row-container"
             style={{
               height: "8.5%",
@@ -57,8 +58,13 @@ function ComponentRenderer() {
               gap: "4px",
             }}
           >
-            {numberOfColumn.map((col) => (
-              <GridItem key={`${col}-${row}`} col={col} row={row} />
+            {row.map((col, colIndex) => (
+              <GridItem
+                key={`${colIndex}-${rowIndex}`}
+                col={colIndex}
+                row={rowIndex}
+                availability={col === 0}
+              />
             ))}
           </div>
         ))}
