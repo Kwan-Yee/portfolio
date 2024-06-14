@@ -7,19 +7,67 @@ import { useFormBuilderContext } from "./context-provider";
 import SidebarComponentItem from "./form-builder/components/sidebar-components-item";
 
 function FormLanding() {
-  const { activeDragComponent, setActiveDragComponent } =
-    useFormBuilderContext();
+  const {
+    activeDragComponent,
+    setActiveDragComponent,
+    setCommittedComponents,
+    setDragOccur,
+    setOverGrid,
+  } = useFormBuilderContext();
+
   const handleDragStart = useCallback((event) => {
     setActiveDragComponent(event.active.data.current.component);
+    setDragOccur(true);
   }, []);
 
-  const handleDragCancel = useCallback((event) => {
+  const handleDragCancel = useCallback(() => {
     setActiveDragComponent(null);
+    setDragOccur(false);
   }, []);
 
   const handleDragOver = useCallback(({ over, active }) => {
-    console.log("over: ", over, "active: ", active);
+    console.log("IN OVER HANDLE", "over: ", over, "active: ", active);
+
+    // TODO: changes the overGrid state in context
+    if (!over) return;
+
+    setOverGrid((prev) => {
+      return {
+        ...prev,
+        col: over.data.current.dropCol,
+        row: over.data.current.dropRow,
+      };
+    });
   }, []);
+
+  const handleDragEnd = ({ active, over }) => {
+    setDragOccur(false);
+    console.log("IN END HANDLE", "over: ", over, "active: ", active);
+
+    //commit to local storage and context if the draggable is over a droppable
+    if (!over) return;
+    //TODO: add position to the committed components
+    // const committedItem = active.data.current.component;
+    const committedItem = {
+      ...active.data.current.component,
+      top: `${(over.data.current.dropRow - 1) * 8.5}%`,
+      left: `${(over.data.current.dropCol - 1) * 25}%`,
+    };
+    // committedItem.builder.left = `${(over.data.current.dropCol - 1) * 25}%`;
+
+    console.log(committedItem);
+    setCommittedComponents((prev) => {
+      console.log("prev: ", prev);
+
+      console.log("updated: ", [...prev, committedItem]);
+
+      localStorage.setItem(
+        "committedComponents",
+        JSON.stringify([...prev, committedItem])
+      );
+      return [...prev, committedItem];
+    });
+  };
 
   return (
     <div
@@ -39,7 +87,7 @@ function FormLanding() {
       >
         <DndContext
           onDragCancel={handleDragCancel}
-          onDragEnd={{}}
+          onDragEnd={handleDragEnd}
           onDragOver={handleDragOver}
           onDragStart={handleDragStart}
         >

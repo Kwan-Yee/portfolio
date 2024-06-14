@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
 
-import ComponentRendererByRow from "./form-builder-canvas-component-renderer-by-row";
+import ComponentRenderer from "./form-builder-canvas-component-renderer";
 import FormHeaderInBuilder from "./form-builder-canvas-header";
 import StickyMetadata from "./form-builder-canvas-sticky-metadata";
 import CanvasActions from "./form-builder-canvas-actions";
@@ -43,7 +43,7 @@ function FormBuilderCanvas() {
       <StickyMetadata />
       <FormPaperA4 id="form-paper-A4" className="form-paper-a4">
         <FormHeaderInBuilder />
-        <ComponentRendererByRow />
+        <ComponentRenderer />
       </FormPaperA4>
       <CanvasActions />
     </FormBuilderContainer>

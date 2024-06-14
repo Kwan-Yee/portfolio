@@ -1,8 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-
-import listOfComponents from "../../../../mock-data-provider/list-of-components";
+import listOfBuilderComponents from "../../../../mock-data-provider/list-of-components";
 import SidebarComponentItem from "./sidebar-components-item";
 
 // Define the styled components
@@ -28,7 +27,7 @@ function SidebarComponentList() {
   return (
     <SidebarContainer className="components-sidebar-coontainer">
       <ListContainer className="components-list-container">
-        {listOfComponents.map((component) => (
+        {listOfBuilderComponents.map((component) => (
           <SidebarComponentItem key={component.name} component={component} />
         ))}
       </ListContainer>
