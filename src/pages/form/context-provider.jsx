@@ -10,7 +10,7 @@ export function FormBuilderProvider({ children }) {
       : []
   );
   // const [overGrid, setOverGrid] = useState({ col: null, row: null });
-  const [activeGrids, setActiveGrids] = useState([]);
+  const [gridsToBeDropped, setGridsToBeDropped] = useState([]);
   const [gridsOccupied, setGridsOccupied] = useState(
     localStorage.getItem("gridsOccupied")
       ? JSON.parse(localStorage.getItem("gridsOccupied"))
@@ -29,20 +29,23 @@ export function FormBuilderProvider({ children }) {
         ]
   );
   const [dragOccur, setDragOccur] = useState(false);
+  const [componentFit, setComponentFit] = useState(false);
 
   return (
     <FormBuilderContext.Provider
       value={{
-        activeDragComponent,
+        activeDragComponent, // only component structure
         setActiveDragComponent,
         committedComponents,
         setCommittedComponents,
         dragOccur,
         setDragOccur,
-        activeGrids,
-        setActiveGrids,
+        gridsToBeDropped,
+        setGridsToBeDropped,
         gridsOccupied,
         setGridsOccupied,
+        componentFit,
+        setComponentFit,
       }}
     >
       {children}

@@ -95,7 +95,7 @@ function CanvasActions() {
               top: "1px",
               left: "2px",
               color: hoveringExit ? "rgba(237,93, 83, 1)" : null,
-              transition: "color 0.2s ease",
+              transition: "color 0.2s",
             }}
           />
         }

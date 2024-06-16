@@ -3,6 +3,7 @@ import React from "react";
 
 import { useFormBuilderContext } from "../../context-provider";
 import GridItem from "./form-builder-canvas-grid-item";
+import DynamicRenderer from "./form-builder-dynamic-renderer";
 
 const newRow = new Array(4).fill(0);
 
@@ -32,7 +33,7 @@ function ComponentRenderer() {
             left: component.left,
           }}
         >
-          {component.name}
+          <DynamicRenderer component={component} />
         </div>
       ))}
       <div

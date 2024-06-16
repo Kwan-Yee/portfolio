@@ -1,6 +1,6 @@
 import React from "react";
 
-function DynamicRenderer() {
+function DynamicRenderer({ type }) {
   return <div>DynamicRenderer</div>;
 }
 
