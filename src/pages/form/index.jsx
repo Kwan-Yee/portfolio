@@ -49,7 +49,7 @@ function FormLanding() {
     let fit = true,
       gridsInvolved = {};
     for (let i = dropRow; i < dropRow + rowNeeded; i++) {
-      const rowDownwardArray = gridsOccupied[i].slice(
+      const rowDownwardArray = gridsOccupied[i]?.slice(
         dropCol,
         dropCol + colNeeded || null
       );
@@ -57,7 +57,11 @@ function FormLanding() {
 
       console.log("rowDownwardArray: ", rowDownwardArray);
 
-      if (rowDownwardArray.includes(1) || rowDownwardArray.length < colNeeded) {
+      if (
+        rowDownwardArray?.includes(1) ||
+        rowDownwardArray?.length < colNeeded ||
+        !rowDownwardArray
+      ) {
         fit = false;
       }
     }
@@ -88,8 +92,8 @@ function FormLanding() {
       const newGridsInvolved = [];
 
       for (const [key, value] of Object.entries(gridsInvolved)) {
-        for (let i = 0; i < value.length; i++) {
-          const inferredCol = 4 - value.length + i;
+        for (let i = 0; i < value?.length; i++) {
+          const inferredCol = 4 - value?.length + i;
           if (value[i] !== 1) {
             const grid = `${inferredCol}-${key}`;
             newGridsInvolved.push(grid);
