@@ -1,6 +1,14 @@
 import React, { useCallback, useEffect } from "react";
 import { Outlet } from "react-router-dom";
-import { DndContext, DragOverlay } from "@dnd-kit/core";
+import {
+  DndContext,
+  DragOverlay,
+  useSensor,
+  useSensors,
+  MouseSensor,
+  TouchSensor,
+  KeyboardSensor,
+} from "@dnd-kit/core";
 
 import NavLayout from "./nav-layout";
 import { useFormBuilderContext } from "./context-provider";
@@ -12,14 +20,20 @@ function FormLanding() {
     setActiveDragComponent,
     setCommittedComponents,
     setDragOccur,
-    gridsToBeDropped,
     setGridsToBeDropped,
-    gridsOccupied,
     setGridsOccupied,
     setComponentFit,
+    formPage,
   } = useFormBuilderContext();
 
+  const sensors = useSensors(
+    useSensor(MouseSensor, {}),
+    useSensor(TouchSensor, {}),
+    useSensor(KeyboardSensor, {})
+  );
+
   const handleDragStart = useCallback((event) => {
+    // console.log("triggered");
     setActiveDragComponent(event.active.data.current);
     setDragOccur(true);
   }, []);
@@ -80,42 +94,26 @@ function FormLanding() {
     const [componentFit, gridsInvolved] = calcComponentFit(
       colNeeded,
       rowNeeded,
-      gridsOccupied,
+      formPage[over.data.current.parentPageIndex].gridsOccupied,
       dropRow,
       dropCol
     );
 
     setComponentFit(componentFit);
-
-    setGridsToBeDropped(() => {
-      console.log("gridsInvolved: ", gridsInvolved);
-      const newGridsInvolved = [];
-
-      for (const [key, value] of Object.entries(gridsInvolved)) {
-        for (let i = 0; i < value?.length; i++) {
-          const inferredCol = 4 - value?.length + i;
-          if (value[i] !== 1) {
-            const grid = `${inferredCol}-${key}`;
-            newGridsInvolved.push(grid);
-          }
-        }
-      }
-
-      console.log([...newGridsInvolved]);
-
-      return [...newGridsInvolved];
-    });
+    setGridsToBeDropped(gridsInvolved, over.data.current.parentPageIndex);
   });
 
   const handleDragEnd = ({ active, over }) => {
     setDragOccur(false);
     setComponentFit(false);
-    setGridsToBeDropped([]);
+
     console.log("IN END HANDLE", "over: ", over, "active: ", active);
 
     //commit to local storage and context if the draggable is over a droppable
     if (!over) return;
     if (!over.data.current.availability) return;
+
+    setGridsToBeDropped([], over.data.current.parentPageIndex);
 
     //calculation of whether components can be dropped
     const colNeeded = active.data.current.gridsCol,
@@ -126,7 +124,7 @@ function FormLanding() {
     const [componentFit, gridsInvolved] = calcComponentFit(
       colNeeded,
       rowNeeded,
-      gridsOccupied,
+      formPage[over.data.current.parentPageIndex].gridsOccupied,
       dropRow,
       dropCol
     );
@@ -141,25 +139,16 @@ function FormLanding() {
     };
 
     // console.log(committedItem);
-    setCommittedComponents((prev) => {
-      localStorage.setItem(
-        "committedComponents",
-        JSON.stringify([...prev, committedItem])
-      );
-      return [...prev, committedItem];
-    });
+    setCommittedComponents(committedItem, over.data.current.parentPageIndex, "add");
 
-    setGridsOccupied((prev) => {
-      const indexOfRow = over.data.current.dropRow;
-      const indexOfCol = over.data.current.dropCol;
-
-      const newGridsOccupied = [...prev];
-      newGridsOccupied[indexOfRow][indexOfCol] = 1;
-
-      localStorage.setItem("gridsOccupied", JSON.stringify(newGridsOccupied));
-
-      return newGridsOccupied;
-    });
+    setGridsOccupied(
+      over.data.current.dropCol,
+      over.data.current.dropRow,
+      active.data.current.gridsCol,
+      active.data.current.gridsRow,
+      over.data.current.parentPageIndex,
+      "add"
+    );
   };
 
   return (
@@ -179,6 +168,7 @@ function FormLanding() {
         style={{ flex: 11, padding: "6px", boxSizing: "border-box" }}
       >
         <DndContext
+          // sensors={sensors}
           onDragCancel={handleDragCancel}
           onDragEnd={handleDragEnd}
           onDragOver={handleDragOver}

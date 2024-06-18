@@ -9,8 +9,6 @@ const listOfBuilderComponents = [
     maxColumns: 25,
     top: null,
     left: null,
-    width: "100%",
-    height: "100%",
     containerHeight: "auto",
     resize: false,
   },

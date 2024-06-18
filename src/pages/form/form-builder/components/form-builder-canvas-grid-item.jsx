@@ -11,8 +11,8 @@ import { useFormBuilderContext } from "../../context-provider";
  * @param {boolean} availability - Indicates whether the grid item is available for dropping.
  * @returns {JSX.Element} The grid item component.
  */
-function GridItem({ col, row, availability }) {
-  const { dragOccur, gridsToBeDropped, componentFit } = useFormBuilderContext();
+function GridItem({ col, row, availability, formPageNum, gridsToBeDropped }) {
+  const { dragOccur, componentFit } = useFormBuilderContext();
   // console.log("gridsToBeDropped: ", gridsToBeDropped);
 
   const { setNodeRef, isOver } = useDroppable({
@@ -21,6 +21,7 @@ function GridItem({ col, row, availability }) {
       dropCol: col,
       dropRow: row,
       availability: availability,
+      parentPageIndex: formPageNum,
     },
   });
 

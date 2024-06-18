@@ -5,6 +5,7 @@ import ComponentRenderer from "./form-builder-canvas-component-drop";
 import FormHeaderInBuilder from "./form-builder-canvas-header";
 import StickyMetadata from "./form-builder-canvas-sticky-metadata";
 import CanvasActions from "./form-builder-canvas-actions";
+import { useFormBuilderContext } from "../../context-provider";
 
 const FormBuilderContainer = styled.div`
   display: flex;
@@ -26,9 +27,11 @@ const FormPaperA4 = styled.div`
   background-color: #ffffff;
   border: 1px solid rgba(0, 0, 0, 0.4);
   min-height: 70.7vw;
-  max-height: max-content;
+  height: 70.7vw;
+  // max-height: max-content;
   width: 50vw;
-  box-sizing: border-box;
+  // box-sizing: border-box;
+  margin-bottom: 5px;
 `;
 
 /**
@@ -36,13 +39,27 @@ const FormPaperA4 = styled.div`
  * @returns A canvas that contains a paper-like component providing preview of components being included for the form.
  */
 function FormBuilderCanvas() {
+  const { formPage } = useFormBuilderContext();
+  console.log(formPage);
   return (
     <FormBuilderContainer className="form-builder-canvas">
       <StickyMetadata />
-      <FormPaperA4 id="form-paper-A4" className="form-paper-a4">
-        <FormHeaderInBuilder />
-        <ComponentRenderer />
-      </FormPaperA4>
+      <div
+        className="form-paper-container"
+        style={{ minHeight: `calc(${70.7 * formPage.length})vw` }}
+      >
+        {formPage.map((page, index) => (
+          <FormPaperA4 id="form-paper-A4" className="form-paper-a4">
+            <FormHeaderInBuilder />
+            <ComponentRenderer
+              committedComponents={page.committedComponents}
+              formPageNum={index}
+              gridsOccupied={page.gridsOccupied}
+              gridsToBeDropped={page.gridsToBeDropped}
+            />
+          </FormPaperA4>
+        ))}
+      </div>
       <CanvasActions />
     </FormBuilderContainer>
   );

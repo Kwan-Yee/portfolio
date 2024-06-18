@@ -15,9 +15,7 @@ function FormBuilder() {
   return (
     <FormBuilderContainer className="form-builder-container">
       <FormBuilderCanvas>canvas</FormBuilderCanvas>
-      <SidebarComponentList className="component-list">
-        components
-      </SidebarComponentList>
+      <SidebarComponentList className="component-list" />
     </FormBuilderContainer>
   );
 }
