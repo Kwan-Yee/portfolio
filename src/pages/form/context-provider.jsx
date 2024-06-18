@@ -7,11 +7,6 @@ export function FormBuilderProvider({ children }) {
   const setCommittedComponents = (committedItem, index, mode) => {
     if (mode === "add") {
       setFormPage((prev) => {
-        // const newCommittedComponents = {
-        //   ...prev[index],
-        // }.committedComponents.push(committedItem);
-        // console.log("newCommittedComponents: ", newCommittedComponents);
-
         const newPages = [...prev];
         newPages[index].committedComponents.push(committedItem);
         console.log("newPages: ", newPages);

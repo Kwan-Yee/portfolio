@@ -2,16 +2,28 @@ import React from "react";
 import styled from "styled-components";
 import { IoAddCircleOutline } from "react-icons/io5";
 import { MdOutlineDeleteForever } from "react-icons/md";
+import { MdDeleteOutline } from "react-icons/md";
 
 import { useFormBuilderContext } from "../../context-provider";
 import GridItem from "./form-builder-canvas-grid-item";
 import DynamicRenderer from "../form-components/index";
 import { useHover } from "@uidotdev/usehooks";
 
-const RowAdder = styled.div`
+const PageAdder = styled.div`
+  flex: 1;
+  height: 100%;
+  justify-content: center;
+  border-radius: 8px;
+  margin-top: 2px;
+  flex-shrink: 0;
+  box-sizing: border-box;
   display: flex;
-  width: 100%;
-  height: 6%;
+  justify-content: center;
+  align-items: center;
+`;
+const PageRemover = styled.div`
+  flex: 1;
+  height: 100%;
   justify-content: center;
   border-radius: 8px;
   margin-top: 2px;
@@ -22,17 +34,13 @@ const RowAdder = styled.div`
   align-items: center;
 `;
 
-const DeleteComponent = styled.div`
-  flex-basis: 8px;
-`;
-
 function ComponentRenderer({
   committedComponents,
   formPageNum,
   gridsOccupied,
   gridsToBeDropped,
 }) {
-  const { setFormPage } = useFormBuilderContext();
+  const { formPage, setFormPage } = useFormBuilderContext();
 
   const newFormPage = {
     gridsToBeDropped: [],
@@ -52,8 +60,34 @@ function ComponentRenderer({
     committedComponents: [],
   };
 
-  const [ref, hovering] = useHover();
+  const [addRef, addHovering] = useHover();
+  const [deleteRef, deleteHovering] = useHover();
 
+  const handleAddPage = (pageIndex) => {
+    if (formPage.length >= 12) return;
+    setFormPage((prev) => {
+      console.log("prev: ", prev);
+      // copying for best practice
+      const newPages = [...prev];
+
+      // add page with splicing
+      newPages.splice(pageIndex + 1, 0, newFormPage);
+      console.log("newPages: ", newPages);
+      return newPages;
+    });
+  };
+  const handleRemovePage = (pageIndex) => {
+    if (formPage.length <= 1) return;
+    setFormPage((prev) => {
+      console.log(prev);
+      // copying for best practice
+      const newPages = [...prev];
+
+      // add page with splicing
+      newPages.splice(pageIndex, 1);
+      return newPages;
+    });
+  };
   return (
     <div
       className="dropzone-component-container"
@@ -119,25 +153,87 @@ function ComponentRenderer({
             ))}
           </div>
         ))}
-        <RowAdder
-          className="row-adder"
-          ref={ref}
+        {/* TODO: add and delete from specific index, currently it's adding to the end by default */}
+        {/* TODO: add delete buttons */}
+        <div
           style={{
-            backgroundColor: hovering ? "#e6e6e6" : "transparent",
-            border: hovering
-              ? "2px dashed rgba(0,0,0,0.6)"
-              : "2px dashed rgba(0,0,0,0.3)",
-            cursor: "pointer",
+            width: "100%",
+            height: "6%",
+            justifyContent: "center",
+            borderRadius: "8px",
+            marginTop: "2px",
+            flexShrink: 0,
+            boxSizing: "border-box",
+            display: "flex",
+            gap: "4px",
           }}
-          onClick={() => setFormPage((prev) => [...prev, newFormPage])}
         >
-          <IoAddCircleOutline
-            style={{
-              fontSize: "32px",
-              color: hovering ? "rgba(0,0,0,0.6)" : "rgba(0,0,0,0.3)",
-            }}
-          />
-        </RowAdder>
+          {formPage.length > 1 ? (
+            <>
+              <PageAdder
+                className="row-adder"
+                ref={addRef}
+                style={{
+                  backgroundColor: addHovering ? "#e6e6e6" : "transparent",
+                  border: addHovering
+                    ? "2px dashed rgba(0,0,0,0.6)"
+                    : "2px dashed rgba(0,0,0,0.3)",
+                  cursor: "pointer",
+                }}
+                onClick={() => handleAddPage(formPageNum)}
+              >
+                <IoAddCircleOutline
+                  style={{
+                    fontSize: "32px",
+                    color: addHovering ? "rgba(0,0,0,0.6)" : "rgba(0,0,0,0.3)",
+                  }}
+                />
+              </PageAdder>
+              <PageRemover
+                ref={deleteRef}
+                style={{
+                  cursor: "pointer",
+                  backgroundColor: deleteHovering
+                    ? "rgba(237,93, 83, 0.3)"
+                    : "transparent",
+                  border: deleteHovering
+                    ? "2px dashed rgba(237,93, 83, 0.9)"
+                    : "2px dashed rgba(237,93, 83, 0.4)",
+                }}
+                onClick={() => handleRemovePage(formPageNum)}
+              >
+                <MdDeleteOutline
+                  style={{
+                    fontSize: "31px",
+                    color: deleteHovering
+                      ? "rgba(237,93, 83, 1)"
+                      : "rgba(237,93, 83, 0.4)",
+                  }}
+                />
+              </PageRemover>
+            </>
+          ) : (
+            <PageAdder
+              className="row-adder"
+              ref={addRef}
+              style={{
+                backgroundColor: addHovering ? "#e6e6e6" : "transparent",
+                border: addHovering
+                  ? "2px dashed rgba(0,0,0,0.6)"
+                  : "2px dashed rgba(0,0,0,0.3)",
+                cursor: "pointer",
+              }}
+              onClick={() => handleAddPage(formPageNum)}
+            >
+              <IoAddCircleOutline
+                style={{
+                  fontSize: "32px",
+                  color: addHovering ? "rgba(0,0,0,0.6)" : "rgba(0,0,0,0.3)",
+                }}
+              />
+            </PageAdder>
+          )}
+        </div>
       </div>
     </div>
   );

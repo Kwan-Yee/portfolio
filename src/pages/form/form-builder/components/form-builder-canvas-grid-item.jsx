@@ -16,7 +16,7 @@ function GridItem({ col, row, availability, formPageNum, gridsToBeDropped }) {
   // console.log("gridsToBeDropped: ", gridsToBeDropped);
 
   const { setNodeRef, isOver } = useDroppable({
-    id: `dropzone-grid-${col}-${row}`,
+    id: `dropzone-grid-${col}-${row}-page-${formPageNum}`,
     data: {
       dropCol: col,
       dropRow: row,
