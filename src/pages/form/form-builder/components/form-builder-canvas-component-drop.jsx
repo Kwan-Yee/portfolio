@@ -56,6 +56,11 @@ function ComponentRenderer({
       [0, 0, 0, 0],
       [0, 0, 0, 0],
       [0, 0, 0, 0],
+      [0, 0, 0, 0],
+      [0, 0, 0, 0],
+      [0, 0, 0, 0],
+      [0, 0, 0, 0],
+      [0, 0, 0, 0],
     ],
     committedComponents: [],
   };
@@ -106,7 +111,7 @@ function ComponentRenderer({
             top: component.top,
             left: component.left,
             width: `${component.gridsCol * 25}%`,
-            height: `calc(${component.gridsRow * 8.5}% - 2px)`,
+            height: `calc(${component.gridsRow * 5.875}% - 2px)`,
             boxSizing: "border-box",
             display: "flex",
             flexDirection: "row",
@@ -132,7 +137,7 @@ function ComponentRenderer({
             key={rowIndex}
             className="row-container"
             style={{
-              flexBasis: "8.5%",
+              flexBasis: "5.875%",
               display: "flex",
               flexShrink: 0,
               flexDirection: "row",

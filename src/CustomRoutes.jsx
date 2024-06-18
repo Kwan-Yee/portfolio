@@ -9,6 +9,7 @@ import Document from "./pages/document";
 import Communications from "./pages/communications";
 import FormRegister from "./pages/form/form-register";
 import FormBuilder from "./pages/form/form-builder";
+import TemplateRegister from "./pages/form/form-template-register";
 
 function CustomRoutes() {
   //TODO: error fallback page
@@ -19,7 +20,8 @@ function CustomRoutes() {
         <Route path="/schedule" element={<Schedule />} />
         <Route path="/form" element={<FormLanding />}>
           <Route index path="/form/register" element={<FormRegister />} />
-          <Route path="/form/builder" element={<FormBuilder />} />
+          <Route path="/form/builder" element={<TemplateRegister />} />
+          <Route path="/form/builder/id/:id" element={<FormBuilder />} />
         </Route>
         <Route path="/document" element={<Document />} />
         <Route path="/communications" element={<Communications />} />

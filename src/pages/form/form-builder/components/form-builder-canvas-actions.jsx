@@ -4,10 +4,13 @@ import { RiDraftLine } from "react-icons/ri";
 import { MdOutlinePublish } from "react-icons/md";
 import { IoExitOutline } from "react-icons/io5";
 import { useHover } from "@uidotdev/usehooks";
+import { useNavigate } from "react-router-dom";
 
 function CanvasActions() {
   const [draftButtonRef, hoveringDraft] = useHover();
   const [exitButtonRef, hoveringExit] = useHover();
+
+  const navigate = useNavigate();
   return (
     <div
       className="canvas-actions"
@@ -79,6 +82,7 @@ function CanvasActions() {
         shape="circle"
         size="large"
         type="default"
+        onClick={() => navigate("/form/builder")}
         style={{
           border: hoveringExit
             ? "2px solid rgba(237,93, 83, 1)"

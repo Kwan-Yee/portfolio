@@ -1,4 +1,4 @@
-import { ConfigProvider } from "antd";
+import { ConfigProvider, Table } from "antd";
 
 import CustomRoutes from "./CustomRoutes";
 import { ScheduleProvider } from "./pages/schedule/context-provider";
@@ -12,11 +12,17 @@ function App() {
           // Seed Token
           colorPrimary: "#7ab890",
           borderRadius: 6,
+          fontFamily: "Roboto, sans-serif",
 
           // Alias Token
-          colorBgContainer: "none",
-          colorBgMask: "rgba(0, 0, 0, 0.7)",
           colorTextDisabled: "#5b5b5b",
+        },
+        components: {
+          Table: {
+            headerBg: "#e6e6e6",
+            rowSelectedHoverBg: "#e6e6e6",
+            headerColor: "#000000",
+          },
         },
       }}
     >
