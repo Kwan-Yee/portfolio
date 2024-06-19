@@ -6,13 +6,14 @@ import {
   // KeyboardSensor,
   closestCenter,
   MouseSensor,
+  // DragOverlay,
 } from "@dnd-kit/core";
 import {
   SortableContext,
   arrayMove,
   horizontalListSortingStrategy,
-  // sortableKeyboardCoordinates,
 } from "@dnd-kit/sortable";
+import { restrictToHorizontalAxis } from "@dnd-kit/modifiers";
 import React from "react";
 
 import SortableColumn from "./sortable-column";
@@ -23,9 +24,10 @@ export function DynamicTable() {
   const { columns, setColumns } = useFormBuilderContext();
 
   const rows = [
-    { id: 1, data: ["John", 25, "New York"] },
-    { id: 2, data: ["Jane", 30, "London"] },
-    { id: 3, data: ["Bob", 40, "Paris"] },
+    { name: "John", age: 28, city: "New York" },
+    { name: "Jane", age: 34, city: "San Francisco" },
+    { name: "Paul", age: 23, city: "Chicago" },
+    ,
   ];
 
   const handleDragEnd = (event) => {
@@ -38,7 +40,7 @@ export function DynamicTable() {
     }
   };
 
-  const sensors = useSensors(useSensor(MouseSensor));
+  // const sensors = useSensors(useSensor(MouseSensor));
 
   return (
     <div
@@ -51,35 +53,38 @@ export function DynamicTable() {
     >
       <DndContext
         collisionDetection={closestCenter}
-        sensors={sensors}
+        modifiers={[restrictToHorizontalAxis]}
+        // sensors={sensors}
         onDragEnd={handleDragEnd}
         onDragStart={() => console.log("drag start")}
       >
-        <SortableContext
-          items={columns}
-          strategy={horizontalListSortingStrategy}
-        >
-          <table>
-            <thead>
-              <tr>
+        <table>
+          <thead>
+            <tr>
+              <SortableContext
+                items={columns}
+                strategy={horizontalListSortingStrategy}
+              >
                 {columns.map((column) => (
                   <SortableColumn key={column.id} id={column.id}>
                     {column.title}
                   </SortableColumn>
                 ))}
+              </SortableContext>
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map((row, rowIndex) => (
+              <tr key={rowIndex}>
+                {columns.map((column) => (
+                  <td key={column.id}>{row[column.id]}</td>
+                ))}
               </tr>
-            </thead>
-            <tbody>
-              {rows.map((row) => (
-                <tr key={row.id}>
-                  {columns.map((column, index) => (
-                    <td key={column.id}>{row.data[index]}</td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </SortableContext>
+            ))}
+          </tbody>
+        </table>
+
+        {/* <DragOverlay>XXX</DragOverlay> */}
       </DndContext>
     </div>
   );

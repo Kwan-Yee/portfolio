@@ -134,12 +134,16 @@ function FormLanding() {
 
     const committedItem = {
       ...active.data.current,
-      top: `${over.data.current.dropRow * 8.5}%`,
+      top: `calc(${over.data.current.dropRow * 5.875}% + 1px)`,
       left: `${over.data.current.dropCol * 25}%`,
     };
 
     // console.log(committedItem);
-    setCommittedComponents(committedItem, over.data.current.parentPageIndex, "add");
+    setCommittedComponents(
+      committedItem,
+      over.data.current.parentPageIndex,
+      "add"
+    );
 
     setGridsOccupied(
       over.data.current.dropCol,

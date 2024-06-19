@@ -1,5 +1,5 @@
 import React from "react";
-import DynamicTable from "./dynamic-table/dynamic-table";
+import DynamicTable from "./dynamic-table";
 
 /**
  *

@@ -26,6 +26,7 @@ function SortableColumn({ id, children }) {
       style={style}
       {...attributes}
       {...listeners}
+      onClick={() => console.log("clicked")}
     >
       {children}
     </th>

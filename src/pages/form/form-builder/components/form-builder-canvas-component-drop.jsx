@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 import { IoAddCircleOutline } from "react-icons/io5";
-import { MdOutlineDeleteForever } from "react-icons/md";
 import { MdDeleteOutline } from "react-icons/md";
 
 import { useFormBuilderContext } from "../../context-provider";
