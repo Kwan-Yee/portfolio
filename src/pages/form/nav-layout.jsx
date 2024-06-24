@@ -12,13 +12,13 @@ const LeftTabContainer = styled.div`
   background-color: #e6e6e6;
   padding: 6px 4px;
   border-radius: 5px;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25)
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 `;
 
 function NavLayout() {
   return (
     <LeftTabContainer className="left-tab-container">
-      {["Register", "Builder"].map((item) => (
+      {["Register", "Builder", "Workflow"].map((item) => (
         <LeftNavItem key={item} item={item} />
       ))}
     </LeftTabContainer>

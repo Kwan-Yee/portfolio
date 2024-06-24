@@ -7,6 +7,7 @@ function FormHeaderInBuilder() {
       style={{
         height: "68px",
         display: "flex",
+        flex: 0.6,
         flexDirection: "row",
         justifyContent: "space-between",
       }}

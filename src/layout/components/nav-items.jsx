@@ -16,9 +16,6 @@ const NavItemContainer = styled.div`
   border-radius: 5px;
   padding-left: 8px;
   padding-right: 8px;
-  background-color: ${(props) =>
-    props.hovering ? "rgba(255,255,255,0.3)" : "transparent"};
-  text-decoration-line: ${(props) => (props.hovering ? "underline" : "none")};
   text-decoration-thickness: 2px;
 `;
 
@@ -27,9 +24,12 @@ function NavItems({ name, path }) {
   const [ref, hovering] = useHover();
   return (
     <NavItemContainer
-      ref={ref}
-      hovering={hovering}
       onClick={() => navigate(path)}
+      style={{
+        backgroundColor: hovering ? "rgba(255,255,255,0.3)" : "transparent",
+        textDecorationLine: hovering ? "underline" : "none",
+      }}
+      ref={ref}
     >
       {name}
     </NavItemContainer>

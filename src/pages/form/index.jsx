@@ -13,12 +13,16 @@ function FormLanding() {
     setActiveDragComponent(event.active.data.current.component);
   }, []);
 
-  const handleDragCancel = useCallback((event) => {
+  const handleDragCancel = useCallback(() => {
     setActiveDragComponent(null);
   }, []);
 
   const handleDragOver = useCallback(({ over, active }) => {
     console.log("over: ", over, "active: ", active);
+  }, []);
+
+  const handleDragEnd = useCallback(({ over, active }) => {
+    setActiveDragComponent(null);
   }, []);
 
   return (
@@ -39,7 +43,7 @@ function FormLanding() {
       >
         <DndContext
           onDragCancel={handleDragCancel}
-          onDragEnd={{}}
+          onDragEnd={handleDragEnd}
           onDragOver={handleDragOver}
           onDragStart={handleDragStart}
         >

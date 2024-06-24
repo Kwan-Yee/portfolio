@@ -14,8 +14,6 @@ function App() {
           borderRadius: 6,
 
           // Alias Token
-          colorBgContainer: "none",
-          colorBgMask: "rgba(0, 0, 0, 0.7)",
           colorTextDisabled: "#5b5b5b",
         },
       }}
