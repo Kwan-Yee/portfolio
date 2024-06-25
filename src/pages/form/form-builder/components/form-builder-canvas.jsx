@@ -65,7 +65,10 @@ function FormBuilderCanvas() {
 
       [...prev, newSectionId].forEach((id) => {
         if (!localStorage.getItem(id)) {
-          localStorage.setItem(id, JSON.stringify({ title: "", children: [] }));
+          localStorage.setItem(
+            id,
+            JSON.stringify({ title: "", children: [], id: id })
+          ); 
         }
       });
       return [...prev, newSectionId];

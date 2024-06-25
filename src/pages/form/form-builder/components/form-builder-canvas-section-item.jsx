@@ -1,5 +1,10 @@
 import React from "react";
-import { MdOutlineExpandMore, MdOutlineDelete } from "react-icons/md";
+import {
+  MdOutlineExpandMore,
+  MdOutlineDelete,
+  MdFileCopy,
+} from "react-icons/md";
+import { v4 as uuidv4 } from "uuid";
 import { Collapse, Input } from "antd";
 import { useHover } from "@uidotdev/usehooks";
 
@@ -13,7 +18,7 @@ function SectionItem({ sectionId, index }) {
     useFormBuilderContext();
   // const [ref, hovering] = useHover();
 
-  const handleSectionDelete = (sectionId) => {
+  const handleSectionDelete = () => {
     console.log("sectionId to delete: ", sectionId);
     if (sections.length <= 1) return;
     setSections((prev) => {
@@ -21,6 +26,31 @@ function SectionItem({ sectionId, index }) {
       const oldSections = newSections.splice(index, 1);
       localStorage.setItem("sections", JSON.stringify(newSections));
       oldSections.forEach((id) => localStorage.removeItem(id));
+      return newSections;
+    });
+  };
+
+  const handleSectionCopy = () => {
+    console.log("sectionId to copy: ", sectionId);
+
+    //copying section
+    const copiedSection = JSON.parse(localStorage.getItem(sectionId));
+
+    // update copied section Id
+    const updatedCopy = { ...copiedSection, id: `${uuidv4()}_Section` };
+
+    //look for the index of the section
+    const idx = sections.findIndex((id) => id === sectionId);
+
+    //splice the updatedCopy into section and save to both local storage and context
+    setSections((prev) => {
+      const newSections = [...prev];
+      // console.log(newSections);
+
+      newSections.splice(idx + 1, 0, updatedCopy.id);
+      localStorage.setItem("sections", JSON.stringify(newSections));
+      localStorage.setItem(updatedCopy.id, JSON.stringify(updatedCopy));
+ 
       return newSections;
     });
   };
@@ -55,6 +85,10 @@ function SectionItem({ sectionId, index }) {
         />
         <div>{`${index + 1}.`}</div>
         <Input size="small" />
+        <MdFileCopy
+          style={{ cursor: "pointer", fontSize: "14px" }}
+          onClick={handleSectionCopy}
+        />
         <MdOutlineDelete
           // ref={ref}
           style={{
@@ -74,8 +108,9 @@ function SectionItem({ sectionId, index }) {
             gap: "2px",
           }}
         >
-          Section Content
-          <div className="section-content-render-container">YY</div>
+          <div className="section-content-render-container">
+            Area for component to render
+          </div>
           <DroppableSectionArea sectionId={sectionId} />
         </div>
       )}
