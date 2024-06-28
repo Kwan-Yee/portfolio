@@ -5,12 +5,12 @@ import { useFormBuilderContext } from "../../context-provider";
 
 function DroppableSectionArea({ sectionId }) {
   const { activeDragComponent } = useFormBuilderContext();
-  const { setNodeRef } = useDroppable({
-    id: `section-droppable-area-${sectionId}`,
-  });
+  // const { setNodeRef } = useDroppable({
+  //   id: `section-droppable-area-${sectionId}`,
+  // });
   return (
     <div
-      ref={setNodeRef}
+      // ref={setNodeRef}
       className="section-content-droppable"
       style={{
         height: "46px",

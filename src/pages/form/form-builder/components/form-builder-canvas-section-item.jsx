@@ -4,8 +4,10 @@ import {
   MdOutlineDelete,
   MdFileCopy,
 } from "react-icons/md";
+import { FiMove } from "react-icons/fi";
 import { v4 as uuidv4 } from "uuid";
-import { Collapse, Input } from "antd";
+import { Divider, Input } from "antd";
+import { useSortable } from "@dnd-kit/sortable";
 import { useHover } from "@uidotdev/usehooks";
 
 import { useFormBuilderContext } from "../../context-provider";
@@ -17,6 +19,8 @@ function SectionItem({ sectionId, index }) {
   const { sections, setSections, activeDragComponent } =
     useFormBuilderContext();
   // const [ref, hovering] = useHover();
+
+  const { attributes, listeners, setNodeRef } = useSortable({ id: sectionId });
 
   const handleSectionDelete = () => {
     console.log("sectionId to delete: ", sectionId);
@@ -50,7 +54,7 @@ function SectionItem({ sectionId, index }) {
       newSections.splice(idx + 1, 0, updatedCopy.id);
       localStorage.setItem("sections", JSON.stringify(newSections));
       localStorage.setItem(updatedCopy.id, JSON.stringify(updatedCopy));
- 
+
       return newSections;
     });
   };
@@ -64,6 +68,7 @@ function SectionItem({ sectionId, index }) {
         padding: "8px",
         boxSizing: "border-box",
       }}
+      ref={setNodeRef}
     >
       <div
         className="section-header"
@@ -84,7 +89,7 @@ function SectionItem({ sectionId, index }) {
           onClick={() => setIsRotate(!isRotate)}
         />
         <div>{`${index + 1}.`}</div>
-        <Input size="small" />
+        <Input size="small" maxLength={200} allowClear />
         <MdFileCopy
           style={{ cursor: "pointer", fontSize: "14px" }}
           onClick={handleSectionCopy}
@@ -97,6 +102,8 @@ function SectionItem({ sectionId, index }) {
           }}
           onClick={handleSectionDelete}
         />
+        <Divider type="vertical" style={{ margin: "0px 4px" }} />
+        <FiMove style={{ cursor: "move" }} {...attributes} {...listeners} />
       </div>
       {isRotate && (
         <div
