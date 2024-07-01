@@ -62,7 +62,6 @@ function FormBuilderCanvas() {
     const newSectionId = `${uuidv4()}_Section`;
     setSections((prev) => {
       localStorage.setItem("sections", JSON.stringify([...prev, newSectionId]));
-
       [...prev, newSectionId].forEach((id) => {
         if (!localStorage.getItem(id)) {
           localStorage.setItem(

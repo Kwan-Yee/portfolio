@@ -1,7 +1,7 @@
 import React from "react";
 import { useDroppable } from "@dnd-kit/core";
 
-import { useFormBuilderContext } from "../../context-provider";
+import { useFormBuilderContext } from "../../../context-provider";
 
 function DroppableSectionArea({ sectionId }) {
   const { activeDragComponent } = useFormBuilderContext();

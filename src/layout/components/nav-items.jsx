@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { useHover } from "@uidotdev/usehooks";
 import styled from "styled-components";
 
+import { useFullAppContext } from "../../context-provider";
+
 // Define the styled component
 const NavItemContainer = styled.div`
   cursor: pointer;
@@ -19,15 +21,24 @@ const NavItemContainer = styled.div`
   text-decoration-thickness: 2px;
 `;
 
-function NavItems({ name, path }) {
+function NavItems({ name, path, selectedRoute }) {
   const navigate = useNavigate();
   const [ref, hovering] = useHover();
+
+  const { selectedModule, setSelectedModule } = useFullAppContext();
   return (
     <NavItemContainer
-      onClick={() => navigate(path)}
+      onClick={() => {
+        navigate(path);
+        setSelectedModule(name);
+      }}
       style={{
-        backgroundColor: hovering ? "rgba(255,255,255,0.3)" : "transparent",
-        textDecorationLine: hovering ? "underline" : "none",
+        backgroundColor:
+          hovering || selectedModule === name
+            ? "rgba(255,255,255,0.3)"
+            : "transparent",
+        textDecorationLine:
+          hovering || selectedModule === name ? "underline" : "none",
       }}
       ref={ref}
     >

@@ -15,17 +15,17 @@ function mergeRefs(...refs) {
 }
 
 function SidebarComponentItem({ component }) {
-  const [ref, hovering] = useHover();
-  const { attributes, listeners, setNodeRef, transform, isDragging } =
-    useDraggable({
-      id: `drag-components-sidebar-${component.name}`,
-      data: { component },
-    });
+  // const [ref, hovering] = useHover();
+  // const { attributes, listeners, setNodeRef, transform, isDragging } =
+  //   useDraggable({
+  //     id: `drag-components-sidebar-${component.name}`,
+  //     data: { component },
+  //   });
 
   // Merge hoverRef and draggableRef
-  const combinedRef = mergeRefs(ref, setNodeRef);
+  // const combinedRef = mergeRefs(ref, setNodeRef);
 
-  const customTransform = { ...transform, scaleX: 1, scaleY: 1 };
+  // const customTransform = { ...transform, scaleX: 1, scaleY: 1 };
 
   const capitalise = (str) => {
     return str.charAt(0).toUpperCase() + str.slice(1);
@@ -34,9 +34,9 @@ function SidebarComponentItem({ component }) {
   return (
     <div
       className="draggable-sidebar-component-container"
-      ref={combinedRef}
-      {...attributes}
-      {...listeners}
+      // ref={combinedRef}
+      // {...attributes}
+      // {...listeners}
       style={{
         flexBasis: "60px",
         height: "100%",

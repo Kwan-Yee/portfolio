@@ -1,8 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-
-import listOfComponents from "../../../../mock-data-provider/list-of-components";
+import listOfComponents from "../../../../../mock-data-provider/list-of-components";
 import SidebarComponentItem from "./sidebar-components-item";
 
 // Define the styled components

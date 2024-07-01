@@ -12,6 +12,8 @@ export function FormBuilderProvider({ children }) {
       : [`${uuidv4()}_Section`]
   );
 
+  const [allSectionsCollapse, setAllSectionsCollapse] = useState(false);
+
   return (
     <FormBuilderContext.Provider
       value={{
@@ -19,6 +21,8 @@ export function FormBuilderProvider({ children }) {
         setActiveDragComponent,
         sections,
         setSections,
+        allSectionsCollapse,
+        setAllSectionsCollapse,
       }}
     >
       {children}
