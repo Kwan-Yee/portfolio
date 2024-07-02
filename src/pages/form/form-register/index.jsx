@@ -1,5 +1,5 @@
 import { Button, Table, Tabs } from "antd";
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { FiPlus } from "react-icons/fi";
 
@@ -31,22 +31,25 @@ function Form() {
   return (
     <div
       className={`form-register-${location}-container`}
-      style={{ padding: "8px" }}
+      style={{ padding: "8px 8px 0px 8px", boxSizing: "border-box" }}
     >
       <Tabs
         items={items}
         defaultActiveKey={activeKey}
         onChange={(key) => setActiveKey(key)}
-        tabBarExtraContent={
-          <Button
-            type="primary"
-            icon={<FiPlus style={{ marginTop: "2px", fontSize: "18px" }} />}
-            style={{ fontWeight: "bold", width: "120px" }}
-            onClick={() => console.log("add new record")}
-          >
-            {activeKey}
-          </Button>
-        }
+        tabPosition="left"
+
+        // tabBarExtraContent={
+        //   <Button
+        //     size="large"
+        //     type="primary"
+        //     icon={<FiPlus style={{ marginTop: "2px", fontSize: "18px" }} />}
+        //     style={{ fontWeight: "bold", width: "120px", marginBottom: "8px" }}
+        //     onClick={() => console.log("add new record")}
+        //   >
+        //     {activeKey}
+        //   </Button>
+        // }
       />
     </div>
   );

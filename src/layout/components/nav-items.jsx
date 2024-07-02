@@ -9,8 +9,10 @@ import { useFullAppContext } from "../../context-provider";
 const NavItemContainer = styled.div`
   cursor: pointer;
   margin-right: 5px;
+  box-sizing: border-box;
   margin-left: 5px;
-  height: 43px;
+  margin-top: 2px;
+  height: 34px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -33,10 +35,7 @@ function NavItems({ name, path, selectedRoute }) {
         setSelectedModule(name);
       }}
       style={{
-        backgroundColor:
-          hovering || selectedModule === name
-            ? "rgba(255,255,255,0.3)"
-            : "transparent",
+        backgroundColor: hovering ? "rgba(255,255,255,0.3)" : "transparent",
         textDecorationLine:
           hovering || selectedModule === name ? "underline" : "none",
       }}

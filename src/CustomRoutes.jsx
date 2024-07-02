@@ -17,27 +17,27 @@ function CustomRoutes() {
         <Route path="/schedule" element={<Schedule />} />
         <Route path="/permits">
           <Route index element={<FormRegister />} />
-          <Route path="/permits/builder" element={<FormBuilder />} />
+          <Route path="/permits/builder/:id" element={<FormBuilder />} />
         </Route>
         <Route path="/inspections">
           <Route index element={<FormRegister />} />
-          <Route path="/inspections/builder" element={<FormBuilder />} />
+          <Route path="/inspections/builder/:id" element={<FormBuilder />} />
         </Route>
         <Route path="/violations">
           <Route index element={<FormRegister />} />
-          <Route path="/violations/builder" element={<FormBuilder />} />
+          <Route path="/violations/builder/:id" element={<FormBuilder />} />
         </Route>
         <Route path="/transmittals">
           <Route index element={<FormRegister />} />
-          <Route path="/transmittals/builder" element={<FormBuilder />} />
+          <Route path="/transmittals/builder/:id" element={<FormBuilder />} />
         </Route>
         <Route path="/incidents">
           <Route index element={<FormRegister />} />
-          <Route path="/incidents/builder" element={<FormBuilder />} />
+          <Route path="/incidents/builder/:id" element={<FormBuilder />} />
         </Route>
         <Route path="/technical-queries">
           <Route index element={<FormRegister />} />
-          <Route path="/technical-queries/builder" element={<FormBuilder />} />
+          <Route path="/technical-queries/builder/:id" element={<FormBuilder />} />
         </Route>
         <Route path="/document" element={<Document />} />
       </Route>

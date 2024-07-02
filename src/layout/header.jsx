@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import NavItems from "./components/nav-items";
 import { Divider } from "antd";
 import { useFullAppContext } from "../context-provider";
+import { useHover } from "@uidotdev/usehooks";
 
 const HeaderContainer = styled.div`
   height: 58px;
@@ -18,6 +19,9 @@ const HeaderContainer = styled.div`
   padding-right: 20px;
   box-sizing: border-box;
   font-family: Roboto, sans-serif;
+  position: sticky;
+  top: 0;
+  z-index: 999;
 `;
 
 const HeaderLogo = styled.div`
@@ -63,24 +67,24 @@ function Header() {
   const { selectedModule, setSelectedModule } = useFullAppContext();
   console.log("selectedModule: ", selectedModule);
 
+  const [ref, hovering] = useHover();
+
   const navigate = useNavigate();
   return (
     <HeaderContainer className="header">
       <HeaderLogo
-        className="header-logo"
+        className="header-home"
         onClick={() => {
           navigate("/");
           setSelectedModule("Landing");
         }}
+        ref={ref}
         style={{
-          backgroundColor:
-            selectedModule === "Landing"
-              ? "rgba(255,255,255,0.3)"
-              : "transparent",
+          backgroundColor: hovering ? "rgba(255,255,255,0.3)" : "transparent",
           textDecorationLine:
-            selectedModule === "Landing" ? "underline" : "none",
+            selectedModule === "Landing" || hovering ? "underline" : "none",
           textDecorationThickness: "2px",
-          height: "43px",
+          height: "34px",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
@@ -109,16 +113,27 @@ function Header() {
           style={{ backgroundColor: "white", height: "18px" }}
         />
         <div
-          className="header-ops-nav"
+          className="header-ops-nav-container"
           style={{
             display: "flex",
-            flexDirection: "row",
+            flexDirection: "column",
             justifyContent: "start",
           }}
         >
-          {operationRoutes.map((route) => (
-            <NavItems key={route.path} name={route.name} path={route.path} />
-          ))}
+          <div
+            className="header-ops-category"
+            style={{ flexBasis: "8px", fontSize: "10px" }}
+          >
+            Safety & Quality
+          </div>
+          <div
+            className="header-ops-routes"
+            style={{ display: "flex", flexDirection: "row" }}
+          >
+            {operationRoutes.map((route) => (
+              <NavItems key={route.path} name={route.name} path={route.path} />
+            ))}
+          </div>
         </div>
         <Divider
           type="vertical"
@@ -128,13 +143,24 @@ function Header() {
           className="header-dnt-nav"
           style={{
             display: "flex",
-            flexDirection: "row",
+            flexDirection: "column",
             justifyContent: "start",
           }}
         >
-          {designRoutes.map((route) => (
-            <NavItems key={route.path} name={route.name} path={route.path} />
-          ))}
+          <div
+            className="header-design-category"
+            style={{ flexBasis: "8px", fontSize: "10px" }}
+          >
+            Design
+          </div>
+          <div
+            className="header-design-routes"
+            style={{ display: "flex", flexDirection: "row" }}
+          >
+            {designRoutes.map((route) => (
+              <NavItems key={route.path} name={route.name} path={route.path} />
+            ))}
+          </div>
         </div>
       </HeaderNav>
       <HeaderProfile className="header-profile">Profile</HeaderProfile>

@@ -9,12 +9,14 @@ function App() {
   return (
     <ConfigProvider
       theme={{
+        components: {
+          Table: {
+            cellPaddingBlock: 10,
+          },
+        },
         token: {
-          // Seed Token
           colorPrimary: "#7ab890",
           borderRadius: 6,
-
-          // Alias Token
           colorTextDisabled: "#5b5b5b",
         },
       }}

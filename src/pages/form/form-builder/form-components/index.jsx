@@ -1,7 +1,7 @@
 import React from "react";
 import DynamicTable from "./dynamic-table";
 import StaticTable from "./static-table";
-import QnA from "./Q & A";
+import QnA from "./qna";
 import Notes from "./notes";
 import Signature from "./signature";
 import Stamp from "./stamp";

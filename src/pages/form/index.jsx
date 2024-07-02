@@ -17,8 +17,8 @@ function FormLanding() {
       <NavLayout />
 
       <div
-        className="conditional-builder-or-usage-container"
-        style={{ flex: 11, padding: "6px", boxSizing: "border-box" }}
+        className="builder-container"
+        style={{ padding: "6px", boxSizing: "border-box" }}
       >
         <Outlet />
       </div>

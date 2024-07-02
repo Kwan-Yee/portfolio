@@ -16,8 +16,8 @@ const FormBuilderContainer = styled.div`
   padding: 16px 12px;
   overflow: auto;
   font-family: Roboto, sans-serif;
-  border-radius: 8px;
-  border: 2px solid rgba(0, 0, 0, 0.25);
+  // border-radius: 8px;
+  // border: 2px solid rgba(0, 0, 0, 0.25);
   background-color: #e6e6e6;
   justify-content: center;
   box-sizing: border-box;
@@ -67,7 +67,7 @@ function FormBuilderCanvas() {
           localStorage.setItem(
             id,
             JSON.stringify({ title: "", children: [], id: id })
-          ); 
+          );
         }
       });
       return [...prev, newSectionId];

@@ -5,6 +5,7 @@ import { MdOutlinePublish } from "react-icons/md";
 import { BsArrowsCollapse } from "react-icons/bs";
 import { IoExitOutline } from "react-icons/io5";
 import { useHover } from "@uidotdev/usehooks";
+import { useNavigate } from "react-router-dom";
 
 import { useFormBuilderContext } from "../../context-provider";
 
@@ -12,6 +13,8 @@ function CanvasActions() {
   const [draftButtonRef, hoveringDraft] = useHover();
   const [exitButtonRef, hoveringExit] = useHover();
   const [collapseButtonRef, hoveringCollapse] = useHover();
+
+  const navigate = useNavigate();
 
   const { allSectionCollapse, setAllSectionsCollapse } =
     useFormBuilderContext();
@@ -57,7 +60,7 @@ function CanvasActions() {
               />
             }
             style={{
-              backgroundColor: hoveringDraft
+              backgroundColor: hoveringCollapse
                 ? "rgba(79, 133, 219, 0.8)"
                 : "rgba(79, 133, 219, 1)",
               border: "none",
@@ -110,7 +113,10 @@ function CanvasActions() {
           />
         </Tooltip>
       </div>
-
+      {/* <Tooltip
+        placement="right"
+        title="Exit"
+      > */}
       <Button
         ref={exitButtonRef}
         className="cancel"
@@ -137,7 +143,9 @@ function CanvasActions() {
             }}
           />
         }
-      ></Button>
+        onClick={() => navigate("/permits")}
+      />
+      {/* </Tooltip> */}
     </div>
   );
 }
