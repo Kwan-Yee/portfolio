@@ -3,28 +3,31 @@ import { ConfigProvider } from "antd";
 import CustomRoutes from "./CustomRoutes";
 import { ScheduleProvider } from "./pages/schedule/context-provider";
 import { FormBuilderProvider } from "./pages/form/context-provider";
+import { FullAppProvider } from "./context-provider";
 
 function App() {
   return (
     <ConfigProvider
       theme={{
+        components: {
+          Table: {
+            cellPaddingBlock: 10,
+          },
+        },
         token: {
-          // Seed Token
           colorPrimary: "#7ab890",
           borderRadius: 6,
-
-          // Alias Token
-          colorBgContainer: "none",
-          colorBgMask: "rgba(0, 0, 0, 0.7)",
           colorTextDisabled: "#5b5b5b",
         },
       }}
     >
-      <FormBuilderProvider>
-        <ScheduleProvider>
-          <CustomRoutes />
-        </ScheduleProvider>
-      </FormBuilderProvider>
+      <FullAppProvider>
+        <FormBuilderProvider>
+          <ScheduleProvider>
+            <CustomRoutes />
+          </ScheduleProvider>
+        </FormBuilderProvider>
+      </FullAppProvider>
     </ConfigProvider>
   );
 }

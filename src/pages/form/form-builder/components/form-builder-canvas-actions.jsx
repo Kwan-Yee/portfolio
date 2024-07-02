@@ -1,20 +1,30 @@
-import { Button } from "antd";
+import { Button, Tooltip } from "antd";
 import React from "react";
 import { RiDraftLine } from "react-icons/ri";
 import { MdOutlinePublish } from "react-icons/md";
+import { BsArrowsCollapse } from "react-icons/bs";
 import { IoExitOutline } from "react-icons/io5";
 import { useHover } from "@uidotdev/usehooks";
+import { useNavigate } from "react-router-dom";
+
+import { useFormBuilderContext } from "../../context-provider";
 
 function CanvasActions() {
   const [draftButtonRef, hoveringDraft] = useHover();
   const [exitButtonRef, hoveringExit] = useHover();
+  const [collapseButtonRef, hoveringCollapse] = useHover();
+
+  const navigate = useNavigate();
+
+  const { allSectionCollapse, setAllSectionsCollapse } =
+    useFormBuilderContext();
   return (
     <div
       className="canvas-actions"
       style={{
         position: "sticky",
-        top: "620px",
-        height: "180px",
+        top: "66%",
+        height: "250px",
         marginLeft: "2%",
         width: "auto",
         display: "flex",
@@ -26,53 +36,87 @@ function CanvasActions() {
         className="primary-buttons-container"
         style={{
           width: "100%",
-          height: "50%",
+          height: "58%",
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
         }}
       >
-        <Button
-          ref={draftButtonRef}
-          className="save-as-draft"
-          shape="circle"
-          size="large"
-          icon={
-            <RiDraftLine
-              style={{
-                color: "#ffffff",
-                height: "20px",
-                width: "20px",
-                position: "relative",
-                top: "1px",
-              }}
-            />
-          }
-          style={{
-            backgroundColor: hoveringDraft
-              ? "rgba(79, 133, 219, 0.8)"
-              : "rgba(79, 133, 219, 1)",
-            border: "none",
-          }}
-        />
-        <Button
-          className="publish"
-          shape="circle"
-          size="large"
-          icon={
-            <MdOutlinePublish
-              style={{
-                height: "20px",
-                width: "20px",
-                position: "relative",
-                top: "1px",
-              }}
-            />
-          }
-          type="primary"
-          style={{ border: "none" }}
-        />
+        <Tooltip placement="right" title="Collapse Sections">
+          <Button
+            ref={collapseButtonRef}
+            className="collapse-button"
+            shape="circle"
+            size="large"
+            icon={
+              <BsArrowsCollapse
+                style={{
+                  color: "#ffffff",
+                  height: "20px",
+                  width: "20px",
+                  position: "relative",
+                  top: "1px",
+                }}
+              />
+            }
+            style={{
+              backgroundColor: hoveringCollapse
+                ? "rgba(79, 133, 219, 0.8)"
+                : "rgba(79, 133, 219, 1)",
+              border: "none",
+            }}
+            onClick={() => setAllSectionsCollapse(!allSectionCollapse)}
+          />
+        </Tooltip>
+        <Tooltip placement="right" title="Save as Draft">
+          <Button
+            ref={draftButtonRef}
+            className="save-as-draft"
+            shape="circle"
+            size="large"
+            icon={
+              <RiDraftLine
+                style={{
+                  color: "#ffffff",
+                  height: "20px",
+                  width: "20px",
+                  position: "relative",
+                  top: "1px",
+                }}
+              />
+            }
+            style={{
+              backgroundColor: hoveringDraft
+                ? "rgba(79, 133, 219, 0.8)"
+                : "rgba(79, 133, 219, 1)",
+              border: "none",
+            }}
+          />
+        </Tooltip>
+        <Tooltip placement="right" title="Publish">
+          <Button
+            className="publish"
+            shape="circle"
+            size="large"
+            icon={
+              <MdOutlinePublish
+                style={{
+                  height: "20px",
+                  width: "20px",
+                  position: "relative",
+                  top: "1px",
+                }}
+              />
+            }
+            type="primary"
+            style={{ border: "none" }}
+          />
+        </Tooltip>
       </div>
+      {/* <Tooltip
+        placement="right"
+        title="Exit"
+      > */}
       <Button
         ref={exitButtonRef}
         className="cancel"
@@ -99,7 +143,9 @@ function CanvasActions() {
             }}
           />
         }
-      ></Button>
+        onClick={() => navigate("/permits")}
+      />
+      {/* </Tooltip> */}
     </div>
   );
 }

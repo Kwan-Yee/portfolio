@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 import FormBuilderCanvas from "./components/form-builder-canvas";
-import SidebarComponentList from "./components/sidebar-components-list";
+import SidebarComponentList from "./components/superseded/sidebar-components-list";
 
 const FormBuilderContainer = styled.div`
   display: flex;
@@ -12,12 +12,11 @@ const FormBuilderContainer = styled.div`
 `;
 
 function FormBuilder() {
+  //TODO: Remove sidebar component list
   return (
     <FormBuilderContainer className="form-builder-container">
       <FormBuilderCanvas>canvas</FormBuilderCanvas>
-      <SidebarComponentList className="component-list">
-        components
-      </SidebarComponentList>
+      {/* <SidebarComponentList className="component-list" /> */}
     </FormBuilderContainer>
   );
 }

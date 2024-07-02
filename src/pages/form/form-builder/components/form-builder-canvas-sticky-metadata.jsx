@@ -16,7 +16,7 @@ const metadataListNonEdittable = [
   "Created Date",
   "Last Modified By",
   "Last Modified Date",
-  "Id",
+  "Template Id",
 ];
 
 import styled from "styled-components";

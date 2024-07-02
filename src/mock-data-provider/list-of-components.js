@@ -2,30 +2,27 @@ const listOfComponents = [
   {
     name: "dynamic-table",
     description: "A table that can dynamically increase rows when in use",
-    builder: {
-      fullWidth: true,
-      minColumns: 2,
-      minColumnWidth: "100px",
-      maxColumns: 25,
-      position: "absolute",
-      top: 0,
-      left: 0,
-      width: "100%",
-      height: "100%",
-      containerHeight: "auto",
-    },
-    usage: {
-      fullWidth: true,
-      minColumnWidth: "100px",
-      maxRows: 50,
-      minRows: 1,
-      position: "absolute",
-      top: 0,
-      left: 0,
-      width: "100%",
-      height: "100%",
-      containerHeight: "auto",
-    },
+    id: null,
+  },
+  {
+    name: "static-table",
+    id: null,
+  },
+  {
+    name: "notes",
+    id: null,
+  },
+  {
+    name: "signature",
+    id: null,
+  },
+  {
+    name: "stamp",
+    id: null,
+  },
+  {
+    name: "Q-&-A",
+    id: null,
   },
 ];
 
