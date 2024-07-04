@@ -23,7 +23,7 @@ const NavItemContainer = styled.div`
   text-decoration-thickness: 2px;
 `;
 
-function NavItems({ name, path, selectedRoute }) {
+function NavItems({ name, path }) {
   const navigate = useNavigate();
   const [ref, hovering] = useHover();
 

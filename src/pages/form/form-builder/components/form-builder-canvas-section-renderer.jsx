@@ -50,8 +50,9 @@ function SectionRenderer() {
   const handleDragEnd = ({ active, over }) => {
     console.log("active: ", active);
     console.log("over: ", over);
-    if (active.id !== over?.id) {
-      // console.log("triggered");
+    if (!over) return;
+    if (active.id !== over.id && activeDragComponent?.id.includes("_Section")) {
+      console.log("triggered");
       setSections((prevState) => {
         const activeIndex = prevState.findIndex((i) => i === active?.id);
         console.log("activeIndex:", activeIndex);
@@ -60,6 +61,7 @@ function SectionRenderer() {
         return arrayMove(prevState, activeIndex, overIndex);
       });
     }
+    console.log("triggered");
     // setDragIndex({ active: -1, over: -1 });
   };
 
@@ -90,22 +92,19 @@ function SectionRenderer() {
             strategy={verticalListSortingStrategy}
           >
             {sections.map((section, index) => (
-              <>
-                <SortableSectionItem
-                  key={section}
-                  index={index}
-                  sectionId={section}
-                />
+              <div
+                className="section-parent-container-with-adder"
+                key={section}
+              >
+                <SortableSectionItem index={index} sectionId={section} />
                 <InlineSectionAdder index={index} />
-              </>
+              </div>
             ))}
           </SortableContext>
         </div>
-
         <DragOverlay>
           {/* TODO: pass the dragged section id onto this item */}
           <SortableSectionItem index={1} sectionId={activeDragComponent?.id} />
-          {/* XXXXXXX */}
         </DragOverlay>
       </DndContext>
     </div>

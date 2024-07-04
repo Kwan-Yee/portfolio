@@ -36,7 +36,9 @@ function InlineSectionAdder({ index }) {
       style={{
         height: "3px",
         margin: "7.5px 0px",
-        backgroundColor: hovering ? "rgba(91, 91, 91, 0.5)" : "transparent",
+        backgroundColor: hovering
+          ? "rgba(91, 91, 91, 0.5)"
+          : "rgba(91, 91, 91, 0.1)",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
@@ -45,10 +47,10 @@ function InlineSectionAdder({ index }) {
       onClick={handleSectionAdder}
     >
       <IoMdAdd
-        ref={ref}
+        // ref={ref}
         style={{
           backgroundColor: "white",
-          color: hovering ? "rgba(91, 91, 91, 0.9)" : "transparent",
+          color: hovering ? "rgba(91, 91, 91, 0.9)" : "rgba(91, 91, 91, 0.2)",
         }}
       />
     </div>

@@ -7,6 +7,7 @@ import {
 import { FiMove } from "react-icons/fi";
 import { v4 as uuidv4 } from "uuid";
 import { Divider, Input } from "antd";
+import { DndContext, DragOverlay } from "@dnd-kit/core";
 import { SortableContext, useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { useDebounce } from "@uidotdev/usehooks";
@@ -16,7 +17,7 @@ import { useFormBuilderContext } from "../../context-provider";
 import SortableComponentIndex from "../form-components/sortable-component-index";
 
 function SortableSectionItem({ sectionId, index }) {
-  console.log("sectionId: ", sectionId);
+  // console.log("sectionId: ", sectionId);
   const { setNodeRef, attributes, listeners, transform, transition } =
     useSortable({ id: sectionId });
 
@@ -30,21 +31,10 @@ function SortableSectionItem({ sectionId, index }) {
   );
 
   const currSection = JSON.parse(localStorage.getItem(sectionId));
-  const debouncedSectionHeader = useDebounce(sectionHeader, 300);
-  const handleSectionHeaderChange = (input) => {
-    if (currSection.title === input) return;
-    localStorage.setItem(
-      sectionId,
-      JSON.stringify({ ...currSection, title: input })
-    );
-  };
-
-  useEffect(() => {
-    handleSectionHeaderChange(debouncedSectionHeader);
-  }, [debouncedSectionHeader]);
+  // console.log("currSection: ", currSection);
 
   const handleSectionDelete = () => {
-    console.log("sectionId to delete: ", sectionId);
+    // console.log("sectionId to delete: ", sectionId);
     if (sections.length <= 1) return;
     setSections((prev) => {
       const newSections = [...prev];
@@ -56,7 +46,7 @@ function SortableSectionItem({ sectionId, index }) {
   };
 
   const handleSectionCopy = () => {
-    console.log("sectionId to copy: ", sectionId);
+    // console.log("sectionId to copy: ", sectionId);
 
     //copying section
     const copiedSection = JSON.parse(localStorage.getItem(sectionId));
@@ -90,12 +80,12 @@ function SortableSectionItem({ sectionId, index }) {
 
   //TODO: this should be called from the children of each section
   const componentsInSection = [
-    { type: "static-table", id: 1 },
-    { type: "qna", id: 2 },
-    { type: "dynamic-table", id: 3 },
-    { type: "notes", id: 4 },
-    { type: "signature", id: 5 },
-    { type: "stamp", id: 6 },
+    { type: "static-table", id: `${uuidv4()}_Component` },
+    { type: "qna", id: `${uuidv4()}_Component` },
+    { type: "dynamic-table", id: `${uuidv4()}_Component` },
+    { type: "notes", id: `${uuidv4()}_Component` },
+    { type: "signature", id: `${uuidv4()}_Component` },
+    { type: "stamp", id: `${uuidv4()}_Component` },
   ];
 
   return (
@@ -147,7 +137,15 @@ function SortableSectionItem({ sectionId, index }) {
           maxLength={200}
           allowClear
           value={sectionHeader}
-          onChange={(e) => setSectionHeader(e.target.value)}
+          onChange={(e) =>
+            setSectionHeader(() => {
+              localStorage.setItem(
+                sectionId,
+                JSON.stringify({ ...currSection, title: e.target.value })
+              );
+              return e.target.value;
+            })
+          }
         />
         <MdFileCopy
           style={{ cursor: "pointer", fontSize: "14px" }}
@@ -182,18 +180,21 @@ function SortableSectionItem({ sectionId, index }) {
               gap: "8px",
             }}
           >
-            <SortableContext
-              strategy={verticalListSortingStrategy}
-              items={componentsInSection.map((component) => component.id)}
-            >
-              {componentsInSection.map((component, index) => (
-                <SortableComponentIndex
-                  id={component.id}
-                  type={component.type}
-                  key={index}
-                />
-              ))}
-            </SortableContext>
+            <DndContext>
+              <DragOverlay>XXXX</DragOverlay>
+              <SortableContext
+                strategy={verticalListSortingStrategy}
+                items={componentsInSection}
+              >
+                {componentsInSection.map((component, index) => (
+                  <SortableComponentIndex
+                    id={component.id}
+                    type={component.type}
+                    key={index}
+                  />
+                ))}
+              </SortableContext>
+            </DndContext>
           </div>
         </div>
       )}
@@ -201,4 +202,4 @@ function SortableSectionItem({ sectionId, index }) {
   );
 }
 
-export default SortableSectionItem;
+export default React.memo(SortableSectionItem);

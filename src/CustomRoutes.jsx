@@ -37,7 +37,10 @@ function CustomRoutes() {
         </Route>
         <Route path="/technical-queries">
           <Route index element={<FormRegister />} />
-          <Route path="/technical-queries/builder/:id" element={<FormBuilder />} />
+          <Route
+            path="/technical-queries/builder/:id"
+            element={<FormBuilder />}
+          />
         </Route>
         <Route path="/document" element={<Document />} />
       </Route>
