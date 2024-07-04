@@ -57,22 +57,6 @@ const SectionAdder = styled.div`
  */
 function FormBuilderCanvas() {
   const { setSections } = useFormBuilderContext();
-  const handleSectionAdder = () => {
-    console.log("clicked +");
-    const newSectionId = `${uuidv4()}_Section`;
-    setSections((prev) => {
-      localStorage.setItem("sections", JSON.stringify([...prev, newSectionId]));
-      [...prev, newSectionId].forEach((id) => {
-        if (!localStorage.getItem(id)) {
-          localStorage.setItem(
-            id,
-            JSON.stringify({ title: "", children: [], id: id })
-          );
-        }
-      });
-      return [...prev, newSectionId];
-    });
-  };
   const [ref, hovering] = useHover();
   return (
     <FormBuilderContainer className="form-builder-canvas">
@@ -80,7 +64,7 @@ function FormBuilderCanvas() {
       <FormPaperA4 id="form-paper-A4" className="form-paper-a4">
         <FormHeaderInBuilder />
         <SectionRenderer />
-        <SectionAdder
+        {/* <SectionAdder
           ref={ref}
           style={{
             backgroundColor: hovering ? "rgba(91, 91, 91, 0.3)" : "transparent",
@@ -88,7 +72,7 @@ function FormBuilderCanvas() {
           onClick={handleSectionAdder}
         >
           +
-        </SectionAdder>
+        </SectionAdder> */}
       </FormPaperA4>
       <CanvasActions />
     </FormBuilderContainer>

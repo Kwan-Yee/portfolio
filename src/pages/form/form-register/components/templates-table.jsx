@@ -72,8 +72,8 @@ function TemplatesTable() {
           <Space>
             <a
               onClick={() => {
-                console.log("record: ", record);
-                navigate(`/permits/builder/${record.id}`)``;
+                // console.log("record: ", record);
+                navigate(`/permits/builder/${record.id}`);
               }}
             >
               Edit
@@ -90,7 +90,7 @@ function TemplatesTable() {
               onClick={() => {
                 console.log("record: ", record);
                 //TODO: create new sub form
-                navigate();
+                // navigate();
               }}
             >
               +Sub
@@ -155,7 +155,7 @@ function TemplatesTable() {
               fontWeight: "bold",
               marginTop: "0px",
               borderBottom: "1px solid #5b5b5b",
-              width: "100%",
+              // width: "100%",
             }}
           >
             Main-Forms
