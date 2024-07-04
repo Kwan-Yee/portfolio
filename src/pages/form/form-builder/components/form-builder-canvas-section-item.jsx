@@ -7,11 +7,14 @@ import {
 import { FiMove } from "react-icons/fi";
 import { v4 as uuidv4 } from "uuid";
 import { Divider, Input } from "antd";
-import { DndContext, DragOverlay } from "@dnd-kit/core";
-import { SortableContext, useSortable } from "@dnd-kit/sortable";
+import { DndContext, DragOverlay, closestCenter } from "@dnd-kit/core";
+import {
+  SortableContext,
+  useSortable,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { useDebounce } from "@uidotdev/usehooks";
-import { verticalListSortingStrategy } from "@dnd-kit/sortable";
+import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
 
 import { useFormBuilderContext } from "../../context-provider";
 import SortableComponentIndex from "../form-components/sortable-component-index";
@@ -180,7 +183,10 @@ function SortableSectionItem({ sectionId, index }) {
               gap: "8px",
             }}
           >
-            <DndContext>
+            <DndContext
+              modifiers={[restrictToVerticalAxis]}
+              collisionDetection={closestCenter}
+            >
               <DragOverlay>XXXX</DragOverlay>
               <SortableContext
                 strategy={verticalListSortingStrategy}

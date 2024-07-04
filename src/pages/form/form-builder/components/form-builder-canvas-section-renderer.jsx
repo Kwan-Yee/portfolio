@@ -103,7 +103,6 @@ function SectionRenderer() {
           </SortableContext>
         </div>
         <DragOverlay>
-          {/* TODO: pass the dragged section id onto this item */}
           <SortableSectionItem index={1} sectionId={activeDragComponent?.id} />
         </DragOverlay>
       </DndContext>
