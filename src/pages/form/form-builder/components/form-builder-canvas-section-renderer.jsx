@@ -9,9 +9,11 @@ import {
   arrayMove,
 } from "@dnd-kit/sortable";
 import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
+import InlineSectionAdder from "./form-builder-canvas-section-adder";
 
 function SectionRenderer() {
-  const { sections, setSections } = useFormBuilderContext();
+  const { sections, setSections, activeDragComponent, setActiveDragComponent } =
+    useFormBuilderContext();
 
   const [dragIndex, setDragIndex] = useState(null);
 
@@ -23,37 +25,33 @@ function SectionRenderer() {
 
   sections.forEach((id) => {
     if (!localStorage.getItem(id))
-      localStorage.setItem(id, JSON.stringify({ title: "", children: [] }));
+      localStorage.setItem(
+        id,
+        JSON.stringify({ title: "", children: [], id: id })
+      );
   });
 
   const handleDragStart = ({ active }) => {
     console.log("active: ", active);
+    setActiveDragComponent(active);
     // setDragIndex(event.active.id);
   };
-
-  // const handleDragOver = ({ active, over }) => {
-  //   const activeIndex = columns.findIndex((i) => i.key === active.id);
-  //   const overIndex = columns.findIndex((i) => i.key === over?.id);
-  // setDragIndex({
-  //   active: active.id,
-  //   over: over?.id,
-  //   direction: overIndex > activeIndex ? "right" : "left",
-  // });
-  // };
 
   const handleDragEnd = ({ active, over }) => {
     console.log("active: ", active);
     console.log("over: ", over);
-    if (active.id !== over?.id) {
-      // console.log("triggered");
-      setSections((prevState) => {
-        const activeIndex = prevState.findIndex((i) => i === active?.id);
-        console.log("activeIndex:", activeIndex);
-        const overIndex = prevState.findIndex((i) => i === over?.id);
-        console.log("overIndex:", overIndex);
-        return arrayMove(prevState, activeIndex, overIndex);
-      });
+    if (!over) return;
+    if (active.id !== over.id && activeDragComponent?.id.includes("_Section")) {
+      console.log("triggered");
+      // setSections((prevState) => {
+      //   const activeIndex = prevState.findIndex((i) => i === active?.id);
+      //   console.log("activeIndex:", activeIndex);
+      //   const overIndex = prevState.findIndex((i) => i === over?.id);
+      //   console.log("overIndex:", overIndex);
+      //   return arrayMove(prevState, activeIndex, overIndex);
+      // });    
     }
+    // console.log("triggered");
     // setDragIndex({ active: -1, over: -1 });
   };
 
@@ -71,32 +69,26 @@ function SectionRenderer() {
       <DndContext
         modifiers={[restrictToVerticalAxis]}
         collisionDetection={closestCenter}
-        // onDragOver={handleDragOver}
         onDragStart={handleDragStart}
         onDragEnd={handleDragEnd}
       >
         <div
           className="sections-container"
-          style={{ display: "flex", flexDirection: "column", gap: "8px" }}
+          style={{ display: "flex", flexDirection: "column" }}
         >
-          <SortableContext
-            items={sections}
-            strategy={verticalListSortingStrategy}
-          >
             {sections.map((section, index) => (
-              <SortableSectionItem
+              <div
+                className="section-parent-container-with-adder"
                 key={section}
-                index={index}
-                sectionId={section}
-              />
+              >
+                <SortableSectionItem index={index} sectionId={section} />
+                <InlineSectionAdder index={index} />
+              </div>
             ))}
-          </SortableContext>
         </div>
-
         <DragOverlay>
-          {/* TODO: pass the dragged section id onto this item */}
-          {/* <SectionItem index={null} sectionId={null} /> */}
-          XXXXXXX
+          xxxx
+          {/* <SortableSectionItem index={1} sectionId={activeDragComponent?.id} /> */}
         </DragOverlay>
       </DndContext>
     </div>

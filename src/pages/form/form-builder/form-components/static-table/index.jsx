@@ -4,7 +4,7 @@ import { Table, Input } from "antd";
 const baseColumns = [];
 
 function StaticTable() {
-  const [dragIndex, setDragIndex] = useState({ active: -1, over: -1 });
+  // const [dragIndex, setDragIndex] = useState({ active: -1, over: -1 });
   return (
     <div
       style={{
@@ -22,7 +22,7 @@ function StaticTable() {
         placeholder="Table header"
         addonBefore="Static Table Header"
       />
-      <Table style={{}} />
+      <Table style={{}} pagination={false} />
       <div
         style={{
           display: "flex",

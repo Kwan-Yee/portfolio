@@ -4,7 +4,7 @@ import React from "react";
 function RecordTable() {
     
   return (
-    <div className="record-table container">
+    <div className="record-table-container">
       <Table />
     </div>
   );
