@@ -10,6 +10,7 @@ import {
 } from "@dnd-kit/sortable";
 import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
 import InlineSectionAdder from "./form-builder-canvas-section-adder";
+import SortableComponentIndex from "../form-components/sortable-component-index";
 
 function SectionRenderer() {
   const { sections, setSections, activeDragComponent, setActiveDragComponent } =
@@ -49,7 +50,7 @@ function SectionRenderer() {
       //   const overIndex = prevState.findIndex((i) => i === over?.id);
       //   console.log("overIndex:", overIndex);
       //   return arrayMove(prevState, activeIndex, overIndex);
-      // });    
+      // });
     }
     // console.log("triggered");
     // setDragIndex({ active: -1, over: -1 });
@@ -76,19 +77,18 @@ function SectionRenderer() {
           className="sections-container"
           style={{ display: "flex", flexDirection: "column" }}
         >
-            {sections.map((section, index) => (
-              <div
-                className="section-parent-container-with-adder"
-                key={section}
-              >
-                <SortableSectionItem index={index} sectionId={section} />
-                <InlineSectionAdder index={index} />
-              </div>
-            ))}
+          {sections.map((section, index) => (
+            <div className="section-parent-container-with-adder" key={section}>
+              <SortableSectionItem index={index} sectionId={section} />
+              <InlineSectionAdder index={index} />
+            </div>
+          ))}
         </div>
         <DragOverlay>
-          xxxx
-          {/* <SortableSectionItem index={1} sectionId={activeDragComponent?.id} /> */}
+          {/* xxxx */}
+          <SortableComponentIndex
+            type={activeDragComponent?.data.current.type}
+          />
         </DragOverlay>
       </DndContext>
     </div>

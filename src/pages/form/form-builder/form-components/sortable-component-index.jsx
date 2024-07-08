@@ -9,6 +9,7 @@ function SortableComponentIndex({ type, id, index, parent }) {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({
       id: id,
+      data: { type: type },
     });
 
   const handleRemoveComp = () => {
