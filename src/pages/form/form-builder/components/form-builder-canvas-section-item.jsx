@@ -4,27 +4,23 @@ import {
   MdOutlineDelete,
   MdFileCopy,
 } from "react-icons/md";
-import { FiMove } from "react-icons/fi";
+import { IoMdArrowRoundUp, IoMdArrowRoundDown } from "react-icons/io";
 import { v4 as uuidv4 } from "uuid";
 import { Divider, Input } from "antd";
-import { DndContext, DragOverlay, closestCenter } from "@dnd-kit/core";
 import {
   SortableContext,
-  useSortable,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
-import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
 
 import { useFormBuilderContext } from "../../context-provider";
 import SortableComponentIndex from "../form-components/sortable-component-index";
+import CompAdder from "./form-builder-canvas-comp-adder";
 
 function SortableSectionItem({ sectionId, index }) {
   // console.log("sectionId: ", sectionId);
-  const { setNodeRef, attributes, listeners, transform, transition } =
-    useSortable({ id: sectionId });
 
-  const [isCollapse, setisCollapse] = useState(true);
+  //TODO: Change initial collapse back to true when comp adder done
+  const [isCollapse, setisCollapse] = useState(false);
   const { sections, setSections, allSectionsCollapse, setAllSectionsCollapse } =
     useFormBuilderContext();
   const [sectionHeader, setSectionHeader] = useState(
@@ -54,6 +50,14 @@ function SortableSectionItem({ sectionId, index }) {
     //copying section
     const copiedSection = JSON.parse(localStorage.getItem(sectionId));
 
+    //replace the ids of children with new ids
+    copiedSection.children.map((child) => {
+      const newChildId = `${uuidv4()}_Comp`;
+      child.id = newChildId;
+      return copiedSection;
+    });
+    console.log("updatedChildren: ", copiedSection);
+
     // update copied section Id
     const updatedCopy = { ...copiedSection, id: `${uuidv4()}_Section` };
 
@@ -79,17 +83,34 @@ function SortableSectionItem({ sectionId, index }) {
 
   useEffect(() => {
     if (allSectionsCollapse) setisCollapse(true);
+    return;
   }, [allSectionsCollapse]);
 
-  //TODO: this should be called from the children of each section
-  const componentsInSection = [
-    { type: "static-table", id: `${uuidv4()}_Component` },
-    { type: "qna", id: `${uuidv4()}_Component` },
-    { type: "dynamic-table", id: `${uuidv4()}_Component` },
-    { type: "notes", id: `${uuidv4()}_Component` },
-    { type: "signature", id: `${uuidv4()}_Component` },
-    { type: "stamp", id: `${uuidv4()}_Component` },
-  ];
+  const [compsToRender, setCompsToRender] = useState(
+    localStorage.getItem(sectionId)
+      ? JSON.parse(localStorage.getItem(sectionId)).children
+      : []
+  );
+
+  const handleSectionMovement = (direction) => {
+    if (direction === "up") {
+      if (index === 0) return;
+      setSections((prev) => {
+        const newSections = [...prev];
+        newSections.splice(index - 1, 0, newSections.splice(index, 1)[0]);
+        localStorage.setItem("sections", JSON.stringify(newSections));
+        return newSections;
+      });
+    } else if (direction === "down") {
+      if (index === sections.length - 1) return;
+      setSections((prev) => {
+        const newSections = [...prev];
+        newSections.splice(index + 1, 0, newSections.splice(index, 1)[0]);
+        localStorage.setItem("sections", JSON.stringify(newSections));
+        return newSections;
+      });
+    }
+  };
 
   return (
     <div
@@ -100,14 +121,7 @@ function SortableSectionItem({ sectionId, index }) {
         padding: "8px",
         boxSizing: "border-box",
         backgroundColor: "rgba(0, 0, 0, 0.05)",
-        transform: CSS.Transform.toString({
-          ...transform,
-          scaleX: 1,
-          scaleY: 1,
-        }),
-        transition,
       }}
-      ref={setNodeRef}
     >
       <div
         className="section-header"
@@ -163,45 +177,50 @@ function SortableSectionItem({ sectionId, index }) {
           onClick={handleSectionDelete}
         />
         <Divider type="vertical" style={{ margin: "0px 4px" }} />
-        <FiMove style={{ cursor: "move" }} {...attributes} {...listeners} />
+        {/* <FiMove style={{ cursor: "move" }} {...attributes} {...listeners} /> */}
+        <IoMdArrowRoundUp
+          style={{ cursor: "pointer" }}
+          onClick={() => handleSectionMovement("up")}
+        />
+        <IoMdArrowRoundDown
+          style={{ cursor: "pointer" }}
+          onClick={() => handleSectionMovement("down")}
+        />
       </div>
       {!isSectionCollapsed && (
         <div
           className="section-content"
           style={{
-            paddingTop: "8px",
+            padding: "8px",
             display: "flex",
             flexDirection: "column",
-            gap: "2px",
+            gap: "8px",
           }}
         >
-          <div
-            className="section-content-render-container"
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              gap: "8px",
-            }}
+          <SortableContext
+            strategy={verticalListSortingStrategy}
+            items={compsToRender}
           >
-            <DndContext
-              modifiers={[restrictToVerticalAxis]}
-              collisionDetection={closestCenter}
+            <div
+              className="rendered-components"
+              style={{ display: "flex", flexDirection: "column", gap: "8px" }}
             >
-              <DragOverlay>XXXX</DragOverlay>
-              <SortableContext
-                strategy={verticalListSortingStrategy}
-                items={componentsInSection}
-              >
-                {componentsInSection.map((component, index) => (
+              {compsToRender.length > 0 &&
+                compsToRender.map((component, index) => (
                   <SortableComponentIndex
                     id={component.id}
                     type={component.type}
+                    index={index}
                     key={index}
+                    parent={sectionId}
                   />
                 ))}
-              </SortableContext>
-            </DndContext>
-          </div>
+            </div>
+            <CompAdder
+              setCompsToRender={setCompsToRender}
+              parentSection={sectionId}
+            />
+          </SortableContext>
         </div>
       )}
     </div>

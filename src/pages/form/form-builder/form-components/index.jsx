@@ -5,6 +5,7 @@ import QnA from "./qna";
 import Notes from "./notes";
 import Signature from "./signature";
 import Stamp from "./stamp";
+import RefImage from "./ref-image";
 
 /**
  *
@@ -18,6 +19,7 @@ function ComponentsIndex({ type }) {
   if (type === "notes") return <Notes />;
   if (type === "signature") return <Signature />;
   if (type === "stamp") return <Stamp />;
+  if (type === "ref-image") return <RefImage />;
   return <div>ComponentsIndex</div>;
 }
 

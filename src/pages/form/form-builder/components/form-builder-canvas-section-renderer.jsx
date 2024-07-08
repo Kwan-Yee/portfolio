@@ -37,31 +37,21 @@ function SectionRenderer() {
     // setDragIndex(event.active.id);
   };
 
-  // const handleDragOver = ({ active, over }) => {
-  //   const activeIndex = columns.findIndex((i) => i.key === active.id);
-  //   const overIndex = columns.findIndex((i) => i.key === over?.id);
-  // setDragIndex({
-  //   active: active.id,
-  //   over: over?.id,
-  //   direction: overIndex > activeIndex ? "right" : "left",
-  // });
-  // };
-
   const handleDragEnd = ({ active, over }) => {
     console.log("active: ", active);
     console.log("over: ", over);
     if (!over) return;
     if (active.id !== over.id && activeDragComponent?.id.includes("_Section")) {
       console.log("triggered");
-      setSections((prevState) => {
-        const activeIndex = prevState.findIndex((i) => i === active?.id);
-        console.log("activeIndex:", activeIndex);
-        const overIndex = prevState.findIndex((i) => i === over?.id);
-        console.log("overIndex:", overIndex);
-        return arrayMove(prevState, activeIndex, overIndex);
-      });
+      // setSections((prevState) => {
+      //   const activeIndex = prevState.findIndex((i) => i === active?.id);
+      //   console.log("activeIndex:", activeIndex);
+      //   const overIndex = prevState.findIndex((i) => i === over?.id);
+      //   console.log("overIndex:", overIndex);
+      //   return arrayMove(prevState, activeIndex, overIndex);
+      // });    
     }
-    console.log("triggered");
+    // console.log("triggered");
     // setDragIndex({ active: -1, over: -1 });
   };
 
@@ -79,7 +69,6 @@ function SectionRenderer() {
       <DndContext
         modifiers={[restrictToVerticalAxis]}
         collisionDetection={closestCenter}
-        // onDragOver={handleDragOver}
         onDragStart={handleDragStart}
         onDragEnd={handleDragEnd}
       >
@@ -87,10 +76,6 @@ function SectionRenderer() {
           className="sections-container"
           style={{ display: "flex", flexDirection: "column" }}
         >
-          <SortableContext
-            items={sections}
-            strategy={verticalListSortingStrategy}
-          >
             {sections.map((section, index) => (
               <div
                 className="section-parent-container-with-adder"
@@ -100,10 +85,10 @@ function SectionRenderer() {
                 <InlineSectionAdder index={index} />
               </div>
             ))}
-          </SortableContext>
         </div>
         <DragOverlay>
-          <SortableSectionItem index={1} sectionId={activeDragComponent?.id} />
+          xxxx
+          {/* <SortableSectionItem index={1} sectionId={activeDragComponent?.id} /> */}
         </DragOverlay>
       </DndContext>
     </div>

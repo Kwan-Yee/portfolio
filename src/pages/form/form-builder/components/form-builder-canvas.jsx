@@ -9,6 +9,7 @@ import FormHeaderInBuilder from "./form-builder-canvas-header";
 import StickyMetadata from "./form-builder-canvas-sticky-metadata";
 import CanvasActions from "./form-builder-canvas-actions";
 import { useFormBuilderContext } from "../../context-provider";
+import FormFooterInBuilder from "./form-builder-canvas-footer";
 
 const FormBuilderContainer = styled.div`
   display: flex;
@@ -29,26 +30,10 @@ const FormPaperA4 = styled.div`
   padding: 6px 8px;
   background-color: #ffffff;
   border: 1px solid rgba(0, 0, 0, 0.4);
-  min-height: 70.7vw;
+  min-height: 94.7vw;
   height: max-content;
-  width: 50vw;
+  width: 67vw;
   box-sizing: border-box;
-`;
-
-const SectionAdder = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  flex-basis: 46px;
-  font-size: 24px;
-  color: rgba(0, 0, 0, 0.4);
-  border: 2px dashed rgba(0, 0, 0, 0.4);
-  border-radius: 8px;
-  cursor: pointer;
-  box-sizing: border-box;
-  margin-top: 10px;
-  flex-shrink: 0;
 `;
 
 /**
@@ -56,23 +41,13 @@ const SectionAdder = styled.div`
  * @returns A canvas that contains a paper-like component providing preview of components being included for the form.
  */
 function FormBuilderCanvas() {
-  const { setSections } = useFormBuilderContext();
-  const [ref, hovering] = useHover();
   return (
     <FormBuilderContainer className="form-builder-canvas">
       <StickyMetadata />
       <FormPaperA4 id="form-paper-A4" className="form-paper-a4">
         <FormHeaderInBuilder />
         <SectionRenderer />
-        {/* <SectionAdder
-          ref={ref}
-          style={{
-            backgroundColor: hovering ? "rgba(91, 91, 91, 0.3)" : "transparent",
-          }}
-          onClick={handleSectionAdder}
-        >
-          +
-        </SectionAdder> */}
+        <FormFooterInBuilder />
       </FormPaperA4>
       <CanvasActions />
     </FormBuilderContainer>
