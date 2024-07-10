@@ -1,4 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, {
+  useEffect,
+  useImperativeHandle,
+  useState,
+  forwardRef,
+} from "react";
 import {
   MdOutlineExpandMore,
   MdOutlineDelete,
@@ -16,8 +21,10 @@ import { useFormBuilderContext } from "../../context-provider";
 import SortableComponentIndex from "../form-components/sortable-component-index";
 import CompAdder from "./form-builder-canvas-comp-adder";
 
-function SortableSectionItem({ sectionId, index }) {
-  // console.log("sectionId: ", sectionId);
+const SortableSectionItem = forwardRef((props, ref) => {
+  // console.log("props: ", props);
+  const sectionId = props.sectionId;
+  const index = props.index;
 
   //TODO: Change initial collapse back to true when comp adder done
   const [isCollapse, setisCollapse] = useState(false);
@@ -91,6 +98,10 @@ function SortableSectionItem({ sectionId, index }) {
       ? JSON.parse(localStorage.getItem(sectionId)).children
       : []
   );
+
+  useImperativeHandle(ref, () => ({
+    setCompsToRender,
+  }));
 
   const handleSectionMovement = (direction) => {
     if (direction === "up") {
@@ -225,6 +236,6 @@ function SortableSectionItem({ sectionId, index }) {
       )}
     </div>
   );
-}
+});
 
 export default React.memo(SortableSectionItem);

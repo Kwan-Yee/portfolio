@@ -1,5 +1,5 @@
 import { DndContext, DragOverlay, closestCenter } from "@dnd-kit/core";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 
 import { useFormBuilderContext } from "../../context-provider";
 import SortableSectionItem from "./form-builder-canvas-section-item";
@@ -16,7 +16,7 @@ function SectionRenderer() {
   const { sections, setSections, activeDragComponent, setActiveDragComponent } =
     useFormBuilderContext();
 
-  const [dragIndex, setDragIndex] = useState(null);
+  const sectionRefs = useRef([]);
 
   const localStorageSections = JSON.parse(localStorage.getItem("sections"));
 
@@ -42,18 +42,30 @@ function SectionRenderer() {
     console.log("active: ", active);
     console.log("over: ", over);
     if (!over) return;
-    if (active.id !== over.id && activeDragComponent?.id.includes("_Section")) {
+    if (active.id !== over.id) {
       console.log("triggered");
-      // setSections((prevState) => {
-      //   const activeIndex = prevState.findIndex((i) => i === active?.id);
-      //   console.log("activeIndex:", activeIndex);
-      //   const overIndex = prevState.findIndex((i) => i === over?.id);
-      //   console.log("overIndex:", overIndex);
-      //   return arrayMove(prevState, activeIndex, overIndex);
-      // });
+      const indexOfCurrSection = sections.indexOf(active.data.current.parent);
+      console.log(sectionRefs.current, indexOfCurrSection);
+      sectionRefs.current[indexOfCurrSection].setCompsToRender((prevState) => {
+        // console.log("prevState: ", prevState);
+        const activeIndex = prevState.findIndex((i) => i.id === active?.id);
+        // console.log("activeIndex:", activeIndex);
+        const overIndex = prevState.findIndex((i) => i.id === over?.id);
+        // console.log("overIndex:", overIndex);
+
+        const oldData = JSON.parse(
+          localStorage.getItem(active.data.current.parent)
+        );
+
+        oldData.children = arrayMove(oldData.children, activeIndex, overIndex);
+
+        localStorage.setItem(
+          active.data.current.parent,
+          JSON.stringify(oldData)
+        );
+        return arrayMove(prevState, activeIndex, overIndex);
+      });
     }
-    // console.log("triggered");
-    // setDragIndex({ active: -1, over: -1 });
   };
 
   //FIXME: Sortable sections cannot drag
@@ -79,7 +91,11 @@ function SectionRenderer() {
         >
           {sections.map((section, index) => (
             <div className="section-parent-container-with-adder" key={section}>
-              <SortableSectionItem index={index} sectionId={section} />
+              <SortableSectionItem
+                index={index}
+                sectionId={section}
+                ref={(el) => (sectionRefs.current[index] = el)}
+              />
               <InlineSectionAdder index={index} />
             </div>
           ))}

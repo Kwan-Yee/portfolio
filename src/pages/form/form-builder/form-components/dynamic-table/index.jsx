@@ -1,6 +1,7 @@
-import React, { useState } from "react";
-import { Divider, Input, Select, Table } from "antd";
+import React, { useEffect, useRef, useState } from "react";
+import { Divider, Input, Select, Table, Tooltip } from "antd";
 import { v4 as uuidv4 } from "uuid";
+import { MdAddCircleOutline } from "react-icons/md";
 
 import DetailsCell from "./details";
 import Preview from "./preview";
@@ -8,12 +9,12 @@ import Preview from "./preview";
 function DynamicTable() {
   const [columnsTBDefined, setColumnsTBDefined] = useState([
     {
-      title: <Input size="middle" placeholder="Header" />,
+      // title: <Input size="middle" placeholder="Header" />,
       dataIndex: "column1",
       key: `${uuidv4()}_dcol`,
     },
     {
-      title: <Input size="middle" placeholder="Header" />,
+      // title: <Input size="middle" placeholder="Header" />,
       dataIndex: "column2",
       key: `${uuidv4()}_dcol`,
     },
@@ -31,13 +32,13 @@ function DynamicTable() {
     { value: "textarea", label: "Textarea" },
   ];
 
-  const data = [
+  const [data, setData] = useState([
     {
       key: "input-type",
       column1: "input-type",
       column2: "input-type",
     },
-  ];
+  ]);
 
   return (
     <div
@@ -57,11 +58,40 @@ function DynamicTable() {
         addonBefore="Dynamic Table Header"
       />
       <Table
+        // ref={tableRef}
         pagination={false}
         style={{ marginBottom: "10px" }}
         columns={columnsTBDefined}
         dataSource={data}
         components={{
+          header: {
+            cell: () => {
+              return (
+                <th onClick={(e) => console.log("clicked: ", e)}>
+                  <div
+                    className="column-header-indiv-container"
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "4px",
+                    }}
+                  >
+                    <Input
+                      id={`${uuidv4()}_dyn_header`}
+                      size="middle"
+                      placeholder="Header"
+                      onClick={(e) => e.stopPropagation()}
+                    />
+                    <MdAddCircleOutline
+                      onClick={(e) => console.log(e)}
+                      style={{ cursor: "pointer", color: "rgba(0,0,0,0.3)" }}
+                      size={18}
+                    />
+                  </div>
+                </th>
+              );
+            },
+          },
           body: {
             cell: () => {
               // console.log("props: ", props);
@@ -86,7 +116,7 @@ function DynamicTable() {
           },
         }}
       />
-      <div
+      {/* <div
         style={{
           display: "flex",
           flexDirection: "row",
@@ -99,7 +129,7 @@ function DynamicTable() {
           addonBefore="Define Number of Columns"
           style={{ width: "32%" }}
         />
-      </div>
+      </div> */}
     </div>
   );
 }
