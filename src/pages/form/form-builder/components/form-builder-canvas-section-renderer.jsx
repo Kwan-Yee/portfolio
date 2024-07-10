@@ -45,7 +45,7 @@ function SectionRenderer() {
     if (active.id !== over.id) {
       console.log("triggered");
       const indexOfCurrSection = sections.indexOf(active.data.current.parent);
-      console.log(sectionRefs.current, indexOfCurrSection);
+      // console.log(sectionRefs.current, indexOfCurrSection);
       sectionRefs.current[indexOfCurrSection].setCompsToRender((prevState) => {
         // console.log("prevState: ", prevState);
         const activeIndex = prevState.findIndex((i) => i.id === active?.id);

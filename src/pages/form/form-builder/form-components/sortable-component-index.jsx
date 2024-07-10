@@ -4,7 +4,7 @@ import ComponentsIndex from "../form-components";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 
-function SortableComponentIndex({ type, id, index, parent }) {
+function SortableComponentIndex({ type, id, index, parent, setCompsToRender }) {
   // console.log("id: ", id);
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({
@@ -12,8 +12,17 @@ function SortableComponentIndex({ type, id, index, parent }) {
       data: { type: type, parent: parent },
     });
 
-  const handleRemoveComp = () => {
-    console.log("triggered");
+  const handleRemoveComp = (index) => {
+    console.log("compIndex: ", index);
+    setCompsToRender((prevState) => {
+      const newState = [...prevState];
+      newState.splice(index, 1);
+
+      const section = JSON.parse(localStorage.getItem(parent));
+      section.children = newState;
+      localStorage.setItem(parent, JSON.stringify(section));
+      return newState;
+    });
   };
   return (
     <div

@@ -224,6 +224,7 @@ const SortableSectionItem = forwardRef((props, ref) => {
                     index={index}
                     key={index}
                     parent={sectionId}
+                    setCompsToRender={setCompsToRender}
                   />
                 ))}
             </div>
