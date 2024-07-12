@@ -56,7 +56,7 @@ function SelectDetail() {
           <Input
             size="small"
             placeholder={`Selection ${index + 1}`}
-            addonBefore={`Option ${index + 1}`}
+            addonBefore={`${index + 1}`}
           />
           <MdAdd
             style={{ cursor: "pointer" }}

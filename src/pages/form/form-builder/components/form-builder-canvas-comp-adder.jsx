@@ -3,14 +3,57 @@ import { v4 as uuidv4 } from "uuid";
 
 function CompAdder({ setCompsToRender, parentSection }) {
   const componentsInSection = [
-    { type: "static-table" },
-    { type: "qna" },
-    { type: "dynamic-table" },
-    { type: "notes" },
-    { type: "signature" },
-    { type: "stamp" },
-    { type: "ref-image" },
+    {
+      type: "static-table",
+      newObj: {
+        header: null,
+        specs: {
+          header: null,
+          columnHeaders: [
+            { id: "c1", header: null },
+            { id: "c2", header: null },
+          ],
+          specs: {
+            c1: { width: null, inputType: null, details: null },
+            c2: { width: null, inputType: null, details: null },
+          },
+          rows: 2,
+        },
+      },
+    },
+    {
+      type: "qna",
+      newObj: {
+        header: null,
+        specs: { details: null },
+      },
+    },
+    {
+      type: "dynamic-table",
+      newObj: {
+        header: null,
+        columnHeaders: [
+          { id: "c1", header: null },
+          { id: "c2", header: null },
+        ],
+        specs: {
+          c1: { width: null, inputType: null, details: null },
+          c2: { width: null, inputType: null, details: null },
+        },
+      },
+    },
+    {
+      type: "notes",
+      newObj: {
+        header: null,
+        notes: null,
+      },
+    },
+    { type: "signature", newObj: { header: null, notes: null } },
+    { type: "stamp", newObj: { header: null, notes: null } },
+    { type: "ref-image", newObj: { header: null, notes: null } },
   ];
+
   return (
     <div
       className="comp-adder-container"
@@ -31,7 +74,11 @@ function CompAdder({ setCompsToRender, parentSection }) {
           onClick={() => {
             console.log("comp: ", comp);
             setCompsToRender((prev) => {
+              if (prev.length >= 12) {
+                return [...prev];
+              }
               const compId = `${uuidv4()}_Comp`;
+
               //save to LS
               const section = JSON.parse(localStorage.getItem(parentSection));
               const newSection = {
@@ -42,7 +89,8 @@ function CompAdder({ setCompsToRender, parentSection }) {
                 ],
               };
               localStorage.setItem(parentSection, JSON.stringify(newSection));
-              return [...prev, { type: comp.type, id: `${uuidv4()}_` }];
+              localStorage.setItem(compId, JSON.stringify(comp.newObj));
+              return [...prev, { type: comp.type, id: compId }];
             });
           }}
           style={{

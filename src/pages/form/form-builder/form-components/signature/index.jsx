@@ -1,7 +1,23 @@
 import { Input } from "antd";
-import React from "react";
+import React, { useState } from "react";
 
-function Signature() {
+function Signature({ compId }) {
+  const [sigCompState, setSigCompState] = useState(
+    localStorage.getItem(compId)
+      ? JSON.parse(localStorage.getItem(compId))
+      : null
+  );
+  const handleSignInput = (value, modifiedInput) => {
+    setSigCompState((prev) => {
+      return { ...prev, [modifiedInput]: value };
+    });
+    console.log(value);
+    const item = JSON.parse(localStorage.getItem(compId));
+    if (!item) return;
+    if (modifiedInput === "header") item.header = value;
+    if (modifiedInput === "notes") item.notes = value;
+    localStorage.setItem(compId, JSON.stringify(item));
+  };
   return (
     <div
       style={{
@@ -14,7 +30,12 @@ function Signature() {
         padding: "4px",
       }}
     >
-      <Input placeholder="Signature header" addonBefore="Signature Header" />
+      <Input
+        placeholder="Signature header"
+        addonBefore="Signature Header"
+        value={sigCompState?.header}
+        onChange={(e) => handleSignInput(e.target.value, "header")}
+      />
       <div
         style={{
           display: "flex",
@@ -23,7 +44,12 @@ function Signature() {
           justifyContent: "space-between",
         }}
       >
-        <Input.TextArea placeholder="Signature note" style={{ flex: 2 }} />
+        <Input.TextArea
+          placeholder="Signature note"
+          style={{ flex: 2 }}
+          value={sigCompState?.notes}
+          onChange={(e) => handleSignInput(e.target.value, "notes")}
+        />
         <div
           style={{
             flex: 1,

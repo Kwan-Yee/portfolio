@@ -99,6 +99,8 @@ const SortableSectionItem = forwardRef((props, ref) => {
       : []
   );
 
+  console.log("compsToRender: ", compsToRender);
+
   useImperativeHandle(ref, () => ({
     setCompsToRender,
   }));

@@ -16,11 +16,15 @@ function SortableComponentIndex({ type, id, index, parent, setCompsToRender }) {
     console.log("compIndex: ", index);
     setCompsToRender((prevState) => {
       const newState = [...prevState];
-      newState.splice(index, 1);
+      // console.log("newstate: ", newState);
+      const idRemoved = newState.splice(index, 1);
+      console.log("idRemoved: ", idRemoved[0]);
 
       const section = JSON.parse(localStorage.getItem(parent));
       section.children = newState;
+
       localStorage.setItem(parent, JSON.stringify(section));
+      localStorage.removeItem(idRemoved[0].id);
       return newState;
     });
   };
@@ -42,12 +46,15 @@ function SortableComponentIndex({ type, id, index, parent, setCompsToRender }) {
       }}
       ref={setNodeRef}
     >
-      <ComponentsIndex key={id} type={type} />
+      <ComponentsIndex key={index} type={type} compId={id} />
       <div
         className="close-and-drag"
         style={{ display: "flex", flexDirection: "column", gap: "22px" }}
       >
-        <MdClose style={{ cursor: "pointer" }} onClick={handleRemoveComp} />
+        <MdClose
+          style={{ cursor: "pointer" }}
+          onClick={() => handleRemoveComp(index)}
+        />
         <MdOutlineDragIndicator
           {...attributes}
           {...listeners}

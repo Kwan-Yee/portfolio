@@ -8,7 +8,12 @@ function DetailsCell({ selectedInputType }) {
     //TODO: Define width of column, and other definitions relevant to the selected input type
     <div
       className="input-type-details-container"
-      style={{ display: "flex", flexDirection: "column", gap: "2px" }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        gap: "2px",
+        flexBasis: "48px",
+      }}
     >
       Details:
       <Input size="small" placeholder="30px" addonBefore="Width" />

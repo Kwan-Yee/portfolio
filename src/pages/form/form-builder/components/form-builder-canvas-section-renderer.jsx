@@ -68,8 +68,6 @@ function SectionRenderer() {
     }
   };
 
-  //FIXME: Sortable sections cannot drag
-
   return (
     <div
       className="section-canvas"

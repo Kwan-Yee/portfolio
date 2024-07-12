@@ -1,7 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import { Input } from "antd";
 
-function Stamp() {
+function Stamp({ compId }) {
+  const [stampCompState, setStampCompState] = useState(
+    localStorage.getItem(compId)
+      ? JSON.parse(localStorage.getItem(compId))
+      : null
+  );
+  const handleStampInput = (value, modifiedInput) => {
+    setStampCompState((prev) => {
+      return { ...prev, [modifiedInput]: value };
+    });
+    console.log(value);
+    const item = JSON.parse(localStorage.getItem(compId));
+    if (!item) return;
+    if (modifiedInput === "header") item.header = value;
+    if (modifiedInput === "notes") item.notes = value;
+    localStorage.setItem(compId, JSON.stringify(item));
+  };
   return (
     <div
       style={{
@@ -14,7 +30,12 @@ function Stamp() {
         padding: "4px",
       }}
     >
-      <Input placeholder="Stamp header" addonBefore="Stamp Header" />
+      <Input
+        placeholder="Stamp header"
+        addonBefore="Stamp Header"
+        value={stampCompState?.header}
+        onChange={(e) => handleStampInput(e.target.value, "header")}
+      />
       <div
         style={{
           display: "flex",
@@ -34,6 +55,8 @@ function Stamp() {
             alignItems: "center",
             fontStyle: "italic",
           }}
+          value={stampCompState?.header}
+          onChange={(e) => handleStampInput(e.target.value, "notes")}
         >
           Stamp placement
         </div>
