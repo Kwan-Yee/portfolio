@@ -17,8 +17,6 @@ const FormBuilderContainer = styled.div`
   padding: 16px 12px;
   overflow: auto;
   font-family: Roboto, sans-serif;
-  // border-radius: 8px;
-  // border: 2px solid rgba(0, 0, 0, 0.25);
   background-color: #e6e6e6;
   justify-content: center;
   box-sizing: border-box;
@@ -30,9 +28,9 @@ const FormPaperA4 = styled.div`
   padding: 6px 8px;
   background-color: #ffffff;
   border: 1px solid rgba(0, 0, 0, 0.4);
-  min-height: 94.7vw;
+  min-height: 106.1vw;
   height: max-content;
-  width: 67vw;
+  width: 75vw;
   box-sizing: border-box;
 `;
 

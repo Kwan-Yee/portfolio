@@ -1,28 +1,15 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Divider, Input, Select, Table, Tooltip } from "antd";
+import React, { useState } from "react";
+import { Divider, Input, Select } from "antd";
 import { v4 as uuidv4 } from "uuid";
 import { MdAddCircleOutline } from "react-icons/md";
 
 import DetailsCell from "./details";
 import Preview from "./preview";
-import { getRenderPropValue } from "antd/es/_util/getRenderPropValue";
-import { Header } from "antd/es/layout/layout";
 
 function DynamicTable() {
-  // const [columnsTBDefined, setColumnsTBDefined] = useState([
-  //   {
-  //     // dataIndex: "column1",
-  //     key: `${uuidv4()}_dcol`,
-  //   },
-  //   {
-  //     // dataIndex: "column2",
-  //     key: `${uuidv4()}_dcol`,
-  //   },
-  // ]);
-
   const [tableData, setTableData] = useState({
-    columns: [{ id: 1, }, { id: 2 }],
-    rows: [{ id: uuidv4(), cells: [{ id: 1 }, { id: 2 }] }],
+    columns: [{ id: 1 }, { id: 2 }],
+    rows: [{ id: "r1", cells: [{ id: 1 }, { id: 2 }] }],
   });
 
   const inputExpected = [
@@ -37,26 +24,36 @@ function DynamicTable() {
     { value: "textarea", label: "Textarea" },
   ];
 
+  const [selectedInputType, setSelectedInputType] = useState({
+    1: null,
+    2: null,
+  });
+
   //TODO: initialise the states of input with LS data so it persists across refresh and accidental rerender
   //TODO: the addition of columns will be to add column and row cell
 
-  // const [data, setData] = useState([
-  //   {
-  //     key: "input-type",
-  //     column1: "input-type",
-  //     column2: "input-type",
-  //   },
-  // ]);
-
   const handleAddColumn = (event) => {
-    let index;
     // Look for closest th up in the dom tree
     const thElement = event.target.closest("th");
     const indexOfCol = thElement.cellIndex;
-    console.log("thElement: ", thElement);
-    console.log("indexOfCol: ", indexOfCol);
+    // console.log("thElement: ", thElement);
+    // console.log("indexOfCol: ", indexOfCol);
 
-    indexOfCol != -1 ? (index = indexOfCol) : null;
+    setTableData((prev) => {
+      console.log("prev column: ", prev);
+      const newColumns = { ...prev }.columns;
+      const newCells = { ...prev }.rows[0].cells;
+      newColumns.splice(indexOfCol + 1, 0, { id: newColumns.length + 1 });
+      newCells.splice(indexOfCol + 1, 0, { id: newCells.length + 1 });
+      const newData = {
+        ...prev,
+        columns: newColumns,
+        rows: [{ id: "r1", cells: newCells }],
+      };
+
+      console.log("newData: ", newData);
+      return newData;
+    });
   };
 
   return (
@@ -115,8 +112,6 @@ function DynamicTable() {
           {tableData.rows.map((row) => (
             <tr key={row.id}>
               {row.cells.map((cell) => {
-                const [selectedInputType, setSelectedInputType] =
-                  useState(null);
                 return (
                   <td key={cell.id}>
                     <div
@@ -128,10 +123,9 @@ function DynamicTable() {
                       }}
                     >
                       <div className="input-type">
-                        Input type:
                         <Select
                           size="small"
-                          placeholder="Input type"
+                          placeholder="Input"
                           options={inputExpected.sort()}
                           style={{ width: "100%" }}
                           onChange={(value) => setSelectedInputType(value)}

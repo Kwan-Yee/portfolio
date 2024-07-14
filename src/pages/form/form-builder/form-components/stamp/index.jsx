@@ -44,7 +44,12 @@ function Stamp({ compId }) {
           justifyContent: "space-between",
         }}
       >
-        <Input.TextArea placeholder="Stamp note" style={{ flex: 2 }} />
+        <Input.TextArea
+          placeholder="Stamp note"
+          style={{ flex: 2 }}
+          value={stampCompState?.notes}
+          onChange={(e) => handleStampInput(e.target.value, "notes")}
+        />
         <div
           style={{
             flex: 1,

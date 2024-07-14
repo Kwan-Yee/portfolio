@@ -182,7 +182,6 @@ const SortableSectionItem = forwardRef((props, ref) => {
           onClick={handleSectionCopy}
         />
         <MdOutlineDelete
-          // ref={ref}
           style={{
             cursor: "pointer",
             // color: hovering ? "red" : "none", TODO: to forward ref
@@ -190,7 +189,6 @@ const SortableSectionItem = forwardRef((props, ref) => {
           onClick={handleSectionDelete}
         />
         <Divider type="vertical" style={{ margin: "0px 4px" }} />
-        {/* <FiMove style={{ cursor: "move" }} {...attributes} {...listeners} /> */}
         <IoMdArrowRoundUp
           style={{ cursor: "pointer" }}
           onClick={() => handleSectionMovement("up")}

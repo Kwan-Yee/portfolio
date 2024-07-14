@@ -25,7 +25,7 @@ const StickyMetadataContainer = styled.div`
   position: sticky;
   top: 10px;
   margin-right: 1%;
-  width: 23%;
+  width: 16%;
   height: max-content;
   border-radius: 8px;
   box-sizing: border-box;
@@ -59,7 +59,7 @@ const MetadataInputContainerNonEdittable = styled.div`
 
 function StickyMetadata() {
   const [showMetadata, setShowMetadata] = useState(true);
-  const [ref, hovering] = useHover();
+  // const [ref, hovering] = useHover();
   return (
     <StickyMetadataContainer className="sticky-metadata">
       <h4 style={{ margin: "0px 0px 10px 0px" }}>Metadata</h4>

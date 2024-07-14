@@ -15,8 +15,7 @@ function DetailsCell({ selectedInputType }) {
         flexBasis: "48px",
       }}
     >
-      Details:
-      <Input size="small" placeholder="30px" addonBefore="Width" />
+      <Input size="small" placeholder="Width" />
       {/**If input type == select*/}
       <DetailsIndex selectedInputType={selectedInputType} />
     </div>
