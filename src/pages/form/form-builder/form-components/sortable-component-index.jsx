@@ -4,15 +4,29 @@ import ComponentsIndex from "../form-components";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 
-function SortableComponentIndex({ type, id, index, parent }) {
+function SortableComponentIndex({ type, id, index, parent, setCompsToRender }) {
   // console.log("id: ", id);
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({
       id: id,
+      data: { type: type, parent: parent },
     });
 
-  const handleRemoveComp = () => {
-    console.log("triggered");
+  const handleRemoveComp = (index) => {
+    console.log("compIndex: ", index);
+    setCompsToRender((prevState) => {
+      const newState = [...prevState];
+      // console.log("newstate: ", newState);
+      const idRemoved = newState.splice(index, 1);
+      console.log("idRemoved: ", idRemoved[0]);
+
+      const section = JSON.parse(localStorage.getItem(parent));
+      section.children = newState;
+
+      localStorage.setItem(parent, JSON.stringify(section));
+      localStorage.removeItem(idRemoved[0].id);
+      return newState;
+    });
   };
   return (
     <div
@@ -32,12 +46,15 @@ function SortableComponentIndex({ type, id, index, parent }) {
       }}
       ref={setNodeRef}
     >
-      <ComponentsIndex key={id} type={type} />
+      <ComponentsIndex key={index} type={type} compId={id} />
       <div
         className="close-and-drag"
         style={{ display: "flex", flexDirection: "column", gap: "22px" }}
       >
-        <MdClose style={{ cursor: "pointer" }} onClick={handleRemoveComp} />
+        <MdClose
+          style={{ cursor: "pointer" }}
+          onClick={() => handleRemoveComp(index)}
+        />
         <MdOutlineDragIndicator
           {...attributes}
           {...listeners}

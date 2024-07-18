@@ -12,6 +12,8 @@ export function FormBuilderProvider({ children }) {
       : [`${uuidv4()}_Section`]
   );
 
+  const [formTitle, setFormTitle] = useState("");
+
   const [templateEditing, setTemplateEditing] = useState(null);
 
   const [allSectionsCollapse, setAllSectionsCollapse] = useState(false);
@@ -27,6 +29,8 @@ export function FormBuilderProvider({ children }) {
         setAllSectionsCollapse,
         templateEditing,
         setTemplateEditing,
+        formTitle,
+        setFormTitle,
       }}
     >
       {children}

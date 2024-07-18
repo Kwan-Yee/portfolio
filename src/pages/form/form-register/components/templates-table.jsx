@@ -62,7 +62,7 @@ function TemplatesTable() {
             <a
               onClick={() => {
                 console.log("record: ", record);
-                navigate(`/permits/builder/${record.id}`);
+                navigate(`/qshe/permits/builder/${record.id}`);
               }}
             >
               Edit
@@ -73,7 +73,7 @@ function TemplatesTable() {
             <a
               onClick={() => {
                 // console.log("record: ", record);
-                navigate(`/permits/builder/${record.id}`);
+                navigate(`/qshe/permits/builder/${record.id}`);
               }}
             >
               Edit

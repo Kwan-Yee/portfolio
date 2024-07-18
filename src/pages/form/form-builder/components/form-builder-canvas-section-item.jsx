@@ -1,4 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, {
+  useEffect,
+  useImperativeHandle,
+  useState,
+  forwardRef,
+} from "react";
 import {
   MdOutlineExpandMore,
   MdOutlineDelete,
@@ -16,8 +21,10 @@ import { useFormBuilderContext } from "../../context-provider";
 import SortableComponentIndex from "../form-components/sortable-component-index";
 import CompAdder from "./form-builder-canvas-comp-adder";
 
-function SortableSectionItem({ sectionId, index }) {
-  // console.log("sectionId: ", sectionId);
+const SortableSectionItem = forwardRef((props, ref) => {
+  // console.log("props: ", props);
+  const sectionId = props.sectionId;
+  const index = props.index;
 
   //TODO: Change initial collapse back to true when comp adder done
   const [isCollapse, setisCollapse] = useState(false);
@@ -91,6 +98,12 @@ function SortableSectionItem({ sectionId, index }) {
       ? JSON.parse(localStorage.getItem(sectionId)).children
       : []
   );
+
+  console.log("compsToRender: ", compsToRender);
+
+  useImperativeHandle(ref, () => ({
+    setCompsToRender,
+  }));
 
   const handleSectionMovement = (direction) => {
     if (direction === "up") {
@@ -169,7 +182,6 @@ function SortableSectionItem({ sectionId, index }) {
           onClick={handleSectionCopy}
         />
         <MdOutlineDelete
-          // ref={ref}
           style={{
             cursor: "pointer",
             // color: hovering ? "red" : "none", TODO: to forward ref
@@ -177,7 +189,6 @@ function SortableSectionItem({ sectionId, index }) {
           onClick={handleSectionDelete}
         />
         <Divider type="vertical" style={{ margin: "0px 4px" }} />
-        {/* <FiMove style={{ cursor: "move" }} {...attributes} {...listeners} /> */}
         <IoMdArrowRoundUp
           style={{ cursor: "pointer" }}
           onClick={() => handleSectionMovement("up")}
@@ -213,6 +224,7 @@ function SortableSectionItem({ sectionId, index }) {
                     index={index}
                     key={index}
                     parent={sectionId}
+                    setCompsToRender={setCompsToRender}
                   />
                 ))}
             </div>
@@ -225,6 +237,6 @@ function SortableSectionItem({ sectionId, index }) {
       )}
     </div>
   );
-}
+});
 
 export default React.memo(SortableSectionItem);

@@ -22,6 +22,7 @@ function RefImage() {
       console.log("Dropped files", e.dataTransfer.files);
     },
   };
+  const { Dragger } = Upload;
   return (
     <div
       className="ref-image-container"
@@ -29,18 +30,16 @@ function RefImage() {
         flex: 1,
         display: "flex",
         flexDirection: "column",
-        gap: "2px",
+        gap: "4px",
         border: "1px solid rgba(0,0,0,0.3)",
         borderRadius: "8px",
         padding: "4px",
       }}
     >
       <Input placeholder="Image header" addonBefore="Image header" />
-      <Upload
-        {...props}
-      >
+      <Dragger {...props}>
         <p className="upload-drag-icon">
-          <MdOutlineMoveToInbox />
+          <MdOutlineMoveToInbox size={36} />
         </p>
         <p className="ant-upload-text">
           Click or drag file to this area to upload
@@ -49,8 +48,8 @@ function RefImage() {
           Support for a single upload. Strictly prohibited from uploading
           company data or other banned files.
         </p>
-      </Upload>
-      <Input.TextArea placeholder="Image notes" addonBefore="Image notes" />
+      </Dragger>
+      <Input.TextArea placeholder="Image notes" />
     </div>
   );
 }
