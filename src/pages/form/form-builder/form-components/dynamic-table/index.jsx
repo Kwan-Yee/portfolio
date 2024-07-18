@@ -40,6 +40,7 @@ function DynamicTable() {
     // console.log("indexOfCol: ", indexOfCol);
 
     setTableData((prev) => {
+      if (prev.columns.length >= 16) return prev;
       console.log("prev column: ", prev);
       const newColumns = { ...prev }.columns;
       const newCells = { ...prev }.rows[0].cells;

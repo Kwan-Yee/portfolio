@@ -4,6 +4,7 @@ import { useHover } from "@uidotdev/usehooks";
 import styled from "styled-components";
 
 import { useFullAppContext } from "../../context-provider";
+import { Button, Dropdown } from "antd";
 
 // Define the styled component
 const NavItemContainer = styled.div`
@@ -25,24 +26,42 @@ const NavItemContainer = styled.div`
 
 function NavItems({ name, path }) {
   const navigate = useNavigate();
-  const [ref, hovering] = useHover();
+  // const [ref, hovering] = useHover();
+
+
+
+  // const allItems = {
+  //   site: siteRoutes,
+  //   drawing: designRoutes,
+  //   safetyQuality: operationRoutes,
+  // };
 
   const { selectedModule, setSelectedModule } = useFullAppContext();
   return (
-    <NavItemContainer
-      onClick={() => {
-        navigate(path);
-        setSelectedModule(name);
-      }}
-      style={{
-        backgroundColor: hovering ? "rgba(255,255,255,0.3)" : "transparent",
-        textDecorationLine:
-          hovering || selectedModule === name ? "underline" : "none",
-      }}
-      ref={ref}
+    // <NavItemContainer
+    //   onClick={() => {
+    //     if (!path) return;
+    //     navigate(path);
+    //     setSelectedModule(name);
+    //   }}
+    //   style={{
+    //     backgroundColor: hovering ? "rgba(255,255,255,0.3)" : "transparent",
+    //     textDecorationLine:
+    //       hovering || selectedModule === name ? "underline" : "none",
+    //   }}
+    //   ref={ref}
+    // >
+    <Dropdown
+      menu={{ siteRoutes }}
+      // style={{
+      //   backgroundColor: hovering ? "rgba(255,255,255,0.3)" : "transparent",
+      //   textDecorationLine:
+      //     hovering || selectedModule === name ? "underline" : "none",
+      // }}
+      // ref={ref}
     >
-      {name}
-    </NavItemContainer>
+      <Button>{name}</Button>
+    </Dropdown>
   );
 }
 

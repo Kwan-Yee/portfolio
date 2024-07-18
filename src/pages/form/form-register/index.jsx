@@ -8,7 +8,8 @@ import TemplatesTable from "./components/templates-table";
 
 function Form() {
   let location = useLocation().pathname;
-  location = location.replace("/", ""); // Remove the slash
+  console.log(location);
+  location = location.split("/")[2]; // Remove the slash and get final path
   location = location.charAt(0).toUpperCase() + location.slice(1); // Capitalize the first letter
   console.log("current location: ", location);
 
@@ -38,6 +39,7 @@ function Form() {
         defaultActiveKey={activeKey}
         onChange={(key) => setActiveKey(key)}
         tabPosition="left"
+        size="large"
 
         // tabBarExtraContent={
         //   <Button

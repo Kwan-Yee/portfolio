@@ -3,15 +3,15 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 
 import NavItems from "./components/nav-items";
-import { Divider } from "antd";
+import { Avatar, Button, Divider, Dropdown, Menu, Space } from "antd";
 import { useFullAppContext } from "../context-provider";
 import { useHover } from "@uidotdev/usehooks";
 
 const HeaderContainer = styled.div`
   height: 58px;
-  background-color: #202129;
   width: 100%;
-  color: #ffffff;
+  background-color: #e6e6e6;
+  border-bottom: 2px solid #5b5b5b;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -22,12 +22,6 @@ const HeaderContainer = styled.div`
   position: sticky;
   top: 0;
   z-index: 999;
-`;
-
-const HeaderLogo = styled.div`
-  flex-basis: 7%;
-  display: flex;
-  justify-content: center;
 `;
 
 const HeaderNav = styled.div`
@@ -43,127 +37,94 @@ const HeaderProfile = styled.div`
   flex-basis: 5%;
   display: flex;
   justify-content: center;
+  font-size: 20px;
 `;
-
-const commonRoutes = [
-  { name: "Document", path: "/document" },
-  { name: "Timeline", path: "/schedule" },
-];
-
-const operationRoutes = [
-  // { name: "Landing", path: "/" },
-  { name: "Permits", path: "/permits" },
-  { name: "Inspections", path: "/inspections" },
-  { name: "Violations", path: "/violations" },
-  { name: "Incidents", path: "/incidents" },
-];
-
-const designRoutes = [
-  { name: "Transmittals", path: "/transmittals" },
-  { name: "Technical Queries", path: "/technical-queries" },
-];
 
 function Header() {
   const { selectedModule, setSelectedModule } = useFullAppContext();
-  console.log("selectedModule: ", selectedModule);
 
-  const [ref, hovering] = useHover();
+  const operationRoutes = [
+    { label: "Permits", key: "permits" },
+    { label: "Inspections", key: "inspections" },
+    { label: "Violations", key: "violations" },
+    { label: "Incidents", key: "incidents" },
+  ];
+  const designRoutes = [
+    { label: "Register", key: "register" },
+    { label: "Transmittals", key: "transmittals" },
+    { label: "Technical Queries", key: "technical_queries" },
+  ];
+  const siteRoutes = [
+    {
+      label: "Issues",
+      key: "issues",
+    },
+    {
+      label: "Assets",
+      key: "assets",
+    },
+  ];
+
+  const menuItems = [
+    { key: "home", label: "Home" },
+    { key: "calendar", label: "Calendar" },
+    {
+      key: "site",
+      label: "Site",
+      children: siteRoutes,
+    },
+    {
+      key: "qshe",
+      label: "QSHE",
+      children: operationRoutes,
+    },
+    {
+      key: "drawings",
+      label: "Drawings",
+      children: designRoutes,
+    },
+  ];
 
   const navigate = useNavigate();
+
+  const navHandler = (keyPath) => {
+    if (keyPath.length == 1 && keyPath.includes("home")) {
+      navigate("/");
+      return;
+    }
+    // build nav path from keyPath
+    // console.log("keyPath: ", keyPath);
+    let path = "";
+    for (let i = keyPath.length - 1; i > -1; i--) {
+      path = path.concat(`${"/" + keyPath[i].toLowerCase()}`);
+    }
+
+    console.log("path: ", path);
+    navigate(path);
+    return;
+  };
   return (
     <HeaderContainer className="header">
-      <HeaderLogo
-        className="header-home"
-        onClick={() => {
-          navigate("/");
-          setSelectedModule("Landing");
-        }}
-        ref={ref}
-        style={{
-          backgroundColor: hovering ? "rgba(255,255,255,0.3)" : "transparent",
-          textDecorationLine:
-            selectedModule === "Landing" || hovering ? "underline" : "none",
-          textDecorationThickness: "2px",
-          height: "34px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          fontSize: "18px",
-          borderRadius: "5px",
-          cursor: "pointer",
-        }}
-      >
-        Home
-      </HeaderLogo>
       <HeaderNav className="header-nav">
-        <div
-          className="header-com-nav"
+        <Menu
+          selectedKeys={selectedModule}
+          mode="horizontal"
+          items={menuItems}
           style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "start",
+            width: "100%",
+            border: "none",
+            fontWeight: "bold",
           }}
-        >
-          {commonRoutes.map((route) => (
-            <NavItems key={route.path} name={route.name} path={route.path} />
-          ))}
-        </div>
-        <Divider
-          type="vertical"
-          style={{ backgroundColor: "white", height: "18px" }}
+          onClick={(e) => {
+            console.log(e);
+            navHandler(e.keyPath);
+            setSelectedModule(e.key.toLowerCase());
+          }}
         />
-        <div
-          className="header-ops-nav-container"
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "start",
-          }}
-        >
-          <div
-            className="header-ops-category"
-            style={{ flexBasis: "8px", fontSize: "10px" }}
-          >
-            Safety & Quality
-          </div>
-          <div
-            className="header-ops-routes"
-            style={{ display: "flex", flexDirection: "row" }}
-          >
-            {operationRoutes.map((route) => (
-              <NavItems key={route.path} name={route.name} path={route.path} />
-            ))}
-          </div>
-        </div>
-        <Divider
-          type="vertical"
-          style={{ backgroundColor: "white", height: "18px" }}
-        />
-        <div
-          className="header-dnt-nav"
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "start",
-          }}
-        >
-          <div
-            className="header-design-category"
-            style={{ flexBasis: "8px", fontSize: "10px" }}
-          >
-            Design
-          </div>
-          <div
-            className="header-design-routes"
-            style={{ display: "flex", flexDirection: "row" }}
-          >
-            {designRoutes.map((route) => (
-              <NavItems key={route.path} name={route.name} path={route.path} />
-            ))}
-          </div>
-        </div>
       </HeaderNav>
-      <HeaderProfile className="header-profile">Profile</HeaderProfile>
+      <HeaderProfile className="header-profile">
+        <Avatar size={36} />
+      </HeaderProfile>
     </HeaderContainer>
   );
 }

@@ -13,6 +13,10 @@ function App() {
           Table: {
             cellPaddingBlock: 10,
           },
+          Menu: {
+            fontSize: 20,
+            colorBgContainer: "transparent",
+          },
         },
         token: {
           colorPrimary: "#7ab890",

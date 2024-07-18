@@ -32,7 +32,7 @@ const StickyMetadataContainer = styled.div`
   padding: 10px;
   background-color: #ffffff;
   // border: 1px solid rgba(0, 0, 0, 0.4);  // Uncomment if needed
-  // box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);  // Uncomment if needed
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 `;
 
 const MetadataInputContainerEdittable = styled.div`
