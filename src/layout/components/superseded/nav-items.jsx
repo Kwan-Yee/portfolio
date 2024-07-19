@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useHover } from "@uidotdev/usehooks";
 import styled from "styled-components";
 
-import { useFullAppContext } from "../../context-provider";
+import { useFullAppContext } from "../../../context-provider";
 import { Button, Dropdown } from "antd";
 
 // Define the styled component

@@ -2,10 +2,9 @@ import React from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 
-import NavItems from "./components/nav-items";
-import { Avatar, Button, Divider, Dropdown, Menu, Space } from "antd";
+import { Avatar, Menu } from "antd";
 import { useFullAppContext } from "../context-provider";
-import { useHover } from "@uidotdev/usehooks";
+
 
 const HeaderContainer = styled.div`
   height: 58px;
