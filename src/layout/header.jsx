@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 import { Avatar, Menu } from "antd";
 import { useFullAppContext } from "../context-provider";
 
-
 const HeaderContainer = styled.div`
   height: 58px;
   width: 100%;

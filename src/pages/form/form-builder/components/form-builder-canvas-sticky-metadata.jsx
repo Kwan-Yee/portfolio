@@ -1,14 +1,15 @@
 import { Form, Formik } from "formik";
 import React, { useState } from "react";
+import { Modal } from "antd";
 import MetadataInputRow from "./form-builder-canvas-metadata-input";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
-import { useHover } from "@uidotdev/usehooks";
+import { GrConfigure } from "react-icons/gr";
 
 const metadataListEdittable = [
   "Title",
   "Description",
   "Ref. number format",
-  "Workflow",
+  // "Workflow",
 ];
 
 const metadataListNonEdittable = [
@@ -20,6 +21,7 @@ const metadataListNonEdittable = [
 ];
 
 import styled from "styled-components";
+import { Button } from "antd";
 
 const StickyMetadataContainer = styled.div`
   position: sticky;
@@ -60,6 +62,8 @@ const MetadataInputContainerNonEdittable = styled.div`
 function StickyMetadata() {
   const [showMetadata, setShowMetadata] = useState(true);
   // const [ref, hovering] = useHover();
+
+  const [openWorkflowModal, setOpenWorkflowModal] = useState(false);
   return (
     <StickyMetadataContainer className="sticky-metadata">
       <h4 style={{ margin: "0px 0px 10px 0px" }}>Metadata</h4>
@@ -70,6 +74,42 @@ function StickyMetadata() {
               <MetadataInputRow key={item} title={item} />
             ))}
           </MetadataInputContainerEdittable>
+          <div
+            style={{
+              fontSize: "12px",
+              color: "#5b5b5b",
+              marginTop: "2px",
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            Workflow
+            <Button
+              icon={<GrConfigure />}
+              type="default"
+              size="small"
+              style={{
+                borderColor: "#4f85db",
+                color: "#4f85db",
+                marginTop: "2px",
+              }}
+              onClick={() => setOpenWorkflowModal(true)}
+            >
+              Configure
+            </Button>
+            <Modal
+              width={"86vw"}
+              title="Workflow config"
+              open={openWorkflowModal}
+              onCancel={() => setOpenWorkflowModal(false)}
+              onOk={() => setOpenWorkflowModal(false)}
+            >
+              <div
+                className="modal-content-container"
+                style={{ padding: "10px", width: "100%", height: "45vh" }}
+              ></div>
+            </Modal>
+          </div>
           <CustomHr />
           <MetadataInputContainerNonEdittable className="metadata-input-container-non-edittable">
             {showMetadata && (
