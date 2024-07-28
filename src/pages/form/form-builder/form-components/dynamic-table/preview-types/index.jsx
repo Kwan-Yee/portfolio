@@ -9,16 +9,21 @@ import DatetimePreview from "./datetime-preview";
 import SignaturePreview from "./signature-preview";
 import CalculationPreview from "./calculation-preview";
 
-function PreviewIndex({ selectedInputType }) {
-  if (selectedInputType === "select") return <SelectPreview />;
-  if (selectedInputType === "text" || selectedInputType === "textarea")
+function PreviewIndex({ selectedInputType, cellId }) {
+  const inputSelectedAtCell = selectedInputType[`${cellId}`];
+  console.log("preview cellId: ", cellId);
+  console.log("selectedInputType: ", selectedInputType);
+  console.log("inputSelectedAtCell: ", inputSelectedAtCell);
+  if (inputSelectedAtCell === "select") return <SelectPreview />;
+  if (inputSelectedAtCell === "text" || inputSelectedAtCell === "textarea")
     return <TextPreview />;
-  if (selectedInputType === "image") return <ImagePreview />;
-  if (selectedInputType === "number") return <NumberPreview />;
-  if (selectedInputType === "checkbox") return <CheckboxPreview />;
-  if (selectedInputType === "datetime") return <DatetimePreview />;
-  if (selectedInputType === "signature") return <SignaturePreview />;
-  if (selectedInputType === "calculation") return <CalculationPreview />;
+  if (inputSelectedAtCell === "image") return <ImagePreview />;
+  if (inputSelectedAtCell === "number") return <NumberPreview />;
+  if (inputSelectedAtCell === "checkbox") return <CheckboxPreview />;
+  if (inputSelectedAtCell === "datetime") return <DatetimePreview />;
+  if (inputSelectedAtCell === "signature") return <SignaturePreview />;
+  if (inputSelectedAtCell === "calculation") return <CalculationPreview />;
+
   return (
     <div
       className="preview-no-input-selected"
