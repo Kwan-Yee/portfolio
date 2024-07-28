@@ -101,7 +101,6 @@ function DynamicTable() {
                     size={18}
                     onClick={(e) => {
                       e.stopPropagation();
-                      handleAddColumn(e);
                     }}
                   />
                 </div>
@@ -129,13 +128,23 @@ function DynamicTable() {
                           placeholder="Input"
                           options={inputExpected.sort()}
                           style={{ width: "100%" }}
-                          onChange={(value) => setSelectedInputType(value)}
+                          onChange={(value) =>
+                            setSelectedInputType((prev) => {
+                              return { ...prev, [cell.id]: value };
+                            })
+                          }
                         />
                         <Divider style={{ margin: "6px 0" }} />
                       </div>
-                      <DetailsCell selectedInputType={selectedInputType} />
+                      <DetailsCell
+                        selectedInputType={selectedInputType}
+                        cellId={cell.id}
+                      />
                       <Divider style={{ margin: "6px 0" }} />
-                      <Preview selectedInputType={selectedInputType} />
+                      <Preview
+                        selectedInputType={selectedInputType}
+                        cellId={cell.id}
+                      />
                     </div>
                   </td>
                 );
