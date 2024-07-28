@@ -9,7 +9,10 @@ function Preview({ selectedInputType, cellId }) {
       style={{ display: "flex", flexDirection: "column", gap: "2px" }}
     >
       Preview:
-      <PreviewIndex selectedInputType={selectedInputType} cellId={cellId} />
+      <PreviewIndex
+        selectedInputType={selectedInputType}
+        cellId={cellId}
+      />
     </div>
   );
 }

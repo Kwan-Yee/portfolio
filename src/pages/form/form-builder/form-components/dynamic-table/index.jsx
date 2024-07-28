@@ -101,6 +101,7 @@ function DynamicTable() {
                     size={18}
                     onClick={(e) => {
                       e.stopPropagation();
+                      handleAddColumn(e);
                     }}
                   />
                 </div>
