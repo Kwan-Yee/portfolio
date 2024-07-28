@@ -73,4 +73,4 @@ function SelectDetail() {
   );
 }
 
-export default SelectDetail;
+export default SelectDetail; 

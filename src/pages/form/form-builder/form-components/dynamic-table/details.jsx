@@ -3,7 +3,7 @@ import React from "react";
 
 import DetailsIndex from "./details-types";
 
-function DetailsCell({ selectedInputType }) {
+function DetailsCell({ selectedInputType, cellId }) {
   return (
     //TODO: Define width of column, and other definitions relevant to the selected input type
     <div
@@ -17,7 +17,7 @@ function DetailsCell({ selectedInputType }) {
     >
       <Input size="small" placeholder="Width" />
       {/**If input type == select*/}
-      <DetailsIndex selectedInputType={selectedInputType} />
+      <DetailsIndex selectedInputType={selectedInputType} cellId={cellId} />
     </div>
   );
 }

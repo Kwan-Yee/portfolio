@@ -2,9 +2,10 @@ import React from "react";
 
 import SelectDetail from "./select-detail";
 
-function DetailsIndex({ selectedInputType }) {
+function DetailsIndex({ selectedInputType, cellId }) {
+  const inputSelectedAtCell = selectedInputType[`${cellId}`];
   // console.log("selectedInputType: ", selectedInputType);
-  if (selectedInputType === "select") return <SelectDetail />;
+  if (inputSelectedAtCell === "select") return <SelectDetail />;
   return;
 }
 
