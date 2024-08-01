@@ -8,8 +8,12 @@ import Preview from "./preview";
 
 function DynamicTable() {
   const [tableData, setTableData] = useState({
-    columns: [{ id: 1 }, { id: 2 }],
-    rows: [{ id: "r1", cells: [{ id: 1 }, { id: 2 }] }],
+    columns: [{ id: "col-1" }, { id: "col-2" }],
+    rows: [
+      { id: "r1", cells: [{ id: "r1-1" }, { id: "r1-2" }] },
+      { id: "r2", cells: [{ id: "r2-1" }, { id: "r2-2" }] },
+      { id: "r3", cells: [{ id: "r3-1" }, { id: "r3-2" }] },
+    ],
   });
 
   const inputExpected = [
@@ -25,12 +29,12 @@ function DynamicTable() {
   ];
 
   const [selectedInputType, setSelectedInputType] = useState({
-    1: null,
-    2: null,
+    "col-1": null,
+    "col-2": null,
   });
 
   //TODO: initialise the states of input with LS data so it persists across refresh and accidental rerender
-  //TODO: the addition of columns will be to add column and row cell
+  //TODO: the addition of columns    will be to add column and row cell
 
   const handleAddColumn = (event) => {
     // Look for closest th up in the dom tree
@@ -43,13 +47,21 @@ function DynamicTable() {
       if (prev.columns.length >= 16) return prev;
       console.log("prev column: ", prev);
       const newColumns = { ...prev }.columns;
-      const newCells = { ...prev }.rows[0].cells;
-      newColumns.splice(indexOfCol + 1, 0, { id: newColumns.length + 1 });
-      newCells.splice(indexOfCol + 1, 0, { id: newCells.length + 1 });
+      const rows = { ...prev }.rows;
+      console.log("rows: ", rows);
+      newColumns.splice(indexOfCol + 1, 0, {
+        id: `col-${newColumns.length + 1}`,
+      });
+      const newRows = rows.map((row, idx) => {
+        row.cells.splice(indexOfCol + 1, 0, {
+          id: `r${idx}-${row.cells.length + 1}`,
+        });
+        return row;
+      });
       const newData = {
         ...prev,
         columns: newColumns,
-        rows: [{ id: "r1", cells: newCells }],
+        rows: newRows,
       };
 
       console.log("newData: ", newData);
@@ -110,48 +122,58 @@ function DynamicTable() {
           </tr>
         </thead>
         <tbody>
-          {tableData.rows.map((row) => (
-            <tr key={row.id}>
-              {row.cells.map((cell) => {
-                return (
-                  <td key={cell.id}>
-                    <div
-                      className="cell-container"
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: "4px",
-                      }}
-                    >
-                      <div className="input-type">
-                        <Select
-                          size="small"
-                          placeholder="Input"
-                          options={inputExpected.sort()}
-                          style={{ width: "100%" }}
-                          onChange={(value) =>
-                            setSelectedInputType((prev) => {
-                              return { ...prev, [cell.id]: value };
-                            })
-                          }
-                        />
-                        <Divider style={{ margin: "6px 0" }} />
-                      </div>
-                      <DetailsCell
-                        selectedInputType={selectedInputType}
-                        cellId={cell.id}
-                      />
-                      <Divider style={{ margin: "6px 0" }} />
-                      <Preview
-                        selectedInputType={selectedInputType}
-                        cellId={cell.id}
-                      />
-                    </div>
-                  </td>
-                );
-              })}
-            </tr>
-          ))}
+          <tr key={tableData.rows[0].id}>
+            {tableData.rows[0].cells.map((cell) => {
+              return (
+                <td key={cell.id}>
+                  <div
+                    className="input-type"
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "4px",
+                    }}
+                  >
+                    <Select
+                      size="small"
+                      placeholder="Input"
+                      options={inputExpected.sort()}
+                      style={{ width: "100%", maxWidth: "100px" }}
+                      onChange={(value) =>
+                        setSelectedInputType((prev) => {
+                          return { ...prev, [`col-${cell.id.match(/-(.*)/)}`]: value };
+                        })
+                      }
+                    />
+                    <Divider style={{ margin: "6px 0" }} />
+                  </div>
+                </td>
+              );
+            })}
+          </tr>
+          <tr key={tableData.rows[1].id}>
+            {tableData.rows[1].cells.map((cell) => (
+              <td>
+                <DetailsCell
+                  selectedInputType={selectedInputType}
+                  cellId={`col-${cell.id.match(/-(.*)/)}`}
+                />
+                <Divider style={{ margin: "6px 0" }} />
+              </td>
+            ))}
+          </tr>
+          <tr key={tableData.rows[2].id}>
+            {tableData.rows[2].cells.map((cell) => (
+              <td>
+                <Preview
+                  selectedInputType={selectedInputType}
+                  cellId={`col-${cell.id.match(/-(.*)/)}`}
+                />
+              </td>
+            ))}
+          </tr>
         </tbody>
       </table>
     </div>

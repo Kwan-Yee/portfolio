@@ -99,7 +99,6 @@ function SectionRenderer() {
           ))}
         </div>
         <DragOverlay>
-          {/* xxxx */}
           <SortableComponentIndex
             type={activeDragComponent?.data.current.type}
           />

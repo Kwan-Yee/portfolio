@@ -30,7 +30,11 @@ function PreviewIndex({ selectedInputType, cellId }) {
       </PreviewContainer>
     );
   if (inputSelectedAtCell === "text" || inputSelectedAtCell === "textarea")
-    return <TextPreview />;
+    return (
+      <PreviewContainer>
+        <TextPreview />
+      </PreviewContainer>
+    );
   if (inputSelectedAtCell === "image")
     return (
       <PreviewContainer>
