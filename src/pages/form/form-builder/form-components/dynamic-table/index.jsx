@@ -38,6 +38,9 @@ function DynamicTable() {
 
   const handleAddColumn = (event) => {
     // Look for closest th up in the dom tree
+    console.log("curr column length: ", tableData.columns.length);
+    if (tableData.columns.length >= 10) return;
+
     const thElement = event.target.closest("th");
     const indexOfCol = thElement.cellIndex;
     // console.log("thElement: ", thElement);
@@ -71,14 +74,16 @@ function DynamicTable() {
 
   return (
     <div
+      className="dynamic-table-container"
       style={{
-        flex: 1,
+        flexBasis: "100%",
         display: "flex",
         flexDirection: "column",
         gap: "4px",
         border: "1px solid rgba(0,0,0,0.3)",
         borderRadius: "8px",
         padding: "4px",
+        overflowX: "auto",
       }}
     >
       <Input
@@ -87,95 +92,103 @@ function DynamicTable() {
         placeholder="Table header"
         addonBefore="Dynamic Table Header"
       />
-      <table>
-        <thead>
-          <tr>
-            {tableData.columns.map((col) => (
-              <th key={col.id} style={{}}>
-                <div
-                  className="column-header-indiv-container"
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "4px",
-                  }}
-                >
-                  <Input
-                    size="middle"
-                    placeholder="Header"
-                    onClick={(e) => e.stopPropagation()}
-                  />
-                  <MdAddCircleOutline
-                    style={{
-                      cursor: "pointer",
-                      color: "rgba(122,184,144)",
-                    }}
-                    size={18}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleAddColumn(e);
-                    }}
-                  />
-                </div>
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          <tr key={tableData.rows[0].id}>
-            {tableData.rows[0].cells.map((cell) => {
-              return (
-                <td key={cell.id}>
+      <div
+        className="table-container"
+        style={{ overflowX: "auto", boxSizing: "border-box" }}
+      >
+        <table style={{ width: "100%" }}>
+          <thead>
+            <tr>
+              {tableData.columns.map((col) => (
+                <th key={col.id} style={{ minWidth: "150px" }}>
                   <div
-                    className="input-type"
+                    className="column-header-indiv-container"
                     style={{
-                      width: "100%",
-                      height: "100%",
                       display: "flex",
-                      flexDirection: "column",
+                      alignItems: "center",
                       gap: "4px",
                     }}
                   >
-                    <Select
-                      size="small"
-                      placeholder="Input"
-                      options={inputExpected.sort()}
-                      style={{ width: "100%", maxWidth: "100px" }}
-                      onChange={(value) =>
-                        setSelectedInputType((prev) => {
-                          return { ...prev, [`col-${cell.id.match(/-(.*)/)}`]: value };
-                        })
-                      }
+                    <Input
+                      size="middle"
+                      placeholder="Header"
+                      onClick={(e) => e.stopPropagation()}
                     />
-                    <Divider style={{ margin: "6px 0" }} />
+                    <MdAddCircleOutline
+                      style={{
+                        cursor: "pointer",
+                        color: "rgba(122,184,144)",
+                      }}
+                      size={18}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleAddColumn(e);
+                      }}
+                    />
                   </div>
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            <tr key={tableData.rows[0].id}>
+              {tableData.rows[0].cells.map((cell) => {
+                return (
+                  <td key={cell.id}>
+                    <div
+                      className="input-type"
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "4px",
+                      }}
+                    >
+                      <Select
+                        size="small"
+                        placeholder="Input"
+                        options={inputExpected.sort()}
+                        style={{ maxWidth: "100%" }}
+                        onChange={(value) =>
+                          setSelectedInputType((prev) => {
+                            return {
+                              ...prev,
+                              [`col-${cell.id.match(/-(.*)/)}`]: value,
+                            };
+                          })
+                        }
+                      />
+                      <Divider style={{ margin: "6px 0" }} />
+                    </div>
+                  </td>
+                );
+              })}
+            </tr>
+            <tr key={tableData.rows[1].id}>
+              {tableData.rows[1].cells.map((cell) => (
+                <td key={cell.id}>
+                  <DetailsCell
+                    selectedInputType={selectedInputType}
+                    cellId={`col-${cell.id.match(/-(.*)/)}`}
+                  />
                 </td>
-              );
-            })}
-          </tr>
-          <tr key={tableData.rows[1].id}>
-            {tableData.rows[1].cells.map((cell) => (
-              <td>
-                <DetailsCell
-                  selectedInputType={selectedInputType}
-                  cellId={`col-${cell.id.match(/-(.*)/)}`}
-                />
-                <Divider style={{ margin: "6px 0" }} />
-              </td>
-            ))}
-          </tr>
-          <tr key={tableData.rows[2].id}>
-            {tableData.rows[2].cells.map((cell) => (
-              <td>
-                <Preview
-                  selectedInputType={selectedInputType}
-                  cellId={`col-${cell.id.match(/-(.*)/)}`}
-                />
-              </td>
-            ))}
-          </tr>
-        </tbody>
-      </table>
+              ))}
+            </tr>
+            <tr key={tableData.rows[2].id}>
+              {tableData.rows[2].cells.map((cell) => (
+                <td key={cell.id}>
+                  <Divider style={{ margin: "6px 0" }} />
+                  <Preview
+                    selectedInputType={selectedInputType}
+                    cellId={`col-${cell.id.match(/-(.*)/)}`}
+                  />
+                </td>
+              ))}
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

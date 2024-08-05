@@ -14,7 +14,7 @@ const PreviewContainer = styled.div`
   min-height: 86px;
   display: flex;
   justify-content: center;
-  align-items: start;
+  align-items: center;
   width: 100%;
 `;
 
