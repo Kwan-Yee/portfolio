@@ -14,7 +14,7 @@ const PreviewContainer = styled.div`
   min-height: 86px;
   display: flex;
   justify-content: center;
-  align-items: start;
+  align-items: center;
   width: 100%;
 `;
 
@@ -30,7 +30,11 @@ function PreviewIndex({ selectedInputType, cellId }) {
       </PreviewContainer>
     );
   if (inputSelectedAtCell === "text" || inputSelectedAtCell === "textarea")
-    return <TextPreview />;
+    return (
+      <PreviewContainer>
+        <TextPreview />
+      </PreviewContainer>
+    );
   if (inputSelectedAtCell === "image")
     return (
       <PreviewContainer>

@@ -1,8 +1,28 @@
 import { Input, Upload } from "antd";
-import React from "react";
+import React, { useState } from "react";
 import { MdOutlineMoveToInbox } from "react-icons/md";
 
-function RefImage() {
+function RefImage({ compId }) {
+  console.log("ref img compId: ", compId);
+
+  const [refImgCompState, setRefImgCompState] = useState(
+    localStorage.getItem(compId)
+      ? JSON.parse(localStorage.getItem(compId))
+      : null
+  );
+
+  const handleImgCompInput = (value, modifiedInput) => {
+    setRefImgCompState((prev) => {
+      return { ...prev, [modifiedInput]: value };
+    });
+    // console.log(value);
+    const item = JSON.parse(localStorage.getItem(compId));
+    if (!item) return;
+    if (modifiedInput === "header") item.header = value;
+    if (modifiedInput === "notes") item.notes = value;
+    localStorage.setItem(compId, JSON.stringify(item));
+  };
+
   const props = {
     name: "file",
     multiple: true,
@@ -36,7 +56,12 @@ function RefImage() {
         padding: "4px",
       }}
     >
-      <Input placeholder="Image header" addonBefore="Image header" />
+      <Input
+        placeholder="Image header"
+        addonBefore="Image header"
+        value={refImgCompState?.header}
+        onChange={(e) => handleImgCompInput(e.target.value, "header")}
+      />
       <Dragger {...props}>
         <p className="upload-drag-icon">
           <MdOutlineMoveToInbox size={36} />
@@ -49,7 +74,11 @@ function RefImage() {
           company data or other banned files.
         </p>
       </Dragger>
-      <Input.TextArea placeholder="Image notes" />
+      <Input.TextArea
+        placeholder="Image notes"
+        value={refImgCompState?.notes}
+        onChange={(e) => handleImgCompInput(e.target.value, "notes")}
+      />
     </div>
   );
 }

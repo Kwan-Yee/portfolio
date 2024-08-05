@@ -43,13 +43,19 @@ function SortableComponentIndex({ type, id, index, parent, setCompsToRender }) {
         }),
         transition,
         alignItems: "center",
+        // maxWidth: "100%",
       }}
       ref={setNodeRef}
     >
       <ComponentsIndex key={index} type={type} compId={id} />
       <div
         className="close-and-drag"
-        style={{ display: "flex", flexDirection: "column", gap: "22px" }}
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "22px",
+          flexBasis: "18px",
+        }}
       >
         <MdClose
           style={{ cursor: "pointer" }}

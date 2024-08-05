@@ -1,5 +1,7 @@
-import { Divider, Input, Select } from "antd";
-import React from "react";
+import { Button, Divider, Input, Select, Switch } from "antd";
+import React, { useState } from "react";
+import { MdClose } from "react-icons/md";
+import PreviewIndex from "./preview-types";
 
 function QnA() {
   const inputExpected = [
@@ -8,8 +10,11 @@ function QnA() {
     { value: "number", label: "Number" },
     { value: "select", label: "Select" },
     { value: "text", label: "Text" },
-    { value: "textarea", label: "Textarea" },
   ];
+
+  const [questionRows, setQuestionRows] = useState([
+    { question: null, inputType: null, preview: null, id: "q1" },
+  ]);
   return (
     <div
       className="qna-container"
@@ -23,32 +28,131 @@ function QnA() {
         borderRadius: "8px",
       }}
     >
-      <Input size="medium" placeholder="Question" addonBefore="Question" />
-      <div
-        className="qna-answer-details-preview"
-        style={{ display: "flex", gap: "8px" }}
-      >
+      <Input
+        size="medium"
+        placeholder="Question Header"
+        addonBefore="Question Header"
+      />
+      <div className="qna-answer-details-preview" style={{ width: "100%" }}>
+        <table style={{ width: "100%" }}>
+          <thead>
+            <tr style={{ display: "flex", flexDirection: "row" }}>
+              <th style={{ flex: 6, fontSize: "16px", fontWeight: "normal" }}>
+                Question
+              </th>
+              <th style={{ flex: 2, fontSize: "16px", fontWeight: "normal" }}>
+                Input Type
+              </th>
+              <th style={{ flex: 4, fontSize: "16px", fontWeight: "normal" }}>
+                Preview
+              </th>
+              <div
+                className="row-delete-button"
+                style={{
+                  flexBasis: "16px",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                {""}
+              </div>
+            </tr>
+          </thead>
+          <tbody>
+            {questionRows.map((row) => (
+              <tr
+                key={row.id}
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  gap: "4px",
+                }}
+              >
+                <td style={{ flex: 6 }}>
+                  <Input
+                    size="small"
+                    placeholder="Question"
+                  />
+                </td>
+                <td style={{ flex: 2 }}>
+                  <Select
+                    size="small"
+                    options={inputExpected}
+                    style={{ width: "100%" }}
+                    placeholder="Input type"
+                    onChange={
+                      (value) => {
+                        setQuestionRows((prev) => {
+                          return prev.map((r) => {
+                            if (r.id === row.id) {
+                              return { ...r, inputType: value };
+                            }
+                            return r;
+                          });
+                        })
+                      }}
+                    // options={inputExpected}
+                  />
+                </td>
+                <td style={{ flex: 4 }}>
+                  <PreviewIndex selectedInputType={row.inputType}/>
+                </td>
+                <div
+                  className="row-delete-button"
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <MdClose
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+
+                      if (questionRows.length <= 1) return;
+                      setQuestionRows(
+                        questionRows.filter((r) => r.id !== row.id)
+                      );
+                    }}
+                  />
+                </div>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <Divider style={{ margin: "4px" }} />
         <div
-          className="qna-details"
           style={{
-            flex: 1,
             display: "flex",
-            flexDirection: "column",
+            flexDirection: "row",
+            justifyContent: "flex-end",
             gap: "4px",
           }}
         >
-          Input type:
-          <Select
+          <Button
             size="small"
-            style={{ width: "100%" }}
-            placeholder="Input type"
-            options={inputExpected}
-          />
-          Details:
-          <div className="details-definition"> </div>
-        </div>
-        <div className="qna-preview" style={{ flex: 1 }}>
-          Preview:
+            type="default"
+            style={{
+              borderColor: "#7AB890",
+              color: "#7AB890",
+              marginTop: "2px",
+            }}
+            onClick={() => {
+              if (questionRows.length >= 20) return;
+              setQuestionRows([
+                ...questionRows,
+                {
+                  question: null,
+                  inputType: null,
+                  preview: null,
+                  id: `q${questionRows.length + 1}`,
+                },
+              ]);
+            }}
+          >
+            Add row
+          </Button>
         </div>
       </div>
     </div>
