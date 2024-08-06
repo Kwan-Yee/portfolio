@@ -6,6 +6,7 @@ import Notes from "./notes";
 import Signature from "./signature";
 import Stamp from "./stamp";
 import RefImage from "./ref-image";
+import UploadIndex from "./upload";
 
 /**
  *
@@ -20,6 +21,7 @@ function ComponentsIndex({ type, compId }) {
   if (type === "signature") return <Signature compId={compId} />;
   if (type === "stamp") return <Stamp compId={compId} />;
   if (type === "ref-image") return <RefImage compId={compId} />;
+  if (type === "upload") return <UploadIndex compId={compId} />;
   return <div>ComponentsIndex</div>;
 }
 
