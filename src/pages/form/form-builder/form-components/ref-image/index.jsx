@@ -24,9 +24,9 @@ function RefImage({ compId }) {
   };
 
   const props = {
-    name: "file",
-    multiple: true,
-    action: "https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload",
+    name: "image",
+    accept: "image/*",
+    // action: "https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload",
     onChange(info) {
       const { status } = info.file;
       if (status !== "uploading") {
@@ -58,7 +58,7 @@ function RefImage({ compId }) {
     >
       <Input
         placeholder="Image header"
-        addonBefore="Image header"
+        addonBefore="Reference Image header"
         value={refImgCompState?.header}
         onChange={(e) => handleImgCompInput(e.target.value, "header")}
       />
@@ -67,12 +67,9 @@ function RefImage({ compId }) {
           <MdOutlineMoveToInbox size={36} />
         </p>
         <p className="ant-upload-text">
-          Click or drag file to this area to upload
+          Click or drag image to this area to upload. Accepting jpg, png, jpeg.
         </p>
-        <p className="ant-upload-hint">
-          Support for a single upload. Strictly prohibited from uploading
-          company data or other banned files.
-        </p>
+        
       </Dragger>
       <Input.TextArea
         placeholder="Image notes"

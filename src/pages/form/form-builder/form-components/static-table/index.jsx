@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Table, Input } from "antd";
 import { MdAddCircleOutline } from "react-icons/md";
 
-function StaticTable() {
+function StaticTable({ compId }) {
   // const [dragIndex, setDragIndex] = useState({ active: -1, over: -1 });
   const [tableData, setTableData] = useState({
     columns: [{ id: 1 }, { id: 2 }],

@@ -52,6 +52,7 @@ function CompAdder({ setCompsToRender, parentSection }) {
     { type: "signature", newObj: { header: null, notes: null } },
     { type: "stamp", newObj: { header: null, notes: null } },
     { type: "ref-image", newObj: { header: null, notes: null } },
+    { type: "upload", newObj: { header: null, notes: null } },
   ];
 
   return (
