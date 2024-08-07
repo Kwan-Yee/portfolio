@@ -5,6 +5,8 @@ import MetadataInputRow from "./form-builder-canvas-metadata-input";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 import { GrConfigure } from "react-icons/gr";
 
+import WorkflowConfig from "./form-builder-workflow-config";
+
 const metadataListEdittable = [
   "Title",
   "Description",
@@ -59,11 +61,21 @@ const MetadataInputContainerNonEdittable = styled.div`
   flex-direction: column;
 `;
 
+/**
+ * Renders the metadata component for the form builder.
+ * Also, the card is seperated into 2 parts where the top part is edittable data and the bottom part is non-editable data.
+ * The modal of the workflow configuration is located here.
+ *
+ * @return {JSX.Element} The rendered metadata component.
+ */
 function StickyMetadata() {
   const [showMetadata, setShowMetadata] = useState(true);
   // const [ref, hovering] = useHover();
 
   const [openWorkflowModal, setOpenWorkflowModal] = useState(false);
+
+
+
   return (
     <StickyMetadataContainer className="sticky-metadata">
       <h4 style={{ margin: "0px 0px 10px 0px" }}>Metadata</h4>
@@ -99,15 +111,13 @@ function StickyMetadata() {
             </Button>
             <Modal
               width={"86vw"}
-              title="Workflow config"
+              title="Workflow configuration"
               open={openWorkflowModal}
+              // open={true}
               onCancel={() => setOpenWorkflowModal(false)}
               onOk={() => setOpenWorkflowModal(false)}
             >
-              <div
-                className="modal-content-container"
-                style={{ padding: "10px", width: "100%", height: "45vh" }}
-              ></div>
+              <WorkflowConfig />
             </Modal>
           </div>
           <CustomHr />
