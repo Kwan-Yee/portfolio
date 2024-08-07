@@ -46,16 +46,18 @@ function QnA() {
               <th style={{ flex: 4, fontSize: "16px", fontWeight: "normal" }}>
                 Preview
               </th>
-              <div
-                className="row-delete-button"
-                style={{
-                  flexBasis: "16px",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                {""}
-              </div>
+              <th>
+                <div
+                  className="row-delete-button"
+                  style={{
+                    flexBasis: "16px",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  {""}
+                </div>
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -69,10 +71,7 @@ function QnA() {
                 }}
               >
                 <td style={{ flex: 6 }}>
-                  <Input
-                    size="small"
-                    placeholder="Question"
-                  />
+                  <Input size="small" placeholder="Question" />
                 </td>
                 <td style={{ flex: 2 }}>
                   <Select
@@ -80,43 +79,43 @@ function QnA() {
                     options={inputExpected}
                     style={{ width: "100%" }}
                     placeholder="Input type"
-                    onChange={
-                      (value) => {
-                        setQuestionRows((prev) => {
-                          return prev.map((r) => {
-                            if (r.id === row.id) {
-                              return { ...r, inputType: value };
-                            }
-                            return r;
-                          });
-                        })
-                      }}
-                    // options={inputExpected}
+                    onChange={(value) => {
+                      setQuestionRows((prev) => {
+                        return prev.map((r) => {
+                          if (r.id === row.id) {
+                            return { ...r, inputType: value };
+                          }
+                          return r;
+                        });
+                      });
+                    }}
                   />
                 </td>
                 <td style={{ flex: 4 }}>
-                  <PreviewIndex selectedInputType={row.inputType}/>
+                  <PreviewIndex selectedInputType={row.inputType} />
                 </td>
-                <div
-                  className="row-delete-button"
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <MdClose
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-
-                      if (questionRows.length <= 1) return;
-                      setQuestionRows(
-                        questionRows.filter((r) => r.id !== row.id)
-                      );
+                <td>
+                  <div
+                    className="row-delete-button"
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
                     }}
-                  />
-                </div>
+                  >
+                    <MdClose
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+
+                        if (questionRows.length <= 1) return;
+                        setQuestionRows(
+                          questionRows.filter((r) => r.id !== row.id)
+                        );
+                      }}
+                    />
+                  </div>
+                </td>
               </tr>
             ))}
           </tbody>

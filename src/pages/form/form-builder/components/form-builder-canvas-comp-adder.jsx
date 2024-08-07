@@ -3,31 +3,25 @@ import { v4 as uuidv4 } from "uuid";
 
 function CompAdder({ setCompsToRender, parentSection }) {
   const componentsInSection = [
-    {
-      type: "static-table",
-      newObj: {
-        header: null,
-        specs: {
-          header: null,
-          columnHeaders: [
-            { id: "c1", header: null },
-            { id: "c2", header: null },
-          ],
-          specs: {
-            c1: { width: null, inputType: null, details: null },
-            c2: { width: null, inputType: null, details: null },
-          },
-          rows: 2,
-        },
-      },
-    },
-    {
-      type: "qna",
-      newObj: {
-        header: null,
-        specs: { details: null },
-      },
-    },
+    // {
+    //   type: "static-table",
+    //   newObj: {
+    //     header: null,
+    //     specs: {
+    //       header: null,
+    //       columnHeaders: [
+    //         { id: "c1", header: null },
+    //         { id: "c2", header: null },
+    //       ],
+    //       specs: {
+    //         c1: { width: null, inputType: null, details: null },
+    //         c2: { width: null, inputType: null, details: null },
+    //       },
+    //       rows: 2,
+    //     },
+    //   },
+    // },
+
     {
       type: "dynamic-table",
       newObj: {
@@ -40,6 +34,13 @@ function CompAdder({ setCompsToRender, parentSection }) {
           c1: { width: null, inputType: null, details: null },
           c2: { width: null, inputType: null, details: null },
         },
+      },
+    },
+    {
+      type: "qna",
+      newObj: {
+        header: null,
+        specs: { details: null },
       },
     },
     {
