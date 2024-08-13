@@ -72,7 +72,7 @@ function StickyMetadata() {
   const [showMetadata, setShowMetadata] = useState(true);
   // const [ref, hovering] = useHover();
 
-  const [openWorkflowModal, setOpenWorkflowModal] = useState(false);
+  const [openWorkflowModal, setOpenWorkflowModal] = useState(true);
 
 
 
