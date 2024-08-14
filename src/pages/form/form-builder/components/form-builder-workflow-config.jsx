@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Select, Steps, Divider, Card, Switch, Input } from "antd";
+import { Select, Steps, Divider, Card, Switch, Input, InputNumber } from "antd";
 import styled from "styled-components";
 
 const Header = styled.p`
@@ -25,6 +25,14 @@ function WorkflowConfig() {
   // console.log(sectionsFromLS);
   const [publishOnCreation, setPublishOnCreation] = useState(true);
 
+  const initialTimeSensitivityByStep = {};
+  sectionsFromLS.map((section, index) => {
+    return { ...initialTimeSensitivityByStep, [index]: false };
+  });
+  const [timeSensitivityByStep, setTimeSensitivityByStep] = useState(
+    initialTimeSensitivityByStep
+  );
+
   // convert sectionsFromLS to an Array of objects with legit properties for "items" in <Steps></Steps>
   // The "description" props is used to display the configurations at each step.
   const itemsInSteps = sectionsFromLS.map((sectionId, index) => {
@@ -36,9 +44,9 @@ function WorkflowConfig() {
           <div
             className={`step-description-${index}-container`}
             style={{
-              minWidth: "200px",
-              width: "100%",
-              maxWidth: "300px",
+              // minWidth: "225px",
+              width: "175%",
+              // maxWidth: "400px",
               display: "flex",
               flexDirection: "column",
               justifyContent: "center",
@@ -53,6 +61,7 @@ function WorkflowConfig() {
             {/* <Divider /> */}
             <div className="section-assignee">
               <Select
+                disabled={currentStep != index}
                 size="small"
                 style={{ width: "100%" }}
                 placeholder="Assignee"
@@ -76,6 +85,7 @@ function WorkflowConfig() {
                 >
                   <p style={{ margin: "2px" }}>Publish on creation : </p>
                   <Switch
+                    disabled={currentStep != index}
                     checked={publishOnCreation}
                     onClick={() => setPublishOnCreation(!publishOnCreation)}
                   />
@@ -92,7 +102,12 @@ function WorkflowConfig() {
                   }}
                 >
                   <p style={{ margin: "2px" }}>Initial Status : </p>
-                  <Input size="small" placeholder="Status" maxLength={25} />
+                  <Input
+                    disabled={currentStep != index}
+                    size="small"
+                    placeholder="Status"
+                    maxLength={25}
+                  />
                 </div>
               )}
               <Divider />
@@ -141,7 +156,12 @@ function WorkflowConfig() {
                         Published :
                       </div>
                       <p style={{ margin: "2px" }}>Published Status : </p>
-                      <Input size="small" placeholder="Status" maxLength={25} />
+                      <Input
+                        disabled={currentStep != 0}
+                        size="small"
+                        placeholder="Status"
+                        maxLength={25}
+                      />
                     </div>
                   </div>
                 ) : (
@@ -160,12 +180,17 @@ function WorkflowConfig() {
                         className="approve-title"
                         style={{ fontWeight: "bold", fontStyle: "italic" }}
                       >
-                        Approved :
+                        Proceed :
                       </div>
-                      <p style={{ margin: "2px" }}>Approved Status : </p>
-                      <Input size="small" placeholder="Status" maxLength={25} />
+                      <p style={{ margin: "2px" }}>Custom Status : </p>
+                      <Input
+                        disabled={currentStep != index}
+                        size="small"
+                        placeholder="Status"
+                        maxLength={25}
+                      />
                     </div>
-                    <Divider />
+                    <Divider style={{ margin: "8px" }} />
                     <div
                       className="reject"
                       style={{
@@ -180,14 +205,71 @@ function WorkflowConfig() {
                         className="reject-title"
                         style={{ fontWeight: "bold", fontStyle: "italic" }}
                       >
-                        Rejected :
+                        Revert :
                       </div>
-                      <p style={{ margin: "2px" }}>Rejected Status : </p>
-                      <Input size="small" placeholder="Status" maxLength={25} />
+                      <p style={{ margin: "2px" }}>Custom Status : </p>
+                      <Input
+                        disabled={currentStep != index}
+                        size="small"
+                        placeholder="Status"
+                        maxLength={25}
+                      />
                     </div>
                   </div>
                 )}
               </Card>
+              {index != 0 && (
+                <>
+                  <div
+                    className="time-sensitivity-switch"
+                    style={{
+                      marginTop: "8px",
+                      display: "flex",
+                      gap: "4px",
+                      justifyContent: "end",
+                      alignItems: "center",
+                    }}
+                  >
+                    <p style={{ margin: "2px" }}>Time Sensitivity : </p>
+                    <Switch disabled={currentStep != index} size="small" />
+                  </div>
+                  <Card styles={{ body: { padding: "6px" } }}>
+                    <div
+                      className="time-duration-inputs"
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        gap: "4px",
+                      }}
+                    >
+                      <InputNumber
+                        addonBefore="D"
+                        size="small"
+                        min={0}
+                        max={15}
+                        placeholder="0"
+                        controls={false}
+                      />
+                      <InputNumber
+                        addonBefore="H"
+                        size="small"
+                        min={0}
+                        max={23}
+                        placeholder="0"
+                        controls={false}
+                      />
+                      <InputNumber
+                        addonBefore="M"
+                        size="small"
+                        min={0}
+                        max={59}
+                        placeholder="0"
+                        controls={false}
+                      />
+                    </div>
+                  </Card>
+                </>
+              )}
             </Card>
           </div>
         ),
@@ -212,7 +294,6 @@ function WorkflowConfig() {
           current={currentStep}
           onChange={(value) => onChange(value)}
           items={itemsInSteps}
-          // type="navigation"
         />
       </div>
     </div>
