@@ -74,8 +74,6 @@ function StickyMetadata() {
 
   const [openWorkflowModal, setOpenWorkflowModal] = useState(true);
 
-
-
   return (
     <StickyMetadataContainer className="sticky-metadata">
       <h4 style={{ margin: "0px 0px 10px 0px" }}>Metadata</h4>
