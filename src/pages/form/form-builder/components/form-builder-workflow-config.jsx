@@ -14,6 +14,15 @@ const Header = styled.p`
   min-height: 3em;
 `;
 
+/**
+ * WorkflowConfig is a React functional component that renders a workflow configuration interface.
+ * It displays a series of steps with customizable configurations for each step.
+ * The component manages the current step and provides functionality to navigate between steps.
+ * 
+ * The configurations are displayed using "description" prop in the <Steps></Steps> component.
+ *
+ * @return {JSX.Element} The rendered workflow configuration interface.
+ */
 function WorkflowConfig() {
   const [currentStep, setCurrentStep] = useState(0);
   const onChange = (value) => {
@@ -29,6 +38,7 @@ function WorkflowConfig() {
   sectionsFromLS.map((section, index) => {
     return { ...initialTimeSensitivityByStep, [index]: false };
   });
+  
   const [timeSensitivityByStep, setTimeSensitivityByStep] = useState(
     initialTimeSensitivityByStep
   );
@@ -249,6 +259,7 @@ function WorkflowConfig() {
                         max={15}
                         placeholder="0"
                         controls={false}
+                        precision={0}
                       />
                       <InputNumber
                         addonBefore="H"
@@ -257,6 +268,7 @@ function WorkflowConfig() {
                         max={23}
                         placeholder="0"
                         controls={false}
+                        precision={0}
                       />
                       <InputNumber
                         addonBefore="M"
@@ -265,6 +277,7 @@ function WorkflowConfig() {
                         max={59}
                         placeholder="0"
                         controls={false}
+                        precision={0}
                       />
                     </div>
                   </Card>
