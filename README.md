@@ -1,8 +1,4 @@
-Here's a structure you can use for your README file to guide users on downloading and running your project locally:
-
----
-
-# Project Name
+# SiteRunner
 
 A front-end project built using React, Vite, and Ant Design.
 
